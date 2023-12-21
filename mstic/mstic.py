@@ -5,6 +5,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.agents import Tool
 from langchain.agents import initialize_agent
 from langchain.agents import AgentType
+from dotenv import load_dotenv
+
+load_dotenv()
 
 llm = ChatOpenAI(model_name="gpt-4", temperature=0.3)
 vt_key = get_provider_settings("TIProviders")["VirusTotal"].args["AuthKey"]
