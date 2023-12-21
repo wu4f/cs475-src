@@ -1,0 +1,6 @@
+TIProviders:
+  VirusTotal:
+    Args:
+      AuthKey: 
+    Primary: True
+    Provider: "VirusTotal"
