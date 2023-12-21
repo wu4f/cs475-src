@@ -1,4 +1,4 @@
 msticpy[vt3]
 langchain
 openai
-dotenv
+python-dotenv
