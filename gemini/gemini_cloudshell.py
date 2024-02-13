@@ -7,10 +7,6 @@ location = "us-west1"
 vertexai.init(project=project_id, location=location)
 
 model = GenerativeModel("gemini-pro")
-
-def get_response(model: GenerativeModel, prompt: str) -> str:
-    response = model.generate_content(prompt)
-    return response.text
-
 prompt = "Give me some sage advice."
-print(get_response(model, prompt))
+model_response = model.generate_content(prompt)
+print(model_response.text)
