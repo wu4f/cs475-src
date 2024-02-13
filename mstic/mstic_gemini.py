@@ -1,16 +1,12 @@
 from msticpy.sectools.tilookup import TILookup
 from msticpy.sectools.vtlookupv3.vtlookupv3 import VTLookupV3
 from msticpy.common.provider_settings import get_provider_settings
-#from langchain.chat_models import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import Tool
-from langchain.agents import initialize_agent
+from langchain.agents import initialize_agent, create_structured_chat_agent
 from langchain.agents import AgentType
-from dotenv import load_dotenv
 
-load_dotenv()
-
-llm = ChatGoogleGenerativeAI(model="gemini-pro")
+llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.05)
 
 vt_key = get_provider_settings("TIProviders")["VirusTotal"].args["AuthKey"]
 vt_lookup = VTLookupV3(vt_key)
@@ -55,5 +51,5 @@ tools = [
 
 agent = initialize_agent(
     tools, llm=llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
-agent.run("Can you give me more details about this ip: 77.246.107.91?")
-#agent.run("Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?")
+#agent.invoke("Lookup threat information for the IP address 131.252.220.66 and provide information about undetected URLs from the address.")
+agent.invoke("Can you give me more details about this ip: 77.246.107.91? What are the hashes for communicating samples related to this ip?  Return information about the first sample.")
