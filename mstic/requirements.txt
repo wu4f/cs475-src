@@ -2,3 +2,4 @@ msticpy[vt3]
 langchain
 openai
 python-dotenv
+langchain-google-genai
