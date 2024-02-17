@@ -1,5 +1,7 @@
 msticpy[vt3]
 langchain
+langchainhub
 openai
 python-dotenv
 langchain-google-genai
+nest-asyncio
