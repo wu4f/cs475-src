@@ -6,11 +6,10 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import Tool
 from langchain.agents import AgentExecutor, create_react_agent
 import nest_asyncio
-
-
 import os
 from dotenv import load_dotenv,find_dotenv
 
+# May solve errors from async_io calls in langchain library
 nest_asyncio.apply()
 
 load_dotenv(find_dotenv())
@@ -59,14 +58,11 @@ tools = [
     ),
 ]
 
+
 prompt = prompt = hub.pull("hwchase17/react")
 
 agent = create_react_agent(llm,tools,prompt)
 
-# agent = initialize_agent(
-#     tools, llm=llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
-#agent.invoke("Lookup threat information for the IP address 131.252.220.66 and provide information about undetected URLs from the address.")
-# Create an agent executor by passing in the agent and tools
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 agent_executor.invoke({"input": "Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?"})
