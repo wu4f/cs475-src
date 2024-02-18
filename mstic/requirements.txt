@@ -5,3 +5,4 @@ openai
 python-dotenv
 langchain-google-genai
 nest-asyncio
+grpcio
