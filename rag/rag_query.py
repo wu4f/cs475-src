@@ -28,21 +28,21 @@ from langchain.chains.question_answering import load_qa_chain
 llm = GoogleGenerativeAI(model="gemini-pro")
 chain = load_qa_chain(llm, chain_type="stuff")
 
+def perform_query(retriever, chain, query):
+    print(f"[+] Getting relevant documents for: {query}")
+    relevant_docs = retriever.get_relevant_documents(query)
+    results = chain.invoke({'input_documents':relevant_docs, 'question':query})
+    print(f"[+] Output from chain is: {results['output_text']}")
+
 # Perform query by retrieving context and invoking chain
 query = """What threat actors sent phishing messages to their targets?"""
-print(f"[+] Getting relevant documents for: {query}")
-relevant_docs = retriever.get_relevant_documents(query)
-results = chain.invoke({'input_documents':relevant_docs, 'question':query})
-print(f"[+] Output from chain is: {results['output_text']}")
+perform_query(retriever, chain, query)
 
 query = """What threat actors sent messages to their targets over social media accounts?"""
-print(f"[+] Getting relevant documents for: {query}")
-relevant_docs = retriever.get_relevant_documents(query)
-results = chain.invoke({'input_documents':relevant_docs, 'question':query})
-print(f"[+] Output from chain is: {results['output_text']}")
+perform_query(retriever, chain, query)
 
 query = "What are some phishing techniques used by threat actors?"
-print(f"[+] Getting relevant documents for: {query}")
-relevant_docs = retriever.get_relevant_documents(query)
-results = chain.invoke({'input_documents':relevant_docs, 'question':query})
-print(f"[+] Output from chain is: {results['output_text']}")
+perform_query(retriever, chain, query)
+
+query = "What techniques does APT 28 utilize?"
+perform_query(retriever, chain, query)
