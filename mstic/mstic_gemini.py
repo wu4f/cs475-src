@@ -58,7 +58,7 @@ tools = [
     ),
 ]
 
-prompt = prompt = hub.pull("hwchase17/react")
+prompt = hub.pull("hwchase17/react")
 
 agent = create_react_agent(llm,tools,prompt)
 
