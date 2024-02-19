@@ -1,0 +1,6 @@
+google-search-results
+numexpr
+wikipedia
+langchain
+langchain_google_genai
+grpcio

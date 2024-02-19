@@ -1,4 +1,8 @@
 # Derived from https://github.com/OTRF/GenAI-Security-Adventures
+# This script downloads the real-time Mitre ATT&CK information on a variety of
+# attack groups, formats them in Markdown files, then loads them into a vector
+# database (ChromaDB).  This is subsequently used in a RAG chain to handle
+# queries through an LLM
 from attackcti import attack_client
 import os
 import copy
