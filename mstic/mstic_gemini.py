@@ -1,14 +1,23 @@
 from msticpy.sectools.tilookup import TILookup
 from msticpy.sectools.vtlookupv3.vtlookupv3 import VTLookupV3
 from msticpy.common.provider_settings import get_provider_settings
+from langchain import hub
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import Tool
-from langchain.agents import initialize_agent, create_structured_chat_agent
-from langchain.agents import AgentType
+from langchain.agents import AgentExecutor, create_react_agent
+import nest_asyncio
+import os
+from dotenv import load_dotenv,find_dotenv
+
+# May solve errors from async_io calls in langchain library
+nest_asyncio.apply()
+
+load_dotenv(find_dotenv())
 
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.05)
 
 vt_key = get_provider_settings("TIProviders")["VirusTotal"].args["AuthKey"]
+
 vt_lookup = VTLookupV3(vt_key)
 
 class TIVTLookup:
@@ -49,7 +58,11 @@ tools = [
     ),
 ]
 
-agent = initialize_agent(
-    tools, llm=llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
-#agent.invoke("Lookup threat information for the IP address 131.252.220.66 and provide information about undetected URLs from the address.")
-agent.invoke("Can you give me more details about this ip: 77.246.107.91? What are the hashes for communicating samples related to this ip?  Return information about the first sample.")
+
+prompt = prompt = hub.pull("hwchase17/react")
+
+agent = create_react_agent(llm,tools,prompt)
+
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+agent_executor.invoke({"input": "Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?"})

@@ -1,6 +1,7 @@
 TIProviders:
   VirusTotal:
     Args:
-      AuthKey: 
+      AuthKey:
+        EnvironmentVar: "VIRUSTOTAL_AUTH"
     Primary: True
     Provider: "VirusTotal"
