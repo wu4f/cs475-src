@@ -13,9 +13,9 @@ agent_executor = create_sql_agent(
     toolkit=toolkit,
     verbose=True
 )
-agent_executor.invoke("List all tables")
+#agent_executor.invoke("List all tables")
 #agent_executor.invoke("First, find the table with contact information. Then list the first 100 street addresses")
 #agent_executor.invoke("First, find the table with contact information.  Then, list the people who live on 'North Service Road'")
-#agent_executor.invoke("What Service Principals have AD Roles?")
+agent_executor.invoke("What Service Principals have AD Roles?")
 #agent_executor.invoke("First, find the tables containing service principals and role assignments.  Then, query the role assignments table to find the names of service principals with AD Roles.")
 #agent_executor.invoke("Find the user types in this database.")
