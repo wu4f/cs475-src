@@ -20,8 +20,8 @@ def query(llm, query, image_url):
   response = llm.invoke([message])
   return response
 
-image_url = "https://samsclass.info/126/proj/p12x-8.png"
-print(query(llm, "Can you explain this image?", image_url))
+#image_url = "https://samsclass.info/126/proj/p12x-8.png"
+#print(query(llm, "Can you explain this image?", image_url))
 
 # XSS in ChatGPT article
 # https://securityboulevard.com/2024/02/xss-marks-the-spot-digging-up-vulnerabilities-in-chatgpt/
@@ -37,3 +37,8 @@ print(query(llm, "Can you explain this image?", image_url))
 # https://thehackernews.com/2023/12/116-malware-packages-found-on-pypi.html
 #image_url = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgLEkzLRso43D7xzhA_mzmsAIXTXTtx0HcspQ1wiS4eWFArZpskXlFOLJuj7O2ZmJqpr0jdw2qd_IkRdM-mCmvvoo-os-wb8aWzGxvBaypDZvOo9Z1S0YLy7H_duLlz3J32hOOmRfPPQPXGMVlV78zJNQBi8W5_RgWxr_m4qqwXGcrJhCwQuhG8IemQPY7L/s728-rw-e365/malware.jpg'
 #image_url = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiWZWBKPTn6daxojtQ8nya0MKKw_HsJdEN5-en6DXkrkie0Mwe0-IVSg6-cQqKuirEduXLLTLsw9efgEMElVXjGmVbAvh4JYo0w0CxJ-JJyOJp4OoN22AYK1Stf2DEELft8xLwSsV-BOsWdM1oJ7u9jH3YFQNGW5NNO2SfvP0wFNLs0V5Q5j2_PwOF7242J/s728-rw-e365/python-2.jpg'
+
+# Visual prompt injection example
+#
+image_url = 'https://user-images.githubusercontent.com/9653181/281289101-a691da7f-0c14-422a-936c-badb7d1d7032.png'
+print(query(llm, "Describe this image.", image_url))
