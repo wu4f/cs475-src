@@ -3,5 +3,9 @@ numexpr
 wikipedia
 xmltodict
 langchain
+langchain-community
 langchain_google_genai
 grpcio
+langchain-experimental
+langchainhub
+duckduckgo-search
