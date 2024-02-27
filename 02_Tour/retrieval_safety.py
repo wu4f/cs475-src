@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 
 def summarize_url(url):
     response = requests.get(url)
@@ -14,6 +14,11 @@ def summarize_url(url):
     return response
 
 global llm
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(
+        model = "gemini-pro",
+        safety_settings = {
+          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+        }
+)
 
 print(summarize_url("https://krebsonsecurity.com/2024/02/arrests-in-400m-sim-swap-tied-to-heist-at-ftx/"))
