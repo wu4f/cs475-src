@@ -4,17 +4,21 @@ from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import GoogleGenerativeAI
 llm = GoogleGenerativeAI(model="gemini-pro")
 
-#Tools are functions that agents can use to interact with the world.
-#The tools the agent will have access to are: [Google search, math, wikipedia, terminal]
 tools = load_tools(["serpapi", "llm-math","wikipedia","terminal"], llm=llm)
-prompt = hub.pull("hwchase17/react")
-print(prompt.template)
-agent = create_react_agent(llm,tools,prompt)
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-
 print(f"Welcome to my application.  I am configured with these tools")
 for tool in tools:
   print(f'  Tool: {tool.name} = {tool.description}')
+
+input("Press return to continue:")
+print("I am configured with the following prompt:")
+print("==========================================")
+prompt = hub.pull("hwchase17/react")
+print(prompt.template)
+print("==========================================")
+
+agent = create_react_agent(llm,tools,prompt)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
 print("Type a prompt and I will see if I can help you with it.")
 
 while True:
