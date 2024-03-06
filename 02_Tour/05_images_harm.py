@@ -1,4 +1,3 @@
-# Requires export GOOGLE_API_KEY=""
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 

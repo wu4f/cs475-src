@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 
-def summarize_url(url):
+def summarize_url(llm, url):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
@@ -13,7 +13,6 @@ def summarize_url(url):
     response = llm.invoke(prompt)
     return response
 
-global llm
 llm = GoogleGenerativeAI(
         model = "gemini-pro",
         safety_settings = {
@@ -21,4 +20,4 @@ llm = GoogleGenerativeAI(
         }
 )
 
-print(summarize_url("https://krebsonsecurity.com/2024/02/arrests-in-400m-sim-swap-tied-to-heist-at-ftx/"))
+print(summarize_url(llm,"https://krebsonsecurity.com/2024/02/arrests-in-400m-sim-swap-tied-to-heist-at-ftx/"))

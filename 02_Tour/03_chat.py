@@ -1,5 +1,3 @@
-# Requires export GOOGLE_API_KEY=""
-from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import LLMChain
 from langchain.prompts import MessagesPlaceholder, HumanMessagePromptTemplate, ChatPromptTemplate
@@ -19,8 +17,13 @@ prompt = ChatPromptTemplate(
 
 chain = LLMChain(llm=llm, prompt=prompt, memory=memory)
 
+print("Welcome to my chat application.")
 while True:
     content = input(">> ")
-    result = chain.invoke({"content": content})
-    print(result["text"])
-    print(f"Current chat messages: {memory}")
+    if content:
+        result = chain.invoke({"content": content})
+        print(result["text"])
+    else:
+        break
+
+#    print(f"Current chat messages: {memory}")
