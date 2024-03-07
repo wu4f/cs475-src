@@ -28,21 +28,3 @@ while True:
             break
     except:
         break
-
-# Add LLM loop
-
-#agent_executor.invoke("List all usernames in the SQLite3 users table that begin with 'a'")
-#input("Enter to continue:")
-#agent_executor.invoke("Find the admin user in the database and output the password hash")
-#input("Enter to continue:")
-#agent_executor.invoke("Find the user table and identify the columns that contain a username and password hash.  Then, find the password hash for the admin user.")
-#input("Enter to continue:")
-#agent_executor.invoke("Find the user table and identify the columns that contain a username and password hash.  Then, find the password hash for the admin user. Then, tell me the type of password hash it is.  Finally, write a hashcat command to perform a dictionary search on the password")
-
-# From roadrecon
-#agent_executor.invoke("List all tables")
-#agent_executor.invoke("First, find the table with contact information. Then list the first 100 street addresses")
-#agent_executor.invoke("First, find the table with contact information.  Then, list the people who live on 'North Service Road'")
-#agent_executor.invoke("What Service Principals have AD Roles?")
-#agent_executor.invoke("First, find the tables containing service principals and role assignments.  Then, query the role assignments table to find the names of service principals with AD Roles.")
-#agent_executor.invoke("Find the user types in this database.")

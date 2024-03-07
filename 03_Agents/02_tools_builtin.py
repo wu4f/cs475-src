@@ -31,11 +31,3 @@ while True:
             break
     except:
         break
-
-
-#agent_executor.invoke({"input":"List the files in my current directory."})
-#agent_executor.invoke({"input":"Explain what synesthesia is."})
-#agent_executor.invoke({"input":"Find me a recipe for Boston Creme Pie."})
-#agent_executor.invoke({"input":"How much money do I have if I take 10,000 dollars and compound it annually by 5 percent for 20 years?"})
-#agent_executor.invoke({"input":"Can you summarize this URL? https://krebsonsecurity.com/2024/02/arrests-in-400m-sim-swap-tied-to-heist-at-ftx/.  What is the main security issue it talks about?"})
-#agent_executor.invoke({"input":"What percent of electricity is consumed by data centers in the US"})

@@ -10,13 +10,12 @@ from langchain.chains import LLMChain
 import requests
 from bs4 import BeautifulSoup
 
-def fetch_web_page(url: str) -> str:
-    """Get the message of the day"""
+llm = GoogleGenerativeAI(model="gemini-pro")
+
+def fetch_web_page(url):
     resp = requests.get(url)
     soup = BeautifulSoup(resp.content,"html.parser")
     return soup.get_text()
-
-ddg_search = DuckDuckGoSearchResults()
 
 web_fetch_tool = Tool.from_function(
   fetch_web_page,
@@ -24,26 +23,34 @@ web_fetch_tool = Tool.from_function(
   description="Fetches the content of a web page"
 )
 
-llm = GoogleGenerativeAI(model="gemini-pro")
-prompt_template = "Summarize the following content: {content}"
-llm_chain = LLMChain(
-    llm=llm,
-    prompt=PromptTemplate.from_template(prompt_template)
+def lookup_phishing(address):
+    resp = requests.get(f"https://phishstats.info:2096/api/phishing?_where=(ip,eq,{address})")
+    urls = []
+    for entry in resp.json():
+        urls.append(entry['url'])
+    return urls
+
+phish_tool = Tool.from_function(
+    func = lookup_phishing,
+    name = "PhishStatsFetcher",
+    description = "Returns a list of phishing URLs that have been sent by a given IP address"
 )
 
-summarize_tool = Tool.from_function(
-    func=llm_chain.run,
-    name="Summarizer",
-    description="Summarizes a web page"
+summary_prompt_template = "Summarize the following content: {content}"
+llm_chain = LLMChain(
+    llm=llm,
+    prompt=PromptTemplate.from_template(summary_prompt_template)
 )
-tools = [ddg_search, web_fetch_tool, summarize_tool]
-#tools = [
-#    Tool(
-#        name="motd",
-#        func=get_motd,
-#        description="Useful when you need to get the message of the day",
-#    ),
-#]
+
+summary_tool = Tool.from_function(
+    func=llm_chain.run,
+    name="Summarizing tool",
+    description="Summarizes a web page given its URL"
+)
+
+ddg_search = DuckDuckGoSearchResults()
+
+tools = [ddg_search, web_fetch_tool, summary_tool, phish_tool]
 
 prompt = hub.pull("hwchase17/react")
 
@@ -51,5 +58,16 @@ agent = create_react_agent(llm,tools,prompt)
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
+while True:
+    try:
+        line = input("llm>> ")
+        if line:
+            result = agent_executor.invoke({"input":line})
+            print(result)
+        else:
+            break
+    except:
+        break
+
 #print(agent_executor.invoke({"input":"Search for foo"}))
-print(agent_executor.invoke({"input":"Find a site that describes Python requests and summarize what it does."}))
+#print(agent_executor.invoke({"input":"Find a site that describes Python requests and summarize what it does."}))
