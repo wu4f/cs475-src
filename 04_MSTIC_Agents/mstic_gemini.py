@@ -7,12 +7,9 @@ from langchain.agents import Tool
 from langchain.agents import AgentExecutor, create_react_agent
 import nest_asyncio
 import os
-from dotenv import load_dotenv,find_dotenv
 
 # May solve errors from async_io calls in langchain library
 nest_asyncio.apply()
-
-load_dotenv(find_dotenv())
 
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.05)
 

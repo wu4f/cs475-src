@@ -1,13 +1,13 @@
 from msticpy.sectools.tilookup import TILookup
 from msticpy.sectools.vtlookupv3.vtlookupv3 import VTLookupV3
 from msticpy.common.provider_settings import get_provider_settings
-from langchain.chat_models import ChatOpenAI
-from langchain.agents import Tool
-from langchain.agents import initialize_agent
-from langchain.agents import AgentType
-from dotenv import load_dotenv
+from langchain.agents import Tool, AgentType, AgentExecutor, create_react_agent
+from langchain_openai import ChatOpenAI
+from langchain import hub
+import nest_asyncio
 
-load_dotenv()
+# May solve errors from async_io calls in langchain library
+nest_asyncio.apply()
 
 llm = ChatOpenAI(model_name="gpt-4", temperature=0.3)
 vt_key = get_provider_settings("TIProviders")["VirusTotal"].args["AuthKey"]
@@ -51,8 +51,16 @@ tools = [
     ),
 ]
 
+prompt = hub.pull("hwchase17/react")
+
+agent = create_react_agent(llm,tools,prompt)
+
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+agent_executor.invoke({"input": "Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?"})
 
 
-agent = initialize_agent(
-    tools, llm=llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
-agent.run("Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?")
+
+#agent = initialize_agent(
+#    tools, llm=llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+#agent.run("Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?")
