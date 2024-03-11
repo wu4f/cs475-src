@@ -1,3 +1,6 @@
 langchain_google_genai
 langchain-community
 grpcio
+langchain
+huggingface_hub
+langchain_openai
