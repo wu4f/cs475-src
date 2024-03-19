@@ -5,7 +5,7 @@ from langchain.tools import Tool
 from langchain.prompts import PromptTemplate
 from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain.chains import LLMChain
 import requests
 from bs4 import BeautifulSoup
@@ -21,6 +21,17 @@ web_fetch_tool = Tool.from_function(
   fetch_web_page,
   name="WebFetcher",
   description="Fetches the content of a web page"
+)
+
+def lookup_site(address):
+    resp = requests.get(f"https://http-observatory.security.mozilla.org/api/v1/getHostHistory?host={address}")
+    print(resp.text)
+    return resp.text
+
+site_tool = Tool.from_function(
+    func = lookup_site,
+    name = "WebSite information",
+    description = "Given a web site address, it will return security information about it including a graded evaluation of its security configuration"
 )
 
 def lookup_phishing(address):
@@ -50,7 +61,7 @@ summary_tool = Tool.from_function(
 
 ddg_search = DuckDuckGoSearchResults()
 
-tools = [ddg_search, web_fetch_tool, summary_tool, phish_tool]
+tools = [ddg_search, web_fetch_tool, summary_tool, phish_tool, site_tool]
 
 prompt = hub.pull("hwchase17/react")
 

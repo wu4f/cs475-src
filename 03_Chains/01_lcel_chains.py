@@ -25,7 +25,8 @@ while True:
     try:
         line = input("llm>> ")
         if line:
-            result = chain.invoke({"text":line})
+            #result = chain.invoke({"text":line})
+            result = chain.invoke(line)
             print(result)
         else:
             break

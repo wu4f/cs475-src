@@ -20,6 +20,8 @@ json_prompt = PromptTemplate(
     partial_variables={"format_instructions": json_parser.get_format_instructions()},
 )
 
+print(json_parser.get_format_instructions())
+
 chain = json_prompt | llm | json_parser
 print(chain.invoke({"genre": "Science Fiction"}))
 print(chain.invoke({"genre": "Drama"}))

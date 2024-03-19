@@ -1,11 +1,9 @@
-google-search-results
-numexpr
-wikipedia
-xmltodict
+bs4
 langchain
 langchain-community
 langchain_google_genai
 grpcio
 langchain-experimental
 langchainhub
-duckduckgo-search
+chromadb
+pypdf
