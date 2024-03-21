@@ -2,5 +2,5 @@ bs4
 requests
 langchain_google_genai
 langchain
-huggingface_hub
 langchain_openai
+pillow

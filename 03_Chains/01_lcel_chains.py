@@ -5,8 +5,8 @@ from langchain_google_genai import GoogleGenerativeAI
 
 llm = GoogleGenerativeAI(model="gemini-pro")
 
-prompt1 = PromptTemplate.from_template("Translate this text to Spanish {text}")
-prompt2 = PromptTemplate.from_template("Produce the ASCII hexadecimal encoding of the translation, putting spaces between each character encoding: {translation}")
+prompt1 = PromptTemplate.from_template("Translate this text to Spanish and print both the original and the translation: {text}")
+prompt2 = PromptTemplate.from_template("Write another sentence that might follow the {translation} in Spanish and output both the translation and the additional sentence")
 output_parser = StrOutputParser()
 
 chain = (
@@ -19,13 +19,12 @@ chain = (
     | output_parser
 )
 
-print("Welcome to my application.  Type an English phrase and I will translate it to Spanish, and then back into English.")
+print("Welcome to my multi-lingual conversation completer.  Type an English phrase and I will translate it to Spanish, and then generate another sentence that might follow it.")
 
 while True:
     try:
         line = input("llm>> ")
         if line:
-            #result = chain.invoke({"text":line})
             result = chain.invoke(line)
             print(result)
         else:
