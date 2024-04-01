@@ -3,4 +3,3 @@ requests
 langchain_google_genai
 langchain
 langchain_openai
-pillow
