@@ -10,8 +10,8 @@ load_dotenv()
 embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
 
 # Open vector database
-current_directory = f"{os.path.dirname(__file__)}/04_data"
-chroma_db = os.path.join(current_directory, f"{current_directory}/chroma_db")
+current_directory = f"{os.path.dirname(__file__)}/mitre_rag_data"
+chroma_db = os.path.join(current_directory, f"{current_directory}/.chromadb")
 
 persistent_client = chromadb.PersistentClient(path=chroma_db)
 db = Chroma(

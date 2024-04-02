@@ -7,7 +7,7 @@ from langchain_google_genai import GoogleGenerativeAI, GoogleGenerativeAIEmbeddi
 import readline
 
 vectorstore = Chroma(
-     persist_directory="./03_chroma_db",
+     persist_directory="./rag_data/.chromadb",
      embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
 )
 

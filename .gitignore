@@ -1,4 +1,4 @@
 env
 .env
 mymsticpyconfig.yaml
-*chroma_db
+.chromadb

@@ -8,7 +8,7 @@ import os
 import copy
 from jinja2 import Template
 
-current_directory = f"{os.path.dirname(__file__)}/04_data/"
+current_directory = f"{os.path.dirname(__file__)}/mitre_rag_data/"
 documents_directory = os.path.join(current_directory, "documents")
 contrib_directory = os.path.join(current_directory, "contrib")
 for directory in [documents_directory, contrib_directory]:
@@ -72,7 +72,8 @@ for group in group_files:
 print(f'[+] Number of .md documents processed: {len(md_docs)}')
 
 import tiktoken
-tokenizer = tiktoken.encoding_for_model('gpt-3.5-turbo')
+#tokenizer = tiktoken.encoding_for_model('gpt-3.5-turbo')
+tokenizer = tiktoken.encoding_for_model('text-embedding-ada-002')
 token_integers = tokenizer.encode(md_docs[0].page_content, disallowed_special=())
 num_tokens = len(token_integers)
 token_bytes = [tokenizer.decode_single_token_bytes(token) for token in token_integers]
@@ -136,10 +137,10 @@ from langchain_community.vectorstores import Chroma
 embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
 
 # Load documents into Chroma and save it to disk
-db = Chroma.from_documents(chunks, embedding_function, collection_name="groups_collection", persist_directory=f"{current_directory}/chroma_db")
+db = Chroma.from_documents(chunks, embedding_function, collection_name="groups_collection", persist_directory=f"{current_directory}/.chromadb")
 
 # Test ingestion with an initial query
-query = "What threat actors send text messages to their targets?"
+query = "What threat actors employ process injection?"
 print(f'[+] Test similarity search with query: {query}')
 relevant_docs = db.similarity_search(query)
 

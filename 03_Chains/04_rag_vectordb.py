@@ -1,11 +1,11 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader
+from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader
 from langchain_community.vectorstores import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 vectorstore = Chroma(
     embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query"),
-    persist_directory="./03_chroma_db"
+    persist_directory="./rag_data/.chromadb"
 )
 
 def load_urls(vectorstore, urls):
@@ -32,6 +32,22 @@ def load_txt(vectorstore, directory):
     splits = text_splitter.split_documents(docs)
     vectorstore.add_documents(documents=splits)
 
+def load_docx(vectorstore, directory):
+    print(f"Loading DOCX files from: {directory}")
+    loader = DirectoryLoader(directory, glob="**/*.docx", loader_cls=Docx2txtLoader)
+    docs = loader.load()
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=10)
+    splits = text_splitter.split_documents(docs)
+    vectorstore.add_documents(documents=splits)
+
+def load_md(vectorstore, directory):
+    print(f"Loading MD files from: {directory}")
+    loader = DirectoryLoader(directory, glob="**/*.md", loader_cls=UnstructuredMarkdownLoader)
+    docs = loader.load()
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=10)
+    splits = text_splitter.split_documents(docs)
+    vectorstore.add_documents(documents=splits)
+
 def search_db(vectorstore, query):
     docs = vectorstore.similarity_search(query)
     print(f"Query database for: {query}")
@@ -48,9 +64,17 @@ load_urls(vectorstore, ["https://en.wikipedia.org/wiki/President_of_the_United_S
 search_db(vectorstore, "Who is the President of the United States?")
 
 input('---------------------------------------------------')    
-load_pdf(vectorstore, "03_docs/pdf")
+load_pdf(vectorstore, "rag_data/pdf")
 search_db(vectorstore, "What are data types in Python?")
 
 input('---------------------------------------------------')    
-load_txt(vectorstore, "03_docs/txt")
+load_txt(vectorstore, "rag_data/txt")
 search_db(vectorstore, "What is the first ammendment of the Constitution?")
+
+input('---------------------------------------------------')    
+load_docx(vectorstore, "rag_data/docx")
+search_db(vectorstore, "What are some famous quotes from Martin Luther King Jr?")
+
+input('---------------------------------------------------')    
+load_md(vectorstore, "rag_data/md")
+search_db(vectorstore, "How do you create a heading in Markdown?")

@@ -7,7 +7,7 @@ langchain-experimental
 langchainhub
 chromadb
 pypdf
-
+docx2txt
 attackcti
 Jinja2
 markdown
