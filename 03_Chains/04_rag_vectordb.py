@@ -55,26 +55,14 @@ def search_db(vectorstore, query):
         print(f"Closest document match in database: {docs[0].metadata}")
     else:
         print("No matching documents")
-print('---------------------------------------------------')    
-load_urls(vectorstore, ["https://en.wikipedia.org/wiki/LangChain","https://api.python.langchain.com/en/latest/langchain_api_reference.html"])
-search_db(vectorstore, "Who is the President of the United States?")
 
-input('---------------------------------------------------')    
-load_urls(vectorstore, ["https://en.wikipedia.org/wiki/President_of_the_United_States"])
-search_db(vectorstore, "Who is the President of the United States?")
-
-input('---------------------------------------------------')    
+load_urls(vectorstore, ["https://en.wikipedia.org/wiki/LangChain","https://api.python.langchain.com/en/latest/langchain_api_reference.html","https://en.wikipedia.org/wiki/President_of_the_United_States"])
 load_pdf(vectorstore, "rag_data/pdf")
-search_db(vectorstore, "What are data types in Python?")
-
-input('---------------------------------------------------')    
 load_txt(vectorstore, "rag_data/txt")
-search_db(vectorstore, "What is the first ammendment of the Constitution?")
-
-input('---------------------------------------------------')    
 load_docx(vectorstore, "rag_data/docx")
-search_db(vectorstore, "What are some famous quotes from Martin Luther King Jr?")
-
-input('---------------------------------------------------')    
 load_md(vectorstore, "rag_data/md")
+search_db(vectorstore, "Who is the President of the United States?")
+search_db(vectorstore, "What are data types in Python?")
+search_db(vectorstore, "What is the first ammendment of the Constitution?")
+search_db(vectorstore, "What are some famous quotes from Martin Luther King Jr?")
 search_db(vectorstore, "How do you create a heading in Markdown?")
