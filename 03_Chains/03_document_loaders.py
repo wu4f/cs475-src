@@ -49,7 +49,8 @@ def recursive_loader(url):
 def recursive_loader():
     recursive_loader_url = "https://docs.python.org/3.9/"
     recursive_loader(recursive_loader_url)
-#Chunking examples
+
+
 def csv_loader():
     loader = CSVLoader("https://raw.githubusercontent.com/datasets/covid-19/main/data/countries-aggregated.csv")
     docs = loader.load()
@@ -57,11 +58,11 @@ def csv_loader():
         print(i.metadata)
 
 def useful_document_loaders():
+    print("TO BE CONTINUED...")
+    csv_loader()
 
 
 def main_driver():
-
-
     # Define your functions here
     def function1():
         print("Function 1 called")
@@ -83,11 +84,11 @@ def main_driver():
 
     # Determine which function to call based on the command line argument
     if args.function == "summarizer":
-        function1()
+        article_summarizer_no_chunking()
     elif args.function == "recursive_url":
-        function2()
+        recursive_loader()
     elif args.function == "other_loaders":
-        function3()
+        useful_document_loaders()
     elif args.function == "chunkers":
         print("Function 4 called")
     elif args.function == "tokenizers":
