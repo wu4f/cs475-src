@@ -13,3 +13,8 @@ Jinja2
 markdown
 tiktoken
 unstructured
+nltk
+argparse
+arxiv
+pymupdf
+wikipedia
