@@ -1,5 +1,3 @@
-# Import things that are needed generically
-#from langchain.agents import Tool
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain.tools import Tool
 from langchain.prompts import PromptTemplate
@@ -7,6 +5,7 @@ from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.chains import LLMChain
+import readline
 import requests
 from bs4 import BeautifulSoup
 
@@ -18,8 +17,8 @@ def fetch_web_page(url):
     return soup.get_text()
 
 web_fetch_tool = Tool.from_function(
-  fetch_web_page,
-  name="WebFetcher",
+  func = fetch_web_page,
+  name = "WebFetcher",
   description="Fetches the content of a web page"
 )
 
