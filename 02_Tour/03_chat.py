@@ -2,6 +2,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import LLMChain
 from langchain.prompts import MessagesPlaceholder, HumanMessagePromptTemplate, ChatPromptTemplate
 from langchain.memory import ConversationBufferMemory
+import readline
 
 llm = ChatGoogleGenerativeAI(model="gemini-pro")
 
@@ -25,5 +26,4 @@ while True:
         print(result["text"])
     else:
         break
-
-#    print(f"Current chat messages: {memory}")
+    #print(f"Current chat messages: {memory}")
