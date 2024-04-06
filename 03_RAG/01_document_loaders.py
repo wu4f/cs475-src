@@ -70,6 +70,7 @@ def recursive_loader(url):
         url=url, max_depth=2, exclude_dirs=["/_static"] , extractor=lambda x: Soup(x, "html.parser").text
     )
     docs = loader.load()
+    print_with_hashtag("Scraped Documents")
     for i in docs:
         if ".xml" in i.metadata["source"]:
             print(i.metadata)
@@ -90,6 +91,7 @@ def csv_loader():
     """
     loader = CSVLoader("./chunk_data/csv/gemini_generated.csv")
     docs = loader.load()
+    print_with_hashtag("Chunked CSV Rows")
     for i in docs:
         print(i)
 
@@ -300,7 +302,7 @@ def main_driver():
     parser = argparse.ArgumentParser(description="Show the ELT data pipeline with langchain loaders, chunkers, and tokenizers")
 
     # Add arguments for each function
-    parser.add_argument("-f", "--function", type=str, choices=["summarizer", "recursive_url", "other_loaders", "recursive_chunker","document_chunker", "tokenizers"], help="Choose function to execute (summarizer,recursive_url,other_loaders, recursive_chunker, document_chunker, tokenizer)")
+    parser.add_argument("-f", "--function", type=str, choices=["summarizer", "recursive_url","csv_loader" ,"other_loaders", "recursive_chunker","document_chunker", "tokenizers"], help="Choose function to execute (summarizer,recursive_url,other_loaders, recursive_chunker, document_chunker, tokenizer)")
 
     # Parse the command line arguments
     args = parser.parse_args()
