@@ -17,6 +17,7 @@ from langchain.prompts import PromptTemplate
 import requests
 import argparse
 import os
+from pypdf import PdfReader
 
 #Initialize Model
 llm = ChatGoogleGenerativeAI(model="gemini-pro")
@@ -96,15 +97,26 @@ def print_chunks(chunkers):
         print(chunk)
         print("\n\n" + "-"*80)
 
-def recursive_chunker(directory):
-    print(f"Loading PDF files from: {directory}")
-    loader = PyPDFLoader(directory)
+def langchain_loader_comparison(path):
+    print(f"Loading PDF files from: {path}")
+    loader = PyPDFLoader(path)
     docs = loader.load()
     print(docs)
 
+def recursive_chunker():
+    text = """ One of the most important things I didn't understand about the world when I was a child is the degree to which the returns for performance are superlinear. Teachers and coaches implicitly told us the returns were linear. "You get out," I heard a thousand times, "what you put in." They meant well, but this is rarely true. If your product is only half as good as your competitor's, you don't get half as many customers. You get no customers, and you go out of business. It's obviously true that the returns for performance are superlinear in business. Some think this is a flaw of capitalism, and that if we changed the rules it would stop being true. But superlinear returns for performance are a feature of the world, not an artifact of rules we've invented. We see the same pattern in fame, power, military victories, knowledge, and even benefit to humanity. In all of these, the rich get richer. [1] """
+
     text_splitter = RecursiveCharacterTextSplitter(chunk_size = 65, chunk_overlap=0)
-    chunks = text_splitter.split_documents(docs)
-    print(chunks)
+
+    docs = text_splitter.create_documents([text])
+
+    text = [chunk.page_content for chunk in docs ]
+
+    print_chunks(text)
+
+
+
+
     
 def unstructured_chunked_pdf(pdf_path):
     UNSTRUCTURED_API_KEY = os.environ.get('UNSTRUCTURED_API_KEY')
@@ -113,7 +125,7 @@ def unstructured_chunked_pdf(pdf_path):
         return
     UNSTRUCTURED_URL = os.environ.get('UNSTRUCTURED_URL')
     if UNSTRUCTURED_URL is None:
-        print("UNSTRUCTURED_ENDPOINT environment variable not set.")
+        print("UNSTRUCTURED_URL environment variable not set.")
         return
 
     headers = {'accept': 'application/json', 'unstructured-api-key': UNSTRUCTURED_API_KEY }
@@ -131,6 +143,9 @@ def unstructured_chunked_pdf(pdf_path):
 
 def chunker_example():
     pdf_path = "./chunk_data/pdf/msSecurity-compressed-extracted.pdf"
+    print_with_hashtag("LangChain PDFLoader output")
+    langchain_loader_comparison(pdf_path)
+    print_with_hashtag("Unstructured pdf loader/extractor")
     unstructured_chunked_pdf(pdf_path)
 
 
@@ -166,9 +181,9 @@ def main_driver():
     elif args.function == "other_loaders":
         other_loaders()
     elif args.function == "recursive_chunker":
-        recursive_chunker("./chunk_data/pdf/msSecurity-compressed-extracted.pdf")
+        recursive_chunker()
     elif args.function == "document_chunker":
-        unstructured_chunked_pdf("./chunk_data/pdf/msSecurity-compressed-extracted.pdf")
+        chunker_example()
     elif args.function == "tokenizers":
         print("Function 5 called")
 
