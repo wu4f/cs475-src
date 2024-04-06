@@ -3,6 +3,7 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.agents import AgentExecutor
+import readline
 import sys
 
 database = sys.argv[1]

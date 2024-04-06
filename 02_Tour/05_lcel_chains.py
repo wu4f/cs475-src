@@ -7,7 +7,7 @@ import readline
 llm = GoogleGenerativeAI(model="gemini-pro")
 
 prompt1 = PromptTemplate.from_template("Translate this text to Spanish and print both the original and the translation: {text}")
-prompt2 = PromptTemplate.from_template("Write another phrase that might follow the {translation} in Spanish and output both the translation and the additional phrase")
+prompt2 = PromptTemplate.from_template("Write another phrase that might follow the {translation} in Spanish and output the phrase and its English translation")
 output_parser = StrOutputParser()
 
 chain = (

@@ -4,6 +4,7 @@ from langchain.sql_database import SQLDatabase
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.tools import Tool
 from langchain.agents import AgentExecutor
+import readline
 import ast
 import json
 import sys
