@@ -6,8 +6,10 @@ from langchain_community.document_loaders.recursive_url_loader import RecursiveU
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders import ArxivLoader
 from langchain_community.document_loaders import WikipediaLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import PyPDFDirectoryLoader
 
-
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.chains import StuffDocumentsChain
 from langchain.chains.llm import LLMChain
 from bs4 import BeautifulSoup as Soup
@@ -56,7 +58,7 @@ def recursive_loader():
 
 
 def csv_loader():
-    loader = CSVLoader("./rag_data/csv/gemini_generated.csv")
+    loader = CSVLoader("./chunk_data/csv/gemini_generated.csv")
     docs = loader.load()
     for i in docs:
         print(i)
@@ -94,7 +96,17 @@ def print_chunks(chunkers):
         print(chunk)
         print("\n\n" + "-"*80)
 
-def unstructured_print_chunked_pdf(pdf_path):
+def recursive_chunker(directory):
+    print(f"Loading PDF files from: {directory}")
+    loader = PyPDFLoader(directory)
+    docs = loader.load()
+    print(docs)
+
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size = 65, chunk_overlap=0)
+    chunks = text_splitter.split_documents(docs)
+    print(chunks)
+    
+def unstructured_chunked_pdf(pdf_path):
     UNSTRUCTURED_API_KEY = os.environ.get('UNSTRUCTURED_API_KEY')
     if UNSTRUCTURED_API_KEY is None:
         print("UNSTRUCTURED_API_KEY environment variable not set.")
@@ -118,8 +130,8 @@ def unstructured_print_chunked_pdf(pdf_path):
         print("Error processing request. Check that the endpoint is correct. Also double check your API key. If it still doesn't work it is possibel that the API key and endpoint is still be activated. Return to exerise later.")
 
 def chunker_example():
-    pdf_path = "./rag_data/pdf/angr-ext.pdf"
-    unstructured_print_chunked_pdf(pdf_path)
+    pdf_path = "./chunk_data/pdf/msSecurity-compressed-extracted.pdf"
+    unstructured_chunked_pdf(pdf_path)
 
 
 
@@ -136,10 +148,10 @@ def other_loaders():
 
 def main_driver():
     # Create argument parser
-    parser = argparse.ArgumentParser(description="Description of your program")
+    parser = argparse.ArgumentParser(description="Show the ELT data pipeline with langchain loaders, chunkers, and tokenizers")
 
     # Add arguments for each function
-    parser.add_argument("-f", "--function", type=str, choices=["summarizer", "recursive_url", "other_loaders", "chunkers", "tokenizers"], help="Choose function to execute (summarizer,recursive_url,other_loaders, chunkers, tokenizer)")
+    parser.add_argument("-f", "--function", type=str, choices=["summarizer", "recursive_url", "other_loaders", "recursive_chunker","document_chunker", "tokenizers"], help="Choose function to execute (summarizer,recursive_url,other_loaders, recursive_chunker, document_chunker, tokenizer)")
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -153,13 +165,15 @@ def main_driver():
         csv_loader()
     elif args.function == "other_loaders":
         other_loaders()
-    elif args.function == "chunkers":
-        chunker_example()
+    elif args.function == "recursive_chunker":
+        recursive_chunker("./chunk_data/pdf/msSecurity-compressed-extracted.pdf")
+    elif args.function == "document_chunker":
+        unstructured_chunked_pdf("./chunk_data/pdf/msSecurity-compressed-extracted.pdf")
     elif args.function == "tokenizers":
         print("Function 5 called")
 
     else:
-        print("Please enter function choice (summarizer, recursive_loader, recursive_chunker, tokenizer, ) as an argument to the option -f.")
+        print("Please enter function choice (summarizer, recursive_loader, recursive_chunker, document_chunker, tokenizer) as an argument to the option -f.")
         print("Example: python 03_document_loaders.py -f summarizer")
 
 if __name__ == "__main__":
