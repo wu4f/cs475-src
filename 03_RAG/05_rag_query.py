@@ -14,7 +14,6 @@ vectorstore = Chroma(
 retriever = vectorstore.as_retriever()
 
 prompt = hub.pull("rlm/rag-prompt")
-print(f"prompt is: {prompt}")
 
 llm = GoogleGenerativeAI(model="gemini-pro")
 
@@ -31,6 +30,7 @@ rag_chain = (
 while True:
     line = input("llm>> ")
     if line:
-        print(rag_chain.invoke(line))
+        result = rag_chain.invoke(line)
+        print(result)
     else:
         break

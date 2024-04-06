@@ -68,6 +68,7 @@ agent = create_react_agent(llm,tools,prompt)
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
+print("Welcome to my application.  I can search the web, fetch web pages, summarize content, determine whether or not an IP address has sent phishing lures, and analyze web servers.")
 while True:
     try:
         line = input("llm>> ")
