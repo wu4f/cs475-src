@@ -27,6 +27,14 @@ rag_chain = (
     | StrOutputParser()
 )
 
+print("Welcome to my RAG application.  Ask me a question and I will answer it from the documents in my database shown below")
+# Iterate over documents and dump metadata
+document_data_sources = set()
+for doc_metadata in retriever.vectorstore.get()['metadatas']:
+    document_data_sources.add(doc_metadata['source']) 
+for doc in document_data_sources:
+    print(f"  {doc}")
+
 while True:
     line = input("llm>> ")
     if line:
