@@ -19,6 +19,8 @@ lift = attack_client()
 techniques_used_by_groups = lift.get_techniques_used_by_all_groups()
 techniques_used_by_groups[0]
 
+exit()
+
 # Create Group docs
 all_groups = dict()
 for technique in techniques_used_by_groups:

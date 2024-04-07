@@ -2,6 +2,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_google_genai import GoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 import chromadb
 import os
+import readline
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,7 +21,7 @@ db = Chroma(
     embedding_function=embedding_function,
 )
 db.get()
-retriever = db.as_retriever(search_kwargs={"k":5})
+retriever = db.as_retriever(search_kwargs={"k":10})
 
 # Instantiate LLM and QA chain
 from langchain.chains.question_answering import load_qa_chain
