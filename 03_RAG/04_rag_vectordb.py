@@ -1,5 +1,5 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader, WikipediaLoader, ArxivLoader
+from langchain_community.document_loaders import WebBaseLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader, WikipediaLoader, ArxivLoader, CSVLoader
 from langchain_community.vectorstores import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import readline
@@ -15,7 +15,7 @@ def load_docs(docs):
     vectorstore.add_documents(documents=splits)
 
 def load_urls(urls):
-    load_docs(AsyncHtmlLoader(urls).load())
+    load_docs(WebBaseLoader(urls).load())
 
 def load_wikipedia(query):
     load_docs(WikipediaLoader(query=query, load_max_docs=1).load())
@@ -37,16 +37,18 @@ def load_docx(directory):
 def load_md(directory):
     load_docs(DirectoryLoader(directory, glob="**/*.md", loader_cls=UnstructuredMarkdownLoader).load())
 
+def load_csv(directory):
+    load_docs(DirectoryLoader(directory, glob="**/*.csv", loader_cls=CSVLoader).load())
+
 def search_db(query):
     docs = vectorstore.similarity_search(query)
     print(f"Query database for: {query}")
     if docs:
         print(f"Closest document match in database: {docs[0].metadata['source']}")
-        #print(f"Closest document match in database: {docs[0].metadata}")
     else:
         print("No matching documents")
 
-urls = ["https://www.pdx.edu/", "https://www.pdx.edu/computer-science/"]
+urls = ["https://www.pdx.edu/academics/programs/undergraduate/computer-science", "https://www.pdx.edu/computer-science/"]
 print(f"Loading: {urls}")
 load_urls(urls)
 
@@ -69,6 +71,10 @@ load_txt(text_directory)
 docx_directory = "rag_data/docx"
 print(f"Loading DOCX files from: {docx_directory}")
 load_docx(docx_directory)
+
+csv_directory = "rag_data/csv"
+print(f"Loading CSV files from: {csv_directory}")
+load_csv(csv_directory)
 
 md_directory = "rag_data/md"
 print(f"Loading MD files from: {md_directory}")
