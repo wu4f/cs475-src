@@ -7,8 +7,9 @@ from langchain.chains.llm import LLMChain
 from bs4 import BeautifulSoup as Soup
 from langchain.prompts import PromptTemplate
 import argparse
+import asyncio
 
-from .print_helpers import *
+from print_helpers import *
 
 #Initialize Model
 llm = ChatGoogleGenerativeAI(model="gemini-pro")
@@ -26,9 +27,10 @@ def article_summarizer_no_chunking():
     Returns:
         None
     """
-    loader = AsyncHtmlLoader("https://thenewstack.io/the-building-blocks-of-llms-vectors-tokens-and-embeddings/")
+    loader = AsyncHtmlLoader(["https://thenewstack.io/the-building-blocks-of-llms-vectors-tokens-and-embeddings/"])
     docs = loader.load()
 
+    print("Title: ", docs[0].metadata["title"])
     #Define the Summarize Chain
     template = """Write a concise summary of the following:
     "{text}"
