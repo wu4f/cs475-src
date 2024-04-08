@@ -1,6 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_loaders.recursive_url_loader import RecursiveUrlLoader
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders import ArxivLoader
@@ -34,7 +34,7 @@ def article_summarizer_no_chunking():
     Returns:
         None
     """
-    loader = WebBaseLoader("https://thenewstack.io/the-building-blocks-of-llms-vectors-tokens-and-embeddings/")
+    loader = AsyncHtmlLoader("https://thenewstack.io/the-building-blocks-of-llms-vectors-tokens-and-embeddings/")
     docs = loader.load()
 
     #Define the Summarize Chain
