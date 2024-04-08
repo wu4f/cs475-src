@@ -46,20 +46,33 @@ def search_db(query):
     else:
         print("No matching documents")
 
+urls = ["https://www.pdx.edu/", "https://www.pdx.edu/computer-science/"]
 print(f"Loading: {urls}")
-load_urls(["https://www.pdx.edu/", "https://www.pdx.edu/computer-science/"])
-print(f"Loading Wikipedia pages on: {query}")
-load_wikipedia("LangChain")
-print(f"Loading arxiv document: {query}")
-load_arxiv("2310.03714")
-print(f"Loading PDF files from: {directory}")
-load_pdf("rag_data/pdf")
-print(f"Loading TXT files from: {directory}")
-load_txt("rag_data/txt")
-print(f"Loading DOCX files from: {directory}")
-load_docx("rag_data/docx")
-print(f"Loading MD files from: {directory}")
-load_md("rag_data/md")
+load_urls(urls)
+
+wiki_query = "LangChain"
+print(f"Loading Wikipedia pages on: {wiki_query}")
+load_wikipedia(wiki_query)
+
+arxiv_query = "2310.03714"
+print(f"Loading arxiv document: {arxiv_query}")
+load_arxiv(arxiv_query)
+
+pdf_directory = "rag_data/pdf"
+print(f"Loading PDF files from: {pdf_directory}")
+load_pdf(pdf_directory)
+
+text_directory = "rag_data/txt"
+print(f"Loading TXT files from: {text_directory}")
+load_txt(text_directory)
+
+docx_directory = "rag_data/docx"
+print(f"Loading DOCX files from: {docx_directory}")
+load_docx(docx_directory)
+
+md_directory = "rag_data/md"
+print(f"Loading MD files from: {md_directory}")
+load_md(md_directory)
 
 print("RAG database initialized.")
 retriever = vectorstore.as_retriever()
