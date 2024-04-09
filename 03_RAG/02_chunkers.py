@@ -4,7 +4,7 @@ import requests
 import argparse
 import os
 
-from .print_helpers import *
+from print_helpers import *
 
 def langchain_loader_comparison(path):
     """
