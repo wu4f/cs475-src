@@ -1,10 +1,7 @@
 from langchain_google_genai import GoogleGenerativeAI
 from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers import BeautifulSoupTransformer
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
 import time
-import readline
 
 llm = GoogleGenerativeAI(model="gemini-pro")
 
