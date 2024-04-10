@@ -1,16 +1,24 @@
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import readline
 import math
+import numpy
+from sklearn.metrics.pairwise import cosine_similarity
 
-embeddings=GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
-phrase1 = "This is a test document."
-vec1 = embeddings.embed_query(phrase1)
-phrase2 = "This is the test document."
-vec2 = embeddings.embed_query(phrase2)
-phrase3 = "Hello, how are you doing?"
-vec3 = embeddings.embed_query(phrase3)
+embeddings=GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+base_string = "The quick brown fox"
+base_vector = embeddings.embed_query(base_string)
 
-euclidean_distance = math.sqrt(sum((x - y) ** 2 for x, y in zip(vec1, vec2)))
-print(f"Euclidean distance is: {euclidean_distance}")
-euclidean_distance = math.sqrt(sum((x - y) ** 2 for x, y in zip(vec2, vec3)))
-print(f"Euclidean distance is: {euclidean_distance}")
-#print(f"{type(query_result)} {len(query_result)} {query_result[:5]}")
+def calculate(test_string):
+    test_vector = embeddings.embed_query(test_string)
+    euclidean_distance = math.sqrt(sum((x - y) ** 2 for x, y in zip(base_vector, test_vector)))
+    print(f"Euclidean distance is: {euclidean_distance}")
+    cosine = cosine_similarity([base_vector],[test_vector])
+    print(f"Cosine distance is: {1-cosine[0][0]}")
+
+print('''Welcome to my embedding application.  Type a phrase and I will create an embedding for it and output its euclidean and cosine distances away from the text "The quick brown fox"''')
+while True:
+    line = input(">> ")
+    if line:
+        calculate(line)
+    else:
+        break
