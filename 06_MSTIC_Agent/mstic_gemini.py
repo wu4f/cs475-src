@@ -59,6 +59,6 @@ prompt = hub.pull("hwchase17/react")
 
 agent = create_react_agent(llm,tools,prompt)
 
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
 
 agent_executor.invoke({"input": "Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?"})
