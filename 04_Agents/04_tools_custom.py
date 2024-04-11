@@ -55,7 +55,7 @@ llm_chain = LLMChain(
 summary_tool = Tool.from_function(
     func=llm_chain.run,
     name="Summarizing tool",
-    description="Summarizes a web page given its URL"
+    description="Summarizes content"
 )
 
 ddg_search = DuckDuckGoSearchResults()
