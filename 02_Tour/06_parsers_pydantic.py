@@ -24,9 +24,6 @@ print(f"Format instructions given to the LLM from parser:\n {json_parser.get_for
 llm = GoogleGenerativeAI(model="gemini-pro")
 
 chain = json_prompt | llm | json_parser
-#print(chain.invoke({"genre": "Science Fiction"}))
-#print(chain.invoke({"genre": "Drama"}))
-#print(chain.invoke({"genre": "Comic Book"}))
 
 while True:
     line = input("llm>> ")
