@@ -40,14 +40,6 @@ def load_md(directory):
 def load_csv(directory):
     load_docs(DirectoryLoader(directory, glob="**/*.csv", loader_cls=CSVLoader).load())
 
-def search_db(query):
-    docs = vectorstore.similarity_search(query)
-    print(f"Query database for: {query}")
-    if docs:
-        print(f"Closest document match in database: {docs[0].metadata['source']}")
-    else:
-        print("No matching documents")
-
 urls = ["https://www.pdx.edu/academics/programs/undergraduate/computer-science", "https://www.pdx.edu/computer-science/"]
 print(f"Loading: {urls}")
 load_urls(urls)
@@ -80,17 +72,10 @@ csv_directory = "rag_data/csv"
 print(f"Loading CSV files from: {csv_directory}")
 load_csv(csv_directory)
 
-print("RAG database initialized.")
+print("RAG database initialized with the following sources.")
 retriever = vectorstore.as_retriever()
 document_data_sources = set()
 for doc_metadata in retriever.vectorstore.get()['metadatas']:
     document_data_sources.add(doc_metadata['source']) 
 for doc in document_data_sources:
     print(f"  {doc}")
-
-while True:
-    line = input("llm>> ")
-    if line:
-        search_db(line)
-    else:
-        break

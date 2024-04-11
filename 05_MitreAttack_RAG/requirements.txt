@@ -1,0 +1,10 @@
+langchain
+langchain-community
+langchain_google_genai
+chromadb
+attackcti
+Jinja2
+markdown
+tiktoken
+unstructured
+nltk
