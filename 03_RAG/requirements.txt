@@ -19,3 +19,4 @@ arxiv
 pymupdf
 wikipedia
 asyncio
+scikit-learn
