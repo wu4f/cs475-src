@@ -1,6 +1,7 @@
 from langchain_community.vectorstores import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import readline
+import re
 
 vectorstore = Chroma(
     embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query"),
@@ -13,16 +14,16 @@ def search_db(query):
     relevant_docs = vectorstore.similarity_search(query)
     print(f"Search returned {len(relevant_docs)} documents")
     for doc in relevant_docs:
-        print(doc.metadata['source'])
-    #return(relevant_docs)
+        docpath = re.sub("^.*cs410g-src","cs410g-src",doc.metadata['source'])
+        print(f"  {docpath}")
 
-#print(f'[+] Results of retrieval for query: {query}')
-#print(relevant_docs[0].page_content)
-
-
+print("Welcome to my Mitre ATT&CK document database.  Type a phrase and I'll return the most relevant documents. Example:\nWrite a short summary about APT 28")
 while True:
-    line = input("llm>> ")
-    if line:
-        search_db(line)
-    else:
-        break
+    line = input(">> ")
+    try:
+        if line:
+            search_db(line)
+        else:
+            break
+    except:
+        print()

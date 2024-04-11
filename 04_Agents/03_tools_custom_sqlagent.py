@@ -46,12 +46,12 @@ print(f"Welcome to my database querying application. Tell me what you want")
 print(f"from your database at {database}.")
 
 while True:
-    try:
-        line = input("llm>> ")
-        if line:
+    line = input("llm>> ")
+    if line:
+        try:
             result = agent_executor.invoke(line)
             print(result)
-        else:
-            break
-    except:
+        except:
+            print()
+    else:
         break

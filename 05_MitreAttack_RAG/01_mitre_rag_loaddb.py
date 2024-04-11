@@ -5,6 +5,7 @@
 # queries through an LLM
 from attackcti import attack_client
 import os
+import re
 import copy
 from jinja2 import Template
 
@@ -22,7 +23,6 @@ techniques_used_by_groups[0]
 # Create Group docs
 all_groups = dict()
 for technique in techniques_used_by_groups:
-    print(technique)
     if technique['id'] not in all_groups:
         group = dict()
         group['group_name'] = technique['name']
@@ -98,7 +98,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # Chunking Text
 print('[+] Initializing RecursiveCharacterTextSplitter..')
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500,
+    chunk_size=5000,
     chunk_overlap=50,  # number of tokens overlap between chunks
     length_function=tiktoken_len,
     separators=['\n\n', '\n', ' ', '']
@@ -138,12 +138,13 @@ from langchain_community.vectorstores import Chroma
 embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
 
 # Load documents into Chroma and save it to disk
-db = Chroma.from_documents(chunks, embedding_function, collection_name="groups_collection", persist_directory=f"{current_directory}/.chromadb")
+vectorstore = Chroma.from_documents(chunks, embedding_function, collection_name="groups_collection", persist_directory=f"{current_directory}/.chromadb")
+retriever = vectorstore.as_retriever()
 
-# Test ingestion with an initial query
-query = "What threat actors employ process injection?"
-print(f'[+] Test similarity search with query: {query}')
-relevant_docs = db.similarity_search(query)
-
-print(f'[+] Results of retrieval for query: {query}')
-print(relevant_docs[0].page_content)
+print("RAG database initialized.")
+document_data_sources = set()
+for doc_metadata in retriever.vectorstore.get()['metadatas']:
+    document_data_sources.add(doc_metadata['source']) 
+for doc in document_data_sources:
+    docpath = re.sub("^.*cs410g-src","cs410g-src",doc)
+    print(f"  {docpath}")

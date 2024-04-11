@@ -33,12 +33,16 @@ def perform_query(retriever, chain, query):
     results = chain.invoke({'input_documents':relevant_docs, 'question':query})
     return(results['output_text'])
 
+print("Welcome to my Mitre ATT&CK Q&A application.  Type a query and I'll answer it based on the latest data. Example:\n Write a short summary about APT 28")
 while True:
     line = input("llm>> ")
-    if line:
-        print(perform_query(retriever, chain, line))
-    else:
-        break
+    try:
+        if line:
+            print(perform_query(retriever, chain, line))
+        else:
+            break
+    except:
+        print()
 
 # Perform query by retrieving context and invoking chain
 # line = """What threat actors sent phishing messages to their targets?"""

@@ -23,8 +23,12 @@ while True:
     try:
         line = input("llm>> ")
         if line:
-            result = agent_executor.invoke(line)
-            print(result)
+            try:
+                result = agent_executor.invoke(line)
+                print(result)
+            except:
+                print()
+                pass
         else:
             break
     except:

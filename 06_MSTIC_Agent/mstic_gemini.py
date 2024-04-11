@@ -61,4 +61,14 @@ agent = create_react_agent(llm,tools,prompt)
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
 
-agent_executor.invoke({"input": "Can you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?"})
+def process_query(query):
+  response = agent_executor.invoke({"input": query})
+  return(response)
+
+print("Welcome to my MSTIC agent.  Enter a query.  An example is below\nCan you give me more details about this ip: 77.246.107.91? How many samples are related to this ip? If you found samples related, can you give me more info about the first one?")
+while True:
+    line = input("llm>> ")
+    if line:
+        print(process_query(line.strip()))
+    else:
+        break
