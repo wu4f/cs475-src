@@ -4,7 +4,7 @@ from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import GoogleGenerativeAI
 llm = GoogleGenerativeAI(model="gemini-pro")
 
-tools = load_tools(["serpapi", "llm-math","wikipedia","terminal"], llm=llm)
+tools = load_tools(["serpapi", "llm-math","wikipedia","terminal"], llm=llm, allow_dangerous_tools=True)
 print(f"Welcome to my application.  I am configured with these tools")
 for tool in tools:
   print(f'  Tool: {tool.name} = {tool.description}')
