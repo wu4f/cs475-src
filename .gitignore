@@ -2,3 +2,5 @@ env
 .env
 mymsticpyconfig.yaml
 .chromadb
+__pycache__
+*.pyc
