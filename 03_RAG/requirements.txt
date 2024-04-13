@@ -17,3 +17,4 @@ pymupdf
 wikipedia
 asyncio
 scikit-learn
+unstructured
