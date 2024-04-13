@@ -1,7 +1,8 @@
 from langchain.agents import create_sql_agent
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+#from langchain_openai import ChatOpenAI
 from langchain.tools import Tool
 from langchain.agents import AgentExecutor
 import readline
@@ -32,7 +33,14 @@ fetch_users_tool = Tool.from_function(
 )
 
 database = sys.argv[1]
-llm = GoogleGenerativeAI(model="gemini-pro",temperature=0)
+llm = GoogleGenerativeAI(
+             model="gemini-pro",
+             temperature=0,
+             safety_settings = {
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+             }
+      )
+#llm = ChatOpenAI(model_name="gpt-3.5-turbo")
 db = SQLDatabase.from_uri(f"sqlite:///{database}")
 toolkit = SQLDatabaseToolkit(db=db,llm=llm)
 agent_executor = create_sql_agent(
