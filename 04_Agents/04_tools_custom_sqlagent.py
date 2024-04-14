@@ -2,7 +2,6 @@ from langchain.agents import create_sql_agent
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-#from langchain_openai import ChatOpenAI
 from langchain.tools import Tool
 from langchain.agents import AgentExecutor
 import readline
@@ -40,7 +39,6 @@ llm = GoogleGenerativeAI(
                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
              }
       )
-#llm = ChatOpenAI(model_name="gpt-3.5-turbo")
 db = SQLDatabase.from_uri(f"sqlite:///{database}")
 toolkit = SQLDatabaseToolkit(db=db,llm=llm)
 agent_executor = create_sql_agent(
@@ -50,8 +48,9 @@ agent_executor = create_sql_agent(
     verbose=True
 )
 
-print(f"Welcome to my database querying application. Tell me what you want")
-print(f"from your database at {database}.")
+print(f"Welcome to my database querying application.  I've loaded your database at {database} and I am configured with these tools:")
+for tool in agent_executor.tools:
+  print(f'  Tool: {tool.name} = {tool.description}')
 
 while True:
     line = input("llm>> ")
@@ -59,7 +58,7 @@ while True:
         try:
             result = agent_executor.invoke(line)
             print(result)
-        except:
-            print()
+        except Exception as e:
+            print(e)
     else:
         break
