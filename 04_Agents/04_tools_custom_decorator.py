@@ -10,15 +10,15 @@ import json
 import sys
 
 @tool
-def fetch_users_pass(user):
-   """Useful when you want to fetch a password hash for a particular user.  Takes a username as an argument."""
-   res = db.run(f"SELECT passhash FROM users WHERE username = '{user}';")
+def fetch_users_pass(username):
+   """Useful when you want to fetch a password hash for a particular user.  Takes a username as an argument.  Returns a JSON string"""
+   res = db.run(f"SELECT passhash FROM users WHERE username = '{username}';")
    result = [el for sub in ast.literal_eval(res) for el in sub]
-   return result
+   return json.dumps(result)
 
 @tool
-def fetch_users(query):
-   """Useful when you want to fetch the users in the database.  Takes no arguments"""
+def fetch_users():
+   """Useful when you want to fetch the users in the database.  Takes no arguments.  Returns a list of usernames in JSON."""
    res = db.run("SELECT username FROM users;")
    result = [el for sub in ast.literal_eval(res) for el in sub]
    return json.dumps(result)
