@@ -3,14 +3,14 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 from langchain.tools import tool
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator, validator
+from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain.agents import AgentExecutor
 import readline
 import ast
 import json
 import sys
 
-class FetchUsersInput(BaseModel):
+class FetchUsersPassInput(BaseModel):
     username: str = Field(description="Should be an alphanumeric string")
 
     @root_validator
@@ -22,7 +22,7 @@ class FetchUsersInput(BaseModel):
         print(u)
         return values
 
-@tool("fetch_users_pass", args_schema=FetchUsersInput, return_direct=True)
+@tool("fetch_users_pass", args_schema=FetchUsersPassInput, return_direct=True)
 def fetch_users_pass(username):
    """Useful when you want to fetch a password hash for a particular user.  Takes a username as an argument.  Returns a JSON string"""
    res = db.run(f"SELECT passhash FROM users WHERE username = '{username}';")
@@ -30,8 +30,8 @@ def fetch_users_pass(username):
    return json.dumps(result)
 
 @tool
-def fetch_users():
-   """Useful when you want to fetch the users in the database.  Takes no arguments.  Returns a list of usernames in JSON."""
+def fetch_users(query):
+   """Useful when you want to fetch the users in the database.  Returns a list of usernames in JSON."""
    res = db.run("SELECT username FROM users;")
    result = [el for sub in ast.literal_eval(res) for el in sub]
    return json.dumps(result)
@@ -50,7 +50,6 @@ agent_executor = create_sql_agent(
     llm=llm,
     toolkit=toolkit,
     extra_tools=[fetch_users, fetch_users_pass],
-    handle_parsing_errors=True,
     verbose=True
 )
 

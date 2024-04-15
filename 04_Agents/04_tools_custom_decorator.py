@@ -17,8 +17,8 @@ def fetch_users_pass(username):
    return json.dumps(result)
 
 @tool
-def fetch_users():
-   """Useful when you want to fetch the users in the database.  Takes no arguments.  Returns a list of usernames in JSON."""
+def fetch_users(query):
+   """Useful when you want to fetch the users in the database.  Returns a list of usernames in JSON."""
    res = db.run("SELECT username FROM users;")
    result = [el for sub in ast.literal_eval(res) for el in sub]
    return json.dumps(result)
