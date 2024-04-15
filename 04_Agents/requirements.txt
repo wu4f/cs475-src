@@ -9,3 +9,4 @@ grpcio
 langchain-experimental
 langchainhub
 duckduckgo-search
+langchain-google-vertexai
