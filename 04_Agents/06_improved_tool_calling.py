@@ -4,6 +4,7 @@ from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import tool
 import getpass
 import os
+import google.auth
 
 @tool
 def add(a: int, b: int) -> int:
@@ -19,11 +20,13 @@ def multiply(a: int, b: int) -> int:
 
 tools = [add, multiply]
 
-os.environ["GOOGLE_API_KEY"] = getpass.getpass()
+# os.environ["GOOGLE_API_KEY"] = getpass.getpass()
 
 llm = ChatVertexAI(model="gemini-pro")
 llm_with_tools = llm.bind_tools(tools)
 
 query = "What is 3 * 12? Also, what is 11 + 49?"
 
-llm_with_tools.invoke(query).tool_calls
+response = llm_with_tools.invoke(query)
+
+print(response.tool_calls)
