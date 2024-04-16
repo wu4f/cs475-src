@@ -10,3 +10,4 @@ langchainhub
 duckduckgo-search
 langchain-google-vertexai
 dnspython
+validators
