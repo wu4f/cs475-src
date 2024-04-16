@@ -8,3 +8,4 @@ grpcio
 langchain-experimental
 langchainhub
 dnspython
+validators
