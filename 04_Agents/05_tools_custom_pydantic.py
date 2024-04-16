@@ -12,15 +12,11 @@ import sys
 
 class FetchUsersPassInput(BaseModel):
     username: str = Field(description="Should be an alphanumeric string")
-
     @root_validator
     def is_alphanumeric(cls, values: dict[str,any]) -> str:
-        """Validate alphanumeric username"""
-        u = values.get("username")
-        if not u.isalnum():
-            raise ValueError("Malformed username")
-        print(u)
-        return values
+        if values.get("username").isalnum():
+            return values
+        raise ValueError("Malformed username")
 
 @tool("fetch_users_pass", args_schema=FetchUsersPassInput, return_direct=True)
 def fetch_users_pass(username):

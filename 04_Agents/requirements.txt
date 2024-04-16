@@ -1,5 +1,4 @@
 google-search-results
-numexpr
 wikipedia
 xmltodict
 langchain
@@ -10,3 +9,4 @@ langchain-experimental
 langchainhub
 duckduckgo-search
 langchain-google-vertexai
+dnspython
