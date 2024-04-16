@@ -22,7 +22,7 @@ class LookupNameInput(BaseModel):
             return values
         raise ValueError("Malformed hostname")
 
-@tool("lookup_name",args_schema=LookupNameInput, return_direct=True)
+@tool("lookup_name",args_schema=LookupNameInput, return_direct=False)
 def lookup_name(hostname):
     """Given a DNS hostname, it will return its IPv4 addresses"""
     result = dns.resolver.resolve(hostname, 'A')
@@ -37,7 +37,7 @@ class LookupIPInput(BaseModel):
             return values
         raise ValueError("Malformed IP address")
 
-@tool("lookup_ip", args_schema=LookupIPInput, return_direct=True)
+@tool("lookup_ip", args_schema=LookupIPInput, return_direct=False)
 def lookup_ip(address):
     """Given an IP address, returns names associated with it"""
     n = dns.reversename.from_address(address)
