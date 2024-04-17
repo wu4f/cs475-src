@@ -1,16 +1,18 @@
-from langchain_community.tools import DuckDuckGoSearchResults
-from langchain.tools import tool, BaseTool, StructuredTool
-from langchain.agents import load_tools
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator, validator
-from langchain.prompts import PromptTemplate
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent
+from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.tools import tool
+from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import dns.resolver, dns.reversename
 import validators
 import readline
-import requests
-import re
+import os
+
+#from langsmith import Client
+#os.environ["LANGCHAIN_TRACING_V2"] = "true"
+#os.environ["LANGCHAIN_PROJECT"] = f"LangSmith Introduction"
+#os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+#client = Client()
 
 llm = GoogleGenerativeAI( model="gemini-pro", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, })
 
@@ -45,7 +47,8 @@ def lookup_ip(address):
     res = [ r.to_text() for r in result ]
     return res[0]
     
-tools = load_tools(["serpapi", "terminal"], allow_dangerous_tools=True) + [lookup_name, lookup_ip]
+tools = load_tools(["serpapi", "terminal"], allow_dangerous_tools=True)
+tools.extend([lookup_name, lookup_ip])
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
 prompt = base_prompt.partial(instructions="Answer the user's request utilizing at most 8 tool calls")
