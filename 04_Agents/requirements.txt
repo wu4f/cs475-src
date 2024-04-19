@@ -7,8 +7,6 @@ langchain_google_genai
 grpcio
 langchain-experimental
 langchainhub
-duckduckgo-search
-langchain-google-vertexai
 dnspython
 validators
 numexpr
