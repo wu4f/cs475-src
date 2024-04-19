@@ -3,8 +3,9 @@ from langchain.agents import create_react_agent, AgentExecutor
 from langchain_community.agent_toolkits import NLAToolkit, OpenAPIToolkit
 from langchain import hub
 import readline
+import os
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-pro",temperature=0)
 
 toolkit = NLAToolkit.from_llm_and_url(llm, "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/xkcd.com/1.0.0/openapi.yaml")
 tools = toolkit.get_tools()
