@@ -15,7 +15,7 @@ retriever = vectorstore.as_retriever()
 
 prompt = hub.pull("rlm/rag-prompt")
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)

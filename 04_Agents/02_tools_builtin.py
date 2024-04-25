@@ -3,7 +3,7 @@ from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent, load_tools
 import readline
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 tools = load_tools(["serpapi", "llm-math","wikipedia","terminal"], llm=llm, allow_dangerous_tools=True)
 base_prompt = hub.pull("langchain-ai/react-agent-template")

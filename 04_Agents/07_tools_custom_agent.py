@@ -13,8 +13,11 @@ import os
 #os.environ["LANGCHAIN_PROJECT"] = f"LangSmith Introduction"
 #os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 #client = Client()
-
-llm = GoogleGenerativeAI( model="gemini-pro", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, })
+llm = GoogleGenerativeAI(
+           model="gemini-1.5-pro-latest",
+           temperature=0,
+           safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }
+)
 
 class LookupNameInput(BaseModel):
     hostname: str = Field(description="Should be a hostname such as www.google.com")

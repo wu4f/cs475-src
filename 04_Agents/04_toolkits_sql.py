@@ -7,7 +7,7 @@ import sys
 
 database = sys.argv[1]
 llm = GoogleGenerativeAI(
-             model="gemini-pro",
+             model="gemini-1.5-pro-latest",
              temperature=0,
              safety_settings = {
                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,

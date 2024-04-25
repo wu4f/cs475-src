@@ -19,6 +19,7 @@ llms = [
 #    OpenAI(temperature=0),
     GoogleGenerativeAI(model="models/text-bison-001"),
     GoogleGenerativeAI(model="gemini-pro")
+    GoogleGenerativeAI(model="gemini-1.5-pro-latest")
 ]
 model_lab = ModelLaboratory.from_llms(llms)
 print("Welcome.  Type a prompt and I will query several LLMs to answer it.")
