@@ -4,7 +4,7 @@ from langchain.prompts import MessagesPlaceholder, HumanMessagePromptTemplate, C
 from langchain.memory import ConversationBufferMemory
 import readline
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro")
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 memory = ConversationBufferMemory(memory_key="messages", return_messages=True)
 

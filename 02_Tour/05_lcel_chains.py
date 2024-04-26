@@ -4,7 +4,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import GoogleGenerativeAI
 import readline
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 prompt1 = PromptTemplate.from_template("Translate this text to Spanish and print both the original and the translation: {text}")
 prompt2 = PromptTemplate.from_template("Write another phrase that might follow the {translation} in Spanish and output the phrase and its English translation")

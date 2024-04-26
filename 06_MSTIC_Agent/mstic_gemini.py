@@ -11,7 +11,7 @@ import os
 # May solve errors from async_io calls in langchain library
 nest_asyncio.apply()
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.05)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0.05)
 
 vt_key = get_provider_settings("TIProviders")["VirusTotal"].args["AuthKey"]
 

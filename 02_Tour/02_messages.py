@@ -13,7 +13,7 @@ def spam_detector(llm, message):
     )
     return(result)
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 while True:
     line = input("llm>> ")

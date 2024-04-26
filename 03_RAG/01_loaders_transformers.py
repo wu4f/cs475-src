@@ -3,7 +3,7 @@ from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers import BeautifulSoupTransformer
 import time
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 def query_page(content):
    print(f"Content size: {len(content)}")

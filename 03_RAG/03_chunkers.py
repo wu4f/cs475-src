@@ -5,7 +5,7 @@ import importlib
 import time
 
 module = importlib.import_module("01_loaders_transformers")
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 loader = AsyncHtmlLoader("https://pdx.edu/computer-science")
 docs = loader.load()

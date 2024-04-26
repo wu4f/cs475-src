@@ -13,11 +13,11 @@ def summarize_url(llm, url):
     response = llm.invoke(prompt)
     return response
 
-llm = GoogleGenerativeAI(
-        model = "gemini-pro",
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",
         safety_settings = {
           HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        }
+        },
+        temperature=0
 )
 
 print(summarize_url(llm,"https://krebsonsecurity.com/2024/02/arrests-in-400m-sim-swap-tied-to-heist-at-ftx/"))

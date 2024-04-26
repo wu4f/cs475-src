@@ -25,7 +25,7 @@ retriever = db.as_retriever(search_kwargs={"k":10})
 
 # Instantiate LLM and QA chain
 from langchain.chains.question_answering import load_qa_chain
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest")
 chain = load_qa_chain(llm, chain_type="stuff")
 
 def perform_query(retriever, chain, query):

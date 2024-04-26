@@ -21,7 +21,7 @@ json_prompt = PromptTemplate(
 
 print(f"Format instructions given to the LLM from parser:\n {json_parser.get_format_instructions()}")
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 chain = json_prompt | llm | json_parser
 

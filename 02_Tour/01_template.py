@@ -2,7 +2,7 @@ from langchain.prompts import PromptTemplate
 from langchain_google_genai import GoogleGenerativeAI
 import readline
 
-llm = GoogleGenerativeAI(model="gemini-pro")
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 prompt_template = """Classify the following e-mail snippet as either Malicious or Benign.
 Some examples include:
