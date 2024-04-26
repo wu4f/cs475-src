@@ -40,6 +40,7 @@ tools.extend([vector_db_query])
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
 prompt = base_prompt.partial(instructions="Answer the user's request utilizing at most 8 tool calls")
+prompt.pretty_print()
 
 agent = create_react_agent(llm,tools,prompt)
 
