@@ -18,3 +18,4 @@ wikipedia
 asyncio
 scikit-learn
 unstructured
+validators
