@@ -9,25 +9,23 @@ import readline
 #llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 llm = GoogleGenerativeAI(model="gemini-pro",temperature=0)
 
-def summarize_file(file):
+def summarize(path):
     loader = GenericLoader.from_filesystem(
-            file,
+            path,
             glob="*",
             suffixes=[".py"],
             parser=LanguageParser(),
     )
     docs = loader.load()
     prompt1 = PromptTemplate.from_template("Summarize this Python code: {text}")
-    output_parser = StrOutputParser()
 
     chain = (
       {"text": RunnablePassthrough()} 
       | prompt1
       | llm
-      | output_parser
+      | StrOutputParser()
     )
     output = "\n".join([d.page_content for d in docs])
-
     result = chain.invoke(output)
     return(result)
 
@@ -37,10 +35,10 @@ while True:
     try:
         line = input("llm>> ")
         if line:
-            result = summarize_file(line)
+            result = summarize(line)
             print(result)
         else:
             break
-    except Error as e:
+    except Exception as e:
         print(e)
         break
