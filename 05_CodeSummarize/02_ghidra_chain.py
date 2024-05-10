@@ -1,7 +1,6 @@
 from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent
 import uuid
 import subprocess
 from langchain_core.runnables import RunnablePassthrough
@@ -9,11 +8,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
-
-# Just make a chain here, although an agent would add more flexibility
-
 # Add unique identifier to Ghidra project so conflicts don't occur
-
 new_uuid = uuid.uuid4()
 
 project_dir = "./src/ghidra_example/ghidra_project"  # The directory for the project
@@ -45,16 +40,13 @@ def analyze_code():
     """)
 
     # Use a bash command here to run analyzeHeadless
-
     ghidra_result = subprocess.run(command, text=True, capture_output=True)
     ghidra_result = ghidra_result.stdout.split("Decompiled_Main")[1]
 
     # Get rid of the extraneous information
-
     # ghidra_result = ghidra_result.split("Decompiled_Main:")[1]
 
     # Send output of analyzeHeadless to chain
-
     chain = (
     {"code": RunnablePassthrough()}
     | prompt1
@@ -65,14 +57,7 @@ def analyze_code():
     llm_result = chain.invoke(ghidra_result)
 
     print(f"The result for ghidra is:\n {ghidra_result}")
-
     print(f"The result from LLM is: \n\n {llm_result}")
 
 if __name__ == "__main__":
     analyze_code()
-
-
-
-
-
-
