@@ -7,7 +7,7 @@ llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 tools = load_tools(["terminal"], llm=llm, allow_dangerous_tools=True)
 base_prompt = hub.pull("langchain-ai/react-agent-template")
-prompt = base_prompt.partial(instructions="Answer the user's request by running Linux, gcloud, and terraform commands via the Terminal tool.")
+prompt = base_prompt.partial(instructions="Answer the user's request by running Linux commands via the Terminal tool.")
 agent = create_react_agent(llm,tools,prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
