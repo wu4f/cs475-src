@@ -1,13 +1,21 @@
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent, load_tools
 import readline
+import sys
 
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+llm = GoogleGenerativeAI(
+    model="gemini-1.5-pro-latest",
+    temperature=0,
+    safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }
+    )
 
 tools = load_tools(["terminal"], llm=llm, allow_dangerous_tools=True)
 base_prompt = hub.pull("langchain-ai/react-agent-template")
-prompt = base_prompt.partial(instructions="Answer the user's request by running Linux, gcloud, and terraform commands via the Terminal tool.")
+
+instructions = sys.argv[1]
+
+prompt = base_prompt.partial(instructions=instructions)
 agent = create_react_agent(llm,tools,prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
