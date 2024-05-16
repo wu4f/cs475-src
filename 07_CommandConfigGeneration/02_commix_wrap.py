@@ -32,7 +32,7 @@ def read_output(proc):
 
 def open_shell_with_command(command_string):
     # Start the command with pexpect
-    command_string += """ --output-dir="commix_output" """
+    command_string += """ --output-dir="./data" """
     proc = pexpect.spawn(command_string)
 
     # Start a separate thread to read the output from the process
