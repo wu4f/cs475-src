@@ -6,8 +6,10 @@ from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain.tools import tool
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import readline
+import validators
 
-RAPID_API_KEY = os.getenv("RAPID_API_KEY")
+# Get VT credentials from environment variable
+VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 
 # Define the LLM
 llm = GoogleGenerativeAI(
@@ -19,39 +21,37 @@ llm = GoogleGenerativeAI(
 )
 
 @tool
-def domain_search(domain):
-    """Find information about a particular domain.  Takes one domain name as a parameter"""
-    url = "https://mailcheck.p.rapidapi.com/"
-    querystring = {"domain": domain}
-    headers = {
-	"X-RapidAPI-Key": RAPID_API_KEY,
-	"X-RapidAPI-Host": "mailcheck.p.rapidapi.com"
-    }
-    response = requests.get(url, headers=headers, params=querystring)
-    print(response.text)
-    if response.status_code == 200:
-        return response.json()
-
-@tool
-def email_is_spammer(address):
-    """Find whether or not an e-mail address has been involved in sending spam.  Takes one e-mail address as a parameter and returns true if it is from a spammer, false otherwise."""
-    url = f"http://api.eva.pingutil.com/email?email={address}"
+def ip_loc(address):
+    """Find geographic location on an IP address.  Takes one IP address as a paramater such as 208.91.197.27"""
+    url = f"http://ipwho.is/{address}"
     response = requests.get(url)
     print(response.text)
     if response.status_code == 200:
         return response.json()
 
 @tool
-def email_disposable(address):
-    """Find whether or not an e-mail address is disposable or temporary.  Takes one e-mail address as a parameter and returns true if it is disposable, false otherwise."""
-    url = f"https://open.kickbox.com/v1/disposable/{address}"
-    response = requests.get(url)
-    print(response.text)
+def ip_report(address):
+    """Lookup VirusTotal for a report on an IP address.  Takes one IP address as a paramater such as 208.91.197.27"""
+    url = f"https://www.virustotal.com/api/v3/ip_addresses/{address}"
+    headers = {"x-apikey": VIRUSTOTAL_API_KEY}
+    response = requests.get(url, headers=headers)
     if response.status_code == 200:
+        return response.json()
+
+@tool
+def url_report(url):
+    """Lookup VirusTotal for a report on a URL.  Takes one URL as a parameter such as https://www.google.com"""
+    url = f"https://www.virustotal.com/api/v3/urls"
+    headers = {"x-apikey": VIRUSTOTAL_API_KEY}
+    response = requests.post(url, headers=headers, data={"url":url})
+    if response.status_code == 200:
+        response_dict = response.json()
+        link = response_dict['data']['links']['self']
+        response = requests.get(link, headers=headers)
         return response.json()
 
 # Integrate the tools with the LLM
-tools = [email_disposable, email_is_spammer, domain_search]
+tools = [ip_loc, ip_report, url_report]
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
 prompt = base_prompt.partial(instructions="Answer the user's request utilizing at most 8 tool calls")
