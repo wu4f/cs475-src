@@ -32,7 +32,7 @@ class CVE_ID(BaseModel):
 
 @tool("cve_by_id", args_schema=CVE_ID, return_direct=False)
 def cve_by_id(cve_id):
-    """Lookup OpenCVE for the details of a CVE given its ID such as CVE-2022-1234"""
+    """(CHANGE ME) Lookup OpenCVE for the details of a CVE given its ID such as CVE-2022-1234"""
     url = f'https://www.opencve.io/api/cve/{cve_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:

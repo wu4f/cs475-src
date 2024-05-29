@@ -1,8 +1,8 @@
 import os
+import subprocess
 import requests
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain import hub
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain.tools import tool
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import readline
@@ -20,16 +20,15 @@ llm = GoogleGenerativeAI(
 
 @tool
 def cert_domain_search(domain):
-    """Find certificate registration information about a particular email domain.  Takes one domain name as a parameter"""
+    """(CHANGE ME) Find information about a particular domain.  Takes one domain name as a parameter"""
     url = f"""https://crt.sh/?Identity={domain}&output=json"""
     response = requests.get(url)
-    print(response.text)
     if response.status_code == 200:
         return response.json()
 
 @tool
 def email_domain_search(domain):
-    """Find information about a particular email domain.  Takes one domain name as a parameter"""
+    """(CHANGE ME) Find information about a particular domain.  Takes one domain name as a parameter"""
     url = "https://mailcheck.p.rapidapi.com/"
     querystring = {"domain": domain}
     headers = {
@@ -37,13 +36,18 @@ def email_domain_search(domain):
 	"X-RapidAPI-Host": "mailcheck.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers, params=querystring)
-    print(response.text)
     if response.status_code == 200:
         return response.json()
 
+@tool
+def whois_domain_search(domain):
+    """(CHANGE ME) Find information about a particular domain.  Takes one domain name as a parameter"""
+    result = subprocess.run(['whois',domain], capture_output=True, text=True, check=True)
+    if result:
+        return result 
 
 # Integrate the tools with the LLM
-tools = [email_domain_search, cert_domain_search]
+tools = [email_domain_search, cert_domain_search, whois_domain_search]
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
 prompt = base_prompt.partial(instructions="Answer the user's request utilizing at most 8 tool calls")
