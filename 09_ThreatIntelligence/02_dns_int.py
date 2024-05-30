@@ -20,7 +20,7 @@ llm = GoogleGenerativeAI(
 
 @tool
 def cert_domain_search(domain):
-    """(CHANGE ME) Find information about a particular domain.  Takes one domain name as a parameter"""
+    """(CHANGE ME)"""
     url = f"""https://crt.sh/?Identity={domain}&output=json"""
     response = requests.get(url)
     if response.status_code == 200:
@@ -28,7 +28,7 @@ def cert_domain_search(domain):
 
 @tool
 def email_domain_search(domain):
-    """(CHANGE ME) Find information about a particular domain.  Takes one domain name as a parameter"""
+    """(CHANGE ME)"""
     url = "https://mailcheck.p.rapidapi.com/"
     querystring = {"domain": domain}
     headers = {
@@ -41,7 +41,7 @@ def email_domain_search(domain):
 
 @tool
 def whois_domain_search(domain):
-    """(CHANGE ME) Find information about a particular domain.  Takes one domain name as a parameter"""
+    """(CHANGE ME)"""
     result = subprocess.run(['whois',domain], capture_output=True, text=True, check=True)
     if result:
         return result 
@@ -69,4 +69,3 @@ while True:
             break
     except Exception as e:
         print(e)
-

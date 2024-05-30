@@ -32,7 +32,7 @@ class CVE_ID(BaseModel):
 
 @tool("cve_by_id", args_schema=CVE_ID, return_direct=False)
 def cve_by_id(cve_id):
-    """(CHANGE ME) Lookup OpenCVE for the details of a CVE given its ID such as CVE-2022-1234"""
+    """(CHANGE ME)"""
     url = f'https://www.opencve.io/api/cve/{cve_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:
@@ -49,7 +49,7 @@ class CWE_ID(BaseModel):
     
 @tool("cwe_by_id", args_schema=CWE_ID, return_direct=False)
 def cwe_by_id(cwe_id):
-    """Lookup OpenCVE for the details of a CWE given its ID such as CWE-123"""
+    """(CHANGE ME)"""
     url = f'https://www.opencve.io/api/cwe/{cwe_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:

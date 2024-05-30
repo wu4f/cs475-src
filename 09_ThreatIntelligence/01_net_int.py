@@ -20,7 +20,7 @@ llm = GoogleGenerativeAI(
 
 @tool
 def ip_loc(address):
-    """(CHANGE ME) Lookup ipwhois for an IP address. Takes one IP address as a paramater such as 208.91.197.27"""
+    """(CHANGE ME)"""
     url = f"http://ipwho.is/{address}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -28,7 +28,7 @@ def ip_loc(address):
 
 @tool
 def ip_report(address):
-    """(CHANGE ME) Lookup VirusTotal for an IP address.  Takes one IP address as a paramater such as 208.91.197.27"""
+    """(CHANGE ME)"""
     url = f"https://www.virustotal.com/api/v3/ip_addresses/{address}"
     headers = {"x-apikey": VIRUSTOTAL_API_KEY}
     response = requests.get(url, headers=headers)
@@ -58,4 +58,3 @@ while True:
             break
     except Exception as e:
         print(e)
-

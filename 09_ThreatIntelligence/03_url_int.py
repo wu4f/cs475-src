@@ -22,7 +22,7 @@ llm = GoogleGenerativeAI(
 
 @tool
 def safebrowsing_url_report(url):
-    """(CHANGE ME) Lookup SafeBrowsing API for a report on a URL.  Takes one URL as a parameter such as https://www.google.com"""
+    """(CHANGE ME)"""
     api_url = "https://safebrowsing.googleapis.com/v4/threatMatches:find"
     payload = {
         "client": {
@@ -38,7 +38,6 @@ def safebrowsing_url_report(url):
             ]
         }
     }
-
     headers = {
         'Content-Type': 'application/json'
     }
@@ -47,7 +46,7 @@ def safebrowsing_url_report(url):
 
 @tool
 def virustotal_url_report(url):
-    """(CHANGE ME) Lookup VirusTotal for a report on a URL.  Takes one URL as a parameter such as https://www.google.com"""
+    """(CHANGE ME)"""
     api_url = f"https://www.virustotal.com/api/v3/urls"
     headers = {"x-apikey": VIRUSTOTAL_API_KEY}
     response = requests.post(api_url, headers=headers, data={"url":url})
@@ -59,7 +58,7 @@ def virustotal_url_report(url):
 
 @tool
 def phishtank_url_report(url):
-    """(CHANGE ME) Lookup PhishTank for a report on whether a URL is a phishing site.  Takes one URL as a parameter such as https://www.google.com."""
+    """(CHANGE ME)"""
     api_url = f"https://checkurl.phishtank.com/checkurl/"
     payload = { 
                  "format" : "json",
@@ -92,4 +91,3 @@ while True:
             break
     except Exception as e:
         print(e)
-

@@ -19,7 +19,7 @@ llm = GoogleGenerativeAI(
 
 @tool
 def oop_spam_search(content):
-    """(CHANGE ME) Determine if content is spam.  Takes content of an email as a parameter and returns ..."""
+    """(CHANGE ME)"""
     url = "https://oopspam.p.rapidapi.com/v1/spamdetection"
 
     payload = {
@@ -37,7 +37,7 @@ def oop_spam_search(content):
 
 @tool
 def email_is_spammer(address):
-    """(CHANGE ME) Determine if e-mail address is a spammer's.  Takes an e-mail address as a parameter and returns ..."""
+    """(CHANGE ME)"""
     url = f"http://api.eva.pingutil.com/email?email={address}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -66,4 +66,3 @@ while True:
             break
     except Exception as e:
         print(e)
-
