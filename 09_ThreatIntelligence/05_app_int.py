@@ -40,7 +40,13 @@ def cve_by_id(cve_id):
 
 class CWE_ID(BaseModel):
     cwe_id: str = Field(description="Should be a CWE ID such as CWE-123")
-
+    @root_validator
+    def is_valid_cwe_id(cls, values: dict[str,any]) -> str:
+        cwe_pattern = re.compile(r'^CWE-\d{1,4}$')
+        if cwe_pattern.match(values.get("cwe_id")):
+            return values
+        raise ValueError("Malformed CWE ID")
+    
 @tool("cwe_by_id", args_schema=CWE_ID, return_direct=False)
 def cwe_by_id(cwe_id):
     """Lookup OpenCVE for the details of a CWE given its ID such as CWE-123"""
