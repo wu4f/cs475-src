@@ -28,8 +28,6 @@ chain = load_qa_chain(llm, chain_type="stuff")
 
 def perform_query(retriever, chain, query):
     relevant_docs = retriever.get_relevant_documents(query)
-    for d in relevant_docs:
-        print(d.page_content)
     results = chain.invoke({'input_documents':relevant_docs, 'question':query})
     return(results['output_text'])
 
