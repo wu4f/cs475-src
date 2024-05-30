@@ -5,12 +5,13 @@ from langchain import hub
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import Tool
 from langchain.agents import AgentExecutor, create_react_agent
-import nest_asyncio
+#import nest_asyncio
 import os
+import json
 import readline
 
 # May solve errors from async_io calls in langchain library
-nest_asyncio.apply()
+#nest_asyncio.apply()
 
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0.05)
 
@@ -25,16 +26,13 @@ class TIVTLookup:
     def ip_info(self, ip_address: str) -> str:
         result = self.ti_lookup.lookup_ioc(observable=ip_address, ioc_type="ipv4", providers=["VirusTotal"])
         details = result.at[0, 'RawResult']
-        sliced_details = str(details)[:3500]
-        return sliced_details
-
-    def communicating_samples(self, ip_address: str) -> str:
-        domain_relation = vt_lookup.lookup_ioc_relationships(observable = ip_address, vt_type = 'ip_address', relationship = 'communicating_files', limit = "10")
-        return domain_relation
+        comm_samples = details['detected_communicating_samples']
+        return json.dumps(comm_samples)
 
     def samples_identification(self, hash: str) -> str:
-        hash_details = vt_lookup.get_object(hash, "file")
-        return hash_details
+        result = vt_lookup.get_object(hash, "file")
+        json_result = result.to_json(orient='records')
+        return json_result
 
 ti_tool = TIVTLookup()
 
@@ -42,21 +40,17 @@ tools = [
     Tool(
         name="Retrieve_IP_Info",
         func=ti_tool.ip_info,
-        description="Useful when you need to look up threat intelligence information for an IP address.",
+        description="(CHANGE ME)",
     ),
     Tool(
-        name="Retrieve_Communicating_Samples",
-        func=ti_tool.communicating_samples,
-        description="Useful when you need to get communicating samples from an ip or domain.",
-    ),
-    Tool(
-        name="Retrieve_Sample_information",
+        name="Retrieve_hash_information",
         func=ti_tool.samples_identification,
-        description="Useful when you need to obtain more details about a sample.",
+        description="(CHANGE ME)",
     ),
 ]
 
-prompt = hub.pull("hwchase17/react")
+base_prompt = hub.pull("langchain-ai/react-agent-template")
+prompt = base_prompt.partial(instructions="Answer the user's request utilizing at most 5 tool calls")
 
 agent = create_react_agent(llm,tools,prompt)
 
