@@ -3,9 +3,6 @@ from langchain_google_genai import GoogleGenerativeAI, GoogleGenerativeAIEmbeddi
 import chromadb
 import os
 import readline
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # Define embedding function
 embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
@@ -25,11 +22,14 @@ retriever = db.as_retriever(search_kwargs={"k":10})
 
 # Instantiate LLM and QA chain
 from langchain.chains.question_answering import load_qa_chain
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest")
+#llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest")
+llm = GoogleGenerativeAI(model="gemini-pro")
 chain = load_qa_chain(llm, chain_type="stuff")
 
 def perform_query(retriever, chain, query):
     relevant_docs = retriever.get_relevant_documents(query)
+    for d in relevant_docs:
+        print(d.page_content)
     results = chain.invoke({'input_documents':relevant_docs, 'question':query})
     return(results['output_text'])
 
