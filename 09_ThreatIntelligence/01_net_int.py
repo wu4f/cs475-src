@@ -4,7 +4,7 @@ from langchain.agents import AgentExecutor, create_react_agent
 from langchain import hub
 from langchain.tools import tool
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-# import readline
+import readline
 
 # Get VT credentials from environment variable
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")

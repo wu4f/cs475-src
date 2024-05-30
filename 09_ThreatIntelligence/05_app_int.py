@@ -5,6 +5,7 @@ from langchain import hub
 from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain.tools import tool
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+import readline
 
 # Set up OpenCVE credentials from environment variables
 OPENCVE_USERNAME = os.getenv('OPENCVE_API_USERNAME')
