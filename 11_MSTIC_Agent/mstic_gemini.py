@@ -7,6 +7,7 @@ from langchain.agents import Tool
 from langchain.agents import AgentExecutor, create_react_agent
 import nest_asyncio
 import os
+import readline
 
 # May solve errors from async_io calls in langchain library
 nest_asyncio.apply()
