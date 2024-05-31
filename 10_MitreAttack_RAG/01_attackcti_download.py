@@ -12,7 +12,7 @@ from jinja2 import Template
 current_directory = f"{os.path.dirname(__file__)}/mitre_rag_data/"
 documents_directory = os.path.join(current_directory, "documents")
 if not os.path.exists(documents_directory):
-    os.makedirs(directory)
+    os.makedirs(documents_directory)
 
 lift = attack_client()
 techniques_used_by_groups = lift.get_techniques_used_by_all_groups()
