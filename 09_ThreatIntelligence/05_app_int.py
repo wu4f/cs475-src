@@ -42,7 +42,7 @@ class CWE_ID(BaseModel):
     cwe_id: str = Field(description="Should be a CWE ID such as CWE-123")
     @root_validator
     def is_valid_cwe_id(cls, values: dict[str,any]) -> str:
-        cwe_pattern = re.compile(r'^CWE-\d{1,4}$')
+        cwe_pattern = re.compile(r'^CWE-\d{1,}$')
         if cwe_pattern.match(values.get("cwe_id")):
             return values
         raise ValueError("Malformed CWE ID")
