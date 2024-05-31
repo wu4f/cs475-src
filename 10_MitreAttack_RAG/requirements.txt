@@ -1,6 +1,6 @@
 langchain
 langchain-community
-langchain_google_genai
+langchain_google_genai==1.0.1
 chromadb
 attackcti
 Jinja2
