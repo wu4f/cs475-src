@@ -3,7 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 import readline
 
 #llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro",temperature=0)
 
 def query_llm(llm, query, image_url):
   message = HumanMessage(
