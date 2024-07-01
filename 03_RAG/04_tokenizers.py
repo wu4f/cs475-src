@@ -23,40 +23,10 @@ def print_tokens(tokens):
      print(f"[{count}]{token} ",end="")
   print()
 
+print("Enter a text query to see how it is tokenized")
 while True:
     line = input(">> ")
     if line:
         tokenize_compare(line)
     else:
         break
-print(f"\n----------Enter a query to estimate the cost of querying gemini-1.5-pro----------")
-
-completion_llm=GoogleGenerativeAI(model="gemini-1.5-pro")
-
-def calculate_completion_cost(query, input_cost, output_cost):
-    prompt_tokens = completion_llm.get_num_tokens(query)
-    response = completion_llm.invoke(query)
-    output_tokens = completion_llm.get_num_tokens(response)
-    total_cost= prompt_tokens * input_cost + output_tokens * output_cost
-    print(f"-----This is the ouput-----\n {response}")
-    print(f"-----Token estimation and cost calculation-----")
-    print(f"The number of input tokens: {prompt_tokens} and the number of output tokens: {output_tokens}")
-    print(f"The rate for input tokens: {input_cost}/token and the rate for output tokens: {output_cost}/token")
-    print(f"Total cost is: {total_cost}")
-
-#Cost per million tokens
-GEMINI_15_INPUT = 3.5
-
-GEMINI_15_OUTPUT = 10.5
-
-#cost per token
-per_token_input=GEMINI_15_INPUT/1000000
-per_token_output=GEMINI_15_OUTPUT/1000000
-
-while True:
-    line = input(">> ")
-    if line:
-        calculate_completion_cost(line, per_token_input, per_token_output)
-    else:
-        break
-
