@@ -1,11 +1,11 @@
 bs4
 langchain
 langchain-community
+langchain-chroma
 langchain_google_genai
 grpcio
 langchain-experimental
 langchainhub
-chromadb
 pypdf
 docx2txt
 markdown
