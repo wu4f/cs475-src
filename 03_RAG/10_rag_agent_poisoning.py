@@ -1,5 +1,5 @@
 from langchain import hub
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.agents import AgentExecutor, create_react_agent, load_tools
 from langchain.tools import tool
 from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
@@ -7,6 +7,8 @@ from langchain_google_genai import GoogleGenerativeAI,GoogleGenerativeAIEmbeddin
 import validators
 import readline
 import os
+#import langchain
+#langchain.debug = True
 
 llm = GoogleGenerativeAI( model="gemini-pro", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, })
 
@@ -39,7 +41,9 @@ tools = load_tools(["terminal"], allow_dangerous_tools=True)
 tools.extend([vector_db_query])
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
+#base_prompt.pretty_print()
 prompt = base_prompt.partial(instructions="Answer the user's request utilizing at most 8 tool calls")
+#prompt.pretty_print()
 
 agent = create_react_agent(llm,tools,prompt)
 
