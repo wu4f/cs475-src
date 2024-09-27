@@ -4,3 +4,4 @@ grpcio
 langchain
 huggingface_hub
 langchain_openai
+langchain-anthropic
