@@ -1,5 +1,5 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader, WikipediaLoader, ArxivLoader, CSVLoader
+from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader, WikipediaLoader, ArxivLoader, CSVLoader, GithubFileLoader
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import readline
@@ -24,6 +24,18 @@ def load_arxiv(query):
     docs = ArxivLoader(query=query, load_max_docs=1).load()
     docs[0].metadata['source'] = f"arxiv:{query}"
     load_docs(docs)
+
+def load_github(file):
+    loader = GithubFileLoader(
+    repo="wu4f/cs410g-src",  # the repo name
+    branch="main",  # the branch name
+    github_api_url="https://api.github.com",
+    file_filter=lambda file_path: file_path.endswith(
+        file
+    ),  # any file in the repo that ends with file 
+    )
+    documents = loader.load() 
+    load_docs(documents)
 
 def load_txt(directory):
     load_docs(DirectoryLoader(directory, glob="**/*.txt", loader_cls=TextLoader).load())
@@ -51,6 +63,10 @@ load_wikipedia(wiki_query)
 arxiv_query = "2310.03714"
 print(f"Loading arxiv document: {arxiv_query}")
 load_arxiv(arxiv_query)
+
+github_file = "butcher.py"
+print(f"Loading github file(s) with ending: {github_file}")
+load_github(github_file)
 
 text_directory = "rag_data/txt"
 print(f"Loading TXT files from: {text_directory}")
