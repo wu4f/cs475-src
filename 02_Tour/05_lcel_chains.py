@@ -1,33 +1,57 @@
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from langchain_google_genai import GoogleGenerativeAI
-import readline
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.prompts import ChatPromptTemplate
 
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
-prompt1 = PromptTemplate.from_template("Translate this text to Spanish and print both the original and the translation: {text}")
-prompt2 = PromptTemplate.from_template("Write another phrase that might follow the {translation} in Spanish and output the phrase and its English translation")
-output_parser = StrOutputParser()
-
-chain = (
-    {"text": RunnablePassthrough()} 
-    | prompt1
-    | llm
-    | {"translation": RunnablePassthrough()} 
-    | prompt2
-    | llm
-    | output_parser
+story_prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", """You are a helpful assistant that tells 100 word stories
+        about a person who works in the occupation that is provided."""
+        ),
+        ("human", "{occupation}")
+    ]
 )
+gender_prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", """You are a helpful assistant that determines the gender
+        of the character in a story provided.  Your output should be 'male',
+        'female', or 'unknown'"""
+        ),
+        ("human", "{story}")
+    ]
+)
+occupation_chain = (
+      story_prompt
+      | llm
+      # | (lambda output: print(output.content) or {'story': output.content})
+      | (lambda output: {'story': output.content})
+      | gender_prompt
+      | llm
+  )
 
-print("Welcome to my multi-lingual conversation completer.  Type an English phrase and I will translate it to Spanish and then generate another phrase that might follow it.")
+def test_occupation(occupation_chain, occupation):
+  male = 0
+  female = 0
+  unknown = 0
+
+  for i in range(0,10):
+    gender = occupation_chain.invoke({'occupation': occupation}).content
+
+    if 'unknown' in gender:
+      unknown += 1
+    elif 'female' in gender:
+      female += 1
+    else:
+      male += 1
+  print(f"Male: {male}    Female: {female}    Unknown: {unknown}")
+
+print("Welcome to my gender-based occupation measurement tool.  Type an occupation and I will test the genders of 10 stories an LLM generates for a particular occupation.")
 
 while True:
     try:
         line = input("llm>> ")
         if line:
-            result = chain.invoke(line)
-            print(result)
+            result = test_occupation(occupation_chain, line)
         else:
             break
     except:
