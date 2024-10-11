@@ -1,6 +1,6 @@
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 from langchain.agents import create_react_agent, AgentExecutor
-from langchain_community.agent_toolkits import NLAToolkit, OpenAPIToolkit
+from langchain_community.agent_toolkits import NLAToolkit
 from langchain import hub
 import readline
 import os
