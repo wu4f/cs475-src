@@ -11,3 +11,5 @@ dnspython
 validators
 numexpr
 openapi-pydantic
+langgraph
+httpx
