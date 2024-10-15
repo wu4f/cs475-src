@@ -1,5 +1,5 @@
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-from langgraph.graph import Graph, END
+from langgraph.graph import Graph, END, START
 import readline
 import os
 
@@ -16,27 +16,25 @@ def user_check_node(linux_command):
     user_ack = input("Should I execute this command? ")
     response = llm.invoke(f"""The following is the response the user gave to 'Should I execute this command?': {user_ack} \n\n  If the answer given is a negative one, return NO else return YES""")
     if 'YES' in response:
-        return(linux_command)
+        return('linux_node')
     else:
         return(END)
     
 def linux_node(linux_command):
     result = os.system(linux_command)
-    return result
+    return(END)
 
 # Define graph
 
 workflow = Graph()
-
 workflow.add_node("linux_command_node", linux_command_node)
-workflow.add_node("user_check_node", user_check_node)
 workflow.add_node("linux_node", linux_node)
-workflow.add_edge('linux_command_node', 'user_check_node')
-workflow.add_edge('user_check_node','linux_node')
 
-workflow.set_entry_point("linux_command_node")
-workflow.set_finish_point("linux_node")
-
+workflow.add_edge(START, "linux_command_node")
+workflow.add_conditional_edges(
+    'linux_command_node', user_check_node
+)
+workflow.add_edge('linux_node',END)
 app = workflow.compile()
 
 while True:
