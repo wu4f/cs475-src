@@ -39,7 +39,7 @@ def human_review_node(state: MessagesState):
 # Use prebuilt tool node component
 tool_node = ToolNode(tools)
 
-def route_after_agent(state: MessagesState) -> Literal["human_review_node", END]:
+def route_after_call(state: MessagesState) -> Literal["human_review_node", END]:
     messages = state['messages']
     last_message = messages[-1]
     # If the LLM makes a tool call, then we route to the "tools" node
@@ -48,7 +48,7 @@ def route_after_agent(state: MessagesState) -> Literal["human_review_node", END]
     # Otherwise, we stop (reply to the user)
     return END
 
-def route_after_human(state: MessagesState) -> Literal["tools", "agent"]:
+def route_after_human(state: MessagesState) -> Literal["tools", "call"]:
   messages = state['messages']
   last_message = messages[-1]
   # If the last message in the state is still a tool call after the interupt
@@ -56,7 +56,7 @@ def route_after_human(state: MessagesState) -> Literal["tools", "agent"]:
   if isinstance(state["messages"][-1], AIMessage):
     return "tools"
   else:
-    return "agent"
+    return "call"
   
 def get_feedback(graph, thread):
   state = graph.get_state(thread)
@@ -90,20 +90,20 @@ def get_feedback(graph, thread):
   
 workflow = StateGraph(MessagesState)
 # Define the nodes
-workflow.add_node("agent", call_model)
+workflow.add_node("call", call_model)
 workflow.add_node("human_review_node", human_review_node)
 workflow.add_node("tools", tool_node)
 
-# Set the entrypoint as `agent`
+# Set the entrypoint as `call`
 # This means that this node is the first one called
-workflow.set_entry_point("agent")
+workflow.set_entry_point("call")
 # We now add a conditional edge
 workflow.add_conditional_edges(
-    # First, we define the start node. We use `agent`.
-    # This means these are the edges taken after the `agent` node is called.
-    "agent",
+    # First, we define the start node. We use `call`.
+    # This means these are the edges taken after the `call` node is called.
+    "call",
     # Next, we pass in the function that will determine which node is called next.
-    route_after_agent
+    route_after_call
 )
 
 workflow.add_conditional_edges(
@@ -111,9 +111,9 @@ workflow.add_conditional_edges(
     route_after_human
 )
 
-# We now add a normal edge from `tools` to `agent`.
-# This means that after `tools` is called, `agent` node is called next.
-workflow.add_edge("tools", 'agent')
+# We now add a normal edge from `tools` to `call`.
+# This means that after `tools` is called, `call` node is called next.
+workflow.add_edge("tools", 'call')
 
 app = workflow.compile(checkpointer=checkpointer, interrupt_before=["human_review_node"])
 thread = {"configurable": {"thread_id": "14"}}
