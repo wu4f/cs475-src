@@ -11,7 +11,7 @@ def linux_command_node(user_input):
         f"""Given the user's prompt, you are to generate a Linux command to answer it. Provide no other formatting, just the command. \n\n  User prompt: {user_input}""")
     return(response)
 
-def user_check_node(linux_command):
+def user_check(linux_command):
     print(f"Linux command is: {linux_command}")
     user_ack = input("Should I execute this command? ")
     response = llm.invoke(f"""The following is the response the user gave to 'Should I execute this command?': {user_ack} \n\n  If the answer given is a negative one, return NO else return YES""")
@@ -32,7 +32,7 @@ workflow.add_node("linux_node", linux_node)
 
 workflow.add_edge(START, "linux_command_node")
 workflow.add_conditional_edges(
-    'linux_command_node', user_check_node
+    'linux_command_node', user_check
 )
 workflow.add_edge('linux_node',END)
 app = workflow.compile()
