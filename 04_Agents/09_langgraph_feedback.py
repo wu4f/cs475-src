@@ -6,26 +6,36 @@ from langchain_core.tools import Tool
 from langchain_experimental.utilities import PythonREPL
 from langchain_experimental.tools import PythonREPLTool
 from langgraph.prebuilt import ToolNode
-from langchain_community.tools import ShellTool
 from langchain_core.messages import HumanMessage
 from langgraph.graph import END, StateGraph, MessagesState
 from langchain_anthropic import ChatAnthropic
 import readline
 import os
+import subprocess
 from langgraph.checkpoint.memory import MemorySaver
+from langchain_core.tools import tool
+
+@tool
+def execute_command(command: str) -> str:
+    """Executes a command-line command and returns the output."""
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        return result.stdout
+    else:
+        return f"Error: {result.stderr}"
 
 #Used to persist memory between graph runs
 checkpointer = MemorySaver()
 
 
-shell_tool = ShellTool()
-
 # Create a python repl tool
 python_repl = PythonREPLTool()
-tools = [python_repl, shell_tool]
+# tools = [python_repl, shell_tool]
 
-model = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0).bind_tools(tools)
-# model = ChatGoogleGenerativeAI( model="gemini-1.5-flash", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }).bind_tools(tools)
+tools = [execute_command, python_repl]
+
+# model = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0).bind_tools(tools)
+model = ChatGoogleGenerativeAI( model="gemini-1.5-flash", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }).bind_tools(tools)
 
 def call_model(state: MessagesState):
     messages = state['messages']
