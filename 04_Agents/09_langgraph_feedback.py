@@ -126,12 +126,12 @@ workflow.add_conditional_edges(
 workflow.add_edge("tools", 'call')
 
 app = workflow.compile(checkpointer=checkpointer, interrupt_before=["human_review_node"])
-thread = {"configurable": {"thread_id": "14"}}
+thread = {"configurable": {"thread_id": "1"}}
 
+print('This application implements a human-in-the-loop tool calling application using a Linux shell tool and a Python REPL tool.  Ask the application to perform a task and it will generate a command or code to complete it.  It will then ask you to either confirm execution of it or provide feedback to modify what was generated.  A blank line exits the program.')
 keep_going=True
 while keep_going:
-
-  user_input = input("User> ")
+  user_input = input(">> ")
   if not user_input:
     break
   inputs = [HumanMessage(content=user_input)]
