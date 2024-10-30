@@ -6,8 +6,8 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import readline
-#llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
-llm = GoogleGenerativeAI(model="gemini-pro",temperature=0)
+llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+#llm = GoogleGenerativeAI(model="gemini-1.5-flash",temperature=0)
 
 def summarize(path):
     loader = GenericLoader.from_filesystem(
