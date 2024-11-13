@@ -69,7 +69,7 @@ class Commix(BaseModel):
 def commix(command: str):
     """This tool is an implementation of Commix"""
     print(f"this is the command: {command}")
-    open_shell_with_command(command) 
+    open_shell_with_command(f'commix {command}') 
     return command
 
 
