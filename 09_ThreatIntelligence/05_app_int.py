@@ -6,6 +6,7 @@ from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain.tools import tool
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import re
+import readline
 
 # Set up OpenCVE credentials from environment variables
 OPENCVE_USERNAME = os.getenv('OPENCVE_API_USERNAME')
@@ -32,8 +33,8 @@ class CVE_ID(BaseModel):
 
 @tool("cve_by_id", args_schema=CVE_ID, return_direct=False)
 def cve_by_id(cve_id):
-    """(CHANGE ME)"""
-    url = f'https://www.opencve.io/api/cve/{cve_id}'
+    """Lookup CVE given its ID"""
+    url = f'https://app.opencve.io/api/cve/{cve_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:
         return response.json()
@@ -49,8 +50,8 @@ class CWE_ID(BaseModel):
     
 @tool("cwe_by_id", args_schema=CWE_ID, return_direct=False)
 def cwe_by_id(cwe_id):
-    """(CHANGE ME)"""
-    url = f'https://www.opencve.io/api/weaknesses/{cwe_id}'
+    """Lookup weaknesses and CWE given its ID"""
+    url = f'https://app.opencve.io/api/weaknesses/{cwe_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:
         return response.json()
