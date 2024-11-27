@@ -9,8 +9,8 @@ import re
 import readline
 
 # Set up OpenCVE credentials from environment variables
-OPENCVE_USERNAME = os.getenv('OPENCVE_API_USERNAME')
-OPENCVE_PASSWORD = os.getenv('OPENCVE_API_PASSWORD')
+OPENCVE_USERNAME = os.getenv('OPENCVE_USERNAME')
+OPENCVE_PASSWORD = os.getenv('OPENCVE_PASSWORD')
 
 # Define the LLM
 llm = GoogleGenerativeAI(
