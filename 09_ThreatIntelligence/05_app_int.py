@@ -50,7 +50,7 @@ class CWE_ID(BaseModel):
 @tool("cwe_by_id", args_schema=CWE_ID, return_direct=False)
 def cwe_by_id(cwe_id):
     """(CHANGE ME)"""
-    url = f'https://www.opencve.io/api/cwe/{cwe_id}'
+    url = f'https://www.opencve.io/api/weaknesses/{cwe_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:
         return response.json()
