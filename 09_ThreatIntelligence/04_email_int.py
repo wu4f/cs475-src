@@ -38,7 +38,7 @@ def oop_spam_search(content):
 @tool
 def email_is_spammer(address):
     """(CHANGE ME)"""
-    url = f"http://api.eva.pingutil.com/email?email={address}"
+    url = f"https://disify.com/api/email/{address}"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
