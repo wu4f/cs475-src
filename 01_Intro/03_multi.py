@@ -20,7 +20,7 @@ llms = [
     ChatAnthropic(model="claude-3-sonnet-20240229"),
 ]
 model_lab = ModelLaboratory.from_llms(llms)
-print("Welcome.  Type a prompt and I will query several LLMs to answer it.")
+print("Welcome.  Type a prompt and I will query several LLMs to answer it. A blank line exits.")
 
 while True:
     try:
