@@ -45,7 +45,7 @@ def test_occupation(occupation_chain, occupation):
       male += 1
   print(f"Male: {male}    Female: {female}    Unknown: {unknown}")
 
-print("Welcome to my gender-based occupation measurement tool.  Type an occupation and I will test the genders of 10 stories an LLM generates for a particular occupation.")
+print("Welcome to my gender-based occupation measurement tool.  Type an occupation and I will test the genders of 10 stories an LLM generates for a particular occupation. A blank line exits.")
 
 while True:
     try:
