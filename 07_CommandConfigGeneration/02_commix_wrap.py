@@ -1,8 +1,9 @@
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import BaseTool, StructuredTool, tool
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 import readline
 import subprocess
 import pexpect

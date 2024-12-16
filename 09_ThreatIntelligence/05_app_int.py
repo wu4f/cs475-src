@@ -2,7 +2,7 @@ import os
 import requests
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain import hub
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
+from pydantic import BaseModel, Field, model_validator
 from langchain.tools import tool
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import re
@@ -24,8 +24,8 @@ llm = GoogleGenerativeAI(
 # Define OpenCVE API tools
 class CVE_ID(BaseModel):
     cve_id: str = Field(description="Should be a CVE ID such as CVE-2022-1234")
-    @root_validator
-    def is_valid_cve_id(cls, values: dict[str,any]) -> str:
+    @model_validator(mode="before")
+    def is_valid_cve_id(cls, values: dict[str,any]) -> dict[str,any]:
         cve_pattern = re.compile(r'^CVE-\d{4}-\d{4,}$')
         if cve_pattern.match(values.get("cve_id")):
             return values
@@ -41,8 +41,8 @@ def cve_by_id(cve_id):
 
 class CWE_ID(BaseModel):
     cwe_id: str = Field(description="Should be a CWE ID such as CWE-123")
-    @root_validator
-    def is_valid_cwe_id(cls, values: dict[str,any]) -> str:
+    @model_validator(mode="before")
+    def is_valid_cwe_id(cls, values: dict[str,any]) -> dict[str,any]:
         cwe_pattern = re.compile(r'^CWE-\d{1,}$')
         if cwe_pattern.match(values.get("cwe_id")):
             return values

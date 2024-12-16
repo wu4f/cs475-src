@@ -1,7 +1,7 @@
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 from langchain.agents import AgentExecutor, create_sql_agent
 from langchain.tools import tool
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
+from pydantic import BaseModel, Field, model_validator
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
 import readline
@@ -11,8 +11,8 @@ import sys
 
 class FetchUsersPassInput(BaseModel):
     username: str = Field(description="Should be an alphanumeric string")
-    @root_validator
-    def is_alphanumeric(cls, values: dict[str,any]) -> str:
+    @model_validator(mode="before")
+    def is_alphanumeric(cls, values: dict[str,any]) -> dict[str,any]:
         if values.get("username").isalnum():
             return values
         raise ValueError("Malformed username")
