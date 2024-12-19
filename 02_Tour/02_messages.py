@@ -15,7 +15,7 @@ chat_template = ChatPromptTemplate.from_messages(
     ]
 )
 
-print("Welcome to my chat model spam detector.  Type an e-mail subject line and I will tell you if it is benign or malicious.  A blank line exits."
+print("Welcome to my chat model spam detector.  Type an e-mail subject line and I will tell you if it is benign or malicious.  A blank line exits.")
 while True:
     line = input("llm>> ")
     if line:

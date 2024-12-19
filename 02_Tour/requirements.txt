@@ -1,5 +1,5 @@
+langchain
+langchain_google_genai
+langchain_openai
 bs4
 requests
-langchain_google_genai
-langchain
-langchain_openai

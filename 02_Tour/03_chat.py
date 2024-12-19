@@ -16,7 +16,7 @@ prompt = ChatPromptTemplate(
     ]
 )
 
-chain = LLMChain(llm=llm, prompt=prompt, memory=memory)
+chain = LLMChain(llm=llm, prompt=prompt, memory=memory, verbose=True)
 
 print("Welcome to my chat application.  A blank line exits.")
 while True:
