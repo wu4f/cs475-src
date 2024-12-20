@@ -1,5 +1,7 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader, WikipediaLoader, ArxivLoader, CSVLoader, GithubFileLoader
+from langchain.schema import Document
+from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import readline
@@ -37,6 +39,12 @@ def load_github(file):
     documents = loader.load() 
     load_docs(documents)
 
+def load_youtube(video_id):
+    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+    text = ' '.join([entry['text'] for entry in transcript])
+    docs = [Document(page_content=text, metadata={'source': f'youtube:{video_id}'})]
+    load_docs(docs)
+
 def load_txt(directory):
     load_docs(DirectoryLoader(directory, glob="**/*.txt", loader_cls=TextLoader).load())
 
@@ -67,6 +75,10 @@ load_arxiv(arxiv_query)
 github_file = "butcher.py"
 print(f"Loading github file(s) with ending: {github_file}")
 load_github(github_file)
+
+youtube_video_id = "78600iosmis"
+print(f"Loading YouTube video: {youtube_video_id}")
+load_youtube(youtube_video_id)
 
 text_directory = "rag_data/txt"
 print(f"Loading TXT files from: {text_directory}")
