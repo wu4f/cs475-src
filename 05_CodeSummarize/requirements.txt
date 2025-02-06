@@ -1,5 +1,10 @@
 langchain
-langchain-community
+langchain_community
 langchain_google_genai
+langchain_anthropic
+langchain_openai
 unstructured
 langchainhub
+langchain_experimental
+rizaio
+r2pipe
