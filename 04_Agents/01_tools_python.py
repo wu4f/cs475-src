@@ -1,4 +1,4 @@
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_experimental.tools import PythonREPLTool
@@ -8,7 +8,7 @@ tools = [PythonREPLTool()]
 # For those wanting to use OpenAI:
 #  from langchain_openai import ChatOpenAI
 #  llm = ChatOpenAI(model_name="gpt-4-turbo")
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 instructions = """You are an agent designed to write and execute python code to
 answer questions.  You have access to a python REPL, which you can use to execute

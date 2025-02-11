@@ -1,7 +1,8 @@
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import tool
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
+from pydantic import BaseModel, Field, model_validator
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import dns.resolver, dns.reversename
 import validators
@@ -21,8 +22,8 @@ llm = GoogleGenerativeAI(
 
 class LookupNameInput(BaseModel):
     hostname: str = Field(description="Should be a hostname such as www.google.com")
-    @root_validator
-    def is_dns_address(cls, values: dict[str,any]) -> str:
+    @model_validator(mode="before")
+    def is_dns_address(cls, values: dict[str,any]) -> dict[str,any]:
         if validators.domain(values.get("hostname")):
             return values
         raise ValueError("Malformed hostname")
@@ -36,8 +37,8 @@ def lookup_name(hostname):
 
 class LookupIPInput(BaseModel):
     address: str = Field(description="Should be an IP address such as 208.91.197.27 or 143.95.239.83")
-    @root_validator
-    def is_ip_address(cls, values: dict[str,any]) -> str:
+    @model_validator(mode="before")
+    def is_ip_address(cls, values: dict[str,any]) -> dict[str,any]:
         if validators.ip_address.ipv4(values.get("address")):
             return values
         raise ValueError("Malformed IP address")

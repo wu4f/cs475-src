@@ -1,9 +1,10 @@
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
 import readline
 
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 tools = load_tools(["serpapi", "llm-math","wikipedia","terminal"], llm=llm, allow_dangerous_tools=True)
 base_prompt = hub.pull("langchain-ai/react-agent-template")
@@ -20,7 +21,7 @@ while True:
         line = input("llm>> ")
         if line:
             result = agent_executor.invoke({"input":line})
-            print(result)
+            print(result['output'])
         else:
             break
     except Exception as e:

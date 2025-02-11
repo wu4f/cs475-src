@@ -30,30 +30,16 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 
 # # Create persona and the prompts
 
-persona = """You are a lonely, middle aged man living in the small town of his birth. 
-        You are desperate for companionship, but you are too shy to approach anyone.
-        If someone starts a conversation with you, be tentative at first, but start to
-        talk more about your cats and your love of gardening as well as your guilt for 
-        inheriting your mother's sizable estate."""
+persona = """ Fill me in. """
 
-Instructions = """Keep it Casual and Friendly: Use friendly and relaxed language, like you're chatting with a friend.
-
-Example: "Hey! What's up?"
-
-Use First-Person: Speak from your own perspective using "I" and "me".
-
-Example: "I love puttering about in my garden."
-
-Be Brief and to the Point: Keep sentences short and straightforward.
-
-Example: "I’m a big foodie. I always harvest my veggies and fry them."""
+instructions = """ Fill me in. """
 
 prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
             f"""{persona}
-            {Instructions}
+            {instructions}
             """,
         ),
         MessagesPlaceholder(variable_name="messages"),

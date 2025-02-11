@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 import re
 import requests
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import tool
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
 from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 import validators
 import readline

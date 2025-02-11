@@ -1,16 +1,15 @@
-from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
-from langchain import hub
 import uuid
 import subprocess
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+from langchain_google_genai import GoogleGenerativeAI
+llm = GoogleGenerativeAI(model="gemini-1.5-flash",temperature=0)
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model="gpt-4o")
 
 # Add unique identifier to Ghidra project so conflicts don't occur
 new_uuid = uuid.uuid4()
-
 project_dir = "./src/ghidra_example/ghidra_project"  # The directory for the project
 project_name = f"GhidraProject{new_uuid}"  # The project name
 binary_path = "src/ghidra_example/asciiStrCmp"  # Path to the binary you want to import
@@ -48,10 +47,10 @@ def analyze_code():
 
     # Send output of analyzeHeadless to chain
     chain = (
-    {"code": RunnablePassthrough()}
-    | prompt1
-    | llm
-    | StrOutputParser()
+      {"code": RunnablePassthrough()}
+      | prompt1
+      | llm
+      | StrOutputParser()
     )
 
     llm_result = chain.invoke(ghidra_result)
