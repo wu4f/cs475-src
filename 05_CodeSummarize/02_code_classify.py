@@ -5,8 +5,6 @@ from langchain_community.document_loaders.parsers import LanguageParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain.agents import AgentType, create_tool_calling_agent
-from langchain.agents import tool
 from langchain_google_genai import GoogleGenerativeAI
 llm = GoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
 #from langchain_openai import ChatOpenAI
