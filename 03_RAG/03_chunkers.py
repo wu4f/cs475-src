@@ -1,11 +1,15 @@
-from langchain_google_genai import GoogleGenerativeAI
+import os
+import importlib
 from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-import importlib
-import time
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"),temperature=0)
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 module = importlib.import_module("01_loaders_transformers")
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 loader = AsyncHtmlLoader("https://pdx.edu/computer-science")
 docs = loader.load()
