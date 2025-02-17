@@ -1,10 +1,12 @@
+import os
+import readline
 from langchain import hub
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-from langchain_google_genai import GoogleGenerativeAI, GoogleGenerativeAIEmbeddings
-import readline
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 
 vectorstore = Chroma(
      persist_directory="./rag_data/.chromadb",
@@ -14,8 +16,6 @@ vectorstore = Chroma(
 retriever = vectorstore.as_retriever()
 
 prompt = hub.pull("rlm/rag-prompt")
-
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
