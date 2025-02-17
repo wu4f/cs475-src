@@ -1,12 +1,17 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.agent_toolkits.openapi.spec import reduce_openapi_spec
-from langchain_community.agent_toolkits.openapi import planner
-from langchain_community.utilities.requests import RequestsWrapper
+import os
 import readline
 import requests
 import yaml
+from langchain_community.agent_toolkits.openapi.spec import reduce_openapi_spec
+from langchain_community.agent_toolkits.openapi import planner
+from langchain_community.utilities.requests import RequestsWrapper
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",temperature=0)
 openapi_spec = requests.get("https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/xkcd.com/1.0.0/openapi.yaml").text
 raw_api_spec = yaml.load(openapi_spec, Loader=yaml.Loader)
 api_spec = reduce_openapi_spec(raw_api_spec)
