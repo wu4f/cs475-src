@@ -1,3 +1,4 @@
+import os
 from langchain_community.llms import Ollama
 import sys
 import readline
