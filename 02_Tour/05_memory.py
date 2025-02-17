@@ -1,4 +1,4 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+import os
 from langchain.memory import ConversationBufferMemory
 import readline
 from langchain.prompts import (
@@ -8,6 +8,13 @@ from langchain.prompts import (
     MessagesPlaceholder
 )
 
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
+
 def pretty_print_history(messages):
     print("  History")
     print("  =======")
@@ -15,8 +22,6 @@ def pretty_print_history(messages):
         role = "User" if msg.type == "human" else ("Assistant" if msg.type == "ai" else "System")
         print(f"  {i}. {role}: {msg.content}")
     print("  =======")
-
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
 
 memory = ConversationBufferMemory(return_messages=True)
 

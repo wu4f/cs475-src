@@ -1,8 +1,12 @@
-from langchain.prompts import PromptTemplate
-from langchain_google_genai import GoogleGenerativeAI
+import os
 import readline
-
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+from langchain.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 prompt_template = """Classify the following e-mail snippet as either Malicious or Benign.
 Some examples include:
