@@ -1,4 +1,6 @@
-from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+import os
+import readline
+import subprocess
 from langgraph.graph import Graph, END, START
 from langchain_core.messages import AIMessage
 from typing import Annotated, Literal, TypedDict
@@ -8,10 +10,6 @@ from langchain_experimental.tools import PythonREPLTool
 from langgraph.prebuilt import ToolNode
 from langchain_core.messages import HumanMessage
 from langgraph.graph import END, StateGraph, MessagesState
-from langchain_anthropic import ChatAnthropic
-import readline
-import os
-import subprocess
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_core.tools import tool
 
@@ -27,19 +25,20 @@ def execute_command(command: str) -> str:
 #Used to persist memory between graph runs
 checkpointer = MemorySaver()
 
-
 # Create a python repl tool
 python_repl = PythonREPLTool()
-# tools = [python_repl, shell_tool]
-
 tools = [execute_command, python_repl]
 
-# model = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0).bind_tools(tools)
-model = ChatGoogleGenerativeAI( model="gemini-1.5-flash", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }).bind_tools(tools)
+#from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+#llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"), safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }).bind_tools(tools)
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL")).bind_tools(tools)
+from langchain_openai import ChatOpenAI
+llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL")).bind_tools(tools)
 
 def call_model(state: MessagesState):
     messages = state['messages']
-    response = model.invoke(messages)
+    response = llm.invoke(messages)
     # We return a list, because this will get added to the existing list
     return {"messages": [response]}
 
