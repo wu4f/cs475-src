@@ -1,13 +1,16 @@
+import os
 from langchain_community.document_loaders.generic import GenericLoader
 from langchain_community.document_loaders.parsers import LanguageParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import readline
-from langchain_google_genai import GoogleGenerativeAI
-llm = GoogleGenerativeAI(model="gemini-1.5-flash",temperature=0)
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #from langchain_openai import ChatOpenAI
-#llm = ChatOpenAI(model="gpt-4o")
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 def summarize(path):
     loader = GenericLoader.from_filesystem(
@@ -29,7 +32,7 @@ def summarize(path):
     result = chain.invoke(output)
     return(result)
 
-print("Welcome to my code summarizer.  Give me a path to a Python program and I'll summarize it.")
+print("Welcome to my code summarizer.  Give me a path to a Python program and I'll summarize it.  A blank line exits.")
 
 while True:
     try:

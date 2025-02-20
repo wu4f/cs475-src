@@ -2,13 +2,15 @@ import os
 import github
 import readline
 from langchain_core.prompts import PromptTemplate
-from langchain_google_genai import GoogleGenerativeAI
-llm = GoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"),temperature=0)
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #from langchain_openai import ChatOpenAI
 #llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 # Retrieve the GitHub token from the environment variable
-github_token = os.getenv("GITHUB_TOKEN")
+github_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
 g = github.Github(github_token)
 
 def summarize_file(file_path):
@@ -42,7 +44,7 @@ def summarize_file(file_path):
         'commit_data': commit_data,
         'full_commit_data': full_commit_data
     })
-    return(summary)
+    return(summary.content)
 
 print("Welcome to my GitHub file tool.  Enter a GitHub repository.")
 line = input("Gihub repository (wu4f/cs410g-src): ")

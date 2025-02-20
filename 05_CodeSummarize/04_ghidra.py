@@ -1,12 +1,15 @@
+import os
 from langchain_core.prompts import PromptTemplate
 import uuid
 import subprocess
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_google_genai import GoogleGenerativeAI
-llm = GoogleGenerativeAI(model="gemini-1.5-flash",temperature=0)
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #from langchain_openai import ChatOpenAI
-#llm = ChatOpenAI(model="gpt-4o")
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 # Add unique identifier to Ghidra project so conflicts don't occur
 new_uuid = uuid.uuid4()
@@ -41,9 +44,7 @@ def analyze_code():
     # Use a bash command here to run analyzeHeadless
     ghidra_result = subprocess.run(command, text=True, capture_output=True)
     ghidra_result = ghidra_result.stdout.split("Decompiled_Main")[1]
-
-    # Get rid of the extraneous information
-    # ghidra_result = ghidra_result.split("Decompiled_Main:")[1]
+    print(f"The result for ghidra is:\n {ghidra_result}")
 
     # Send output of analyzeHeadless to chain
     chain = (
@@ -55,7 +56,6 @@ def analyze_code():
 
     llm_result = chain.invoke(ghidra_result)
 
-    print(f"The result for ghidra is:\n {ghidra_result}")
     print(f"The result from LLM is: \n\n {llm_result}")
 
 if __name__ == "__main__":

@@ -1,11 +1,15 @@
+import os
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain_community.tools.riza import command
 from langchain_core.prompts import ChatPromptTemplate
 #from langchain_google_genai import ChatGoogleGenerativeAI
-#llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",temperature=0)
+#llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 from langchain_openai import ChatOpenAI
-#llm = ChatOpenAI(model="gpt-4o")
 llm = ChatOpenAI(model="o3-mini", reasoning_effort="high")
 
 prompt = ChatPromptTemplate.from_messages(
@@ -24,6 +28,7 @@ print("Welcome to my Riza application! These are some of my custom tools:")
 for tool in tools:
     print(f"  Tool: {tool.name} = {tool.description}")
 
+print("Paste a code snippet and I'll use Riza to analyze what it does.  A blank line exits.")
 while True:
     try:
         line = input("llm>> ")

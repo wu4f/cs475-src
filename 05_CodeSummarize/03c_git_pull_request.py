@@ -3,13 +3,15 @@ import github
 import requests
 import readline
 from langchain_core.prompts import PromptTemplate
-from langchain_google_genai import GoogleGenerativeAI
-llm = GoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"),temperature=0)
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #from langchain_openai import ChatOpenAI
 #llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 # Retrieve the GitHub token from the environment variable
-github_token = os.getenv("GITHUB_TOKEN")
+github_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
 g = github.Github(github_token)
 
 def process_pull_request(pr_number):
@@ -36,7 +38,7 @@ def process_pull_request(pr_number):
         'diff': pr_data['diff']
     })
     # Summarize the pull request
-    return(summary)
+    return(summary.content)
 
 #print(process_pull_request(22))
 

