@@ -1,7 +1,10 @@
-bs4
 langchain
 langchain-community
 langchain_google_genai
+langchain_openai
 langchain-experimental
 langchainhub
+bs4
 validators
+bandit[baseline,sarif]
+PyGithub
