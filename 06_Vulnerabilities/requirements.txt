@@ -8,3 +8,4 @@ bs4
 validators
 bandit[baseline,sarif]
 PyGithub
+requests
