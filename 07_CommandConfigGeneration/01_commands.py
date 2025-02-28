@@ -29,7 +29,7 @@ while True:
         line = input("llm>> ")
         if line:
             result = agent_executor.invoke({"input":line})
-            print(result)
+            print(result['output'])
         else:
             break
     except Exception as e:
