@@ -4,3 +4,5 @@ mymsticpyconfig.yaml
 .chromadb
 __pycache__
 *.pyc
+.chainlit
+chainlit.md
