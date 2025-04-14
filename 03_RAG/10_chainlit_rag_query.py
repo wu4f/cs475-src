@@ -35,7 +35,7 @@ async def on_chat_start():
     await cl.Message(content="", elements=[logo]).send()
 
     welcome_text = (
-        "👋 **Welcome to the PSU Generative Security Chatbot!**\n\n"
+        "**Welcome to the PSU Generative Security Chatbot!**\n\n"
         "Ask me anything from my set of documents.\n\n"
     )
     await cl.Message(content=welcome_text).send()
