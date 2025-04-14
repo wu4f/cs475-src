@@ -30,8 +30,8 @@ def ip_loc(address):
 def ip_report(address):
     """(CHANGE ME)"""
     url = f"https://www.virustotal.com/api/v3/ip_addresses/{address}"
-    headers = {"x-apikey": VIRUSTOTAL_API_KEY}
-    response = requests.get(url, headers=headers)
+    request_headers = {"x-apikey": VIRUSTOTAL_API_KEY}
+    response = requests.get(url, headers=request_headers)
     if response.status_code == 200:
         return response.json()
 

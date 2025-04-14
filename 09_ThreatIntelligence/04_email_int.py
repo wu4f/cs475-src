@@ -26,12 +26,12 @@ def oop_spam_search(content):
 	"content": content,
 	"allowedLanguages": ["en"]
     }
-    headers = {
+    request_headers = {
 	"content-type": "application/json",
 	"X-RapidAPI-Key": RAPID_API_KEY,
 	"X-RapidAPI-Host": "oopspam.p.rapidapi.com"
     }
-    response = requests.post(url, json=payload, headers=headers)
+    response = requests.post(url, json=payload, headers=request_headers)
     if response.status_code == 200:
         return response.json()
 
