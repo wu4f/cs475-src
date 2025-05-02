@@ -1,6 +1,5 @@
 import os
 from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain_community.tools.riza import command
 from langchain_core.prompts import ChatPromptTemplate
 #from langchain_google_genai import ChatGoogleGenerativeAI
@@ -19,8 +18,7 @@ prompt = ChatPromptTemplate.from_messages(
         ("placeholder", "{agent_scratchpad}"),
     ]
 )
-tools = load_tools([])
-tools.extend([command.ExecPython(), command.ExecJavaScript()])
+tools = [command.ExecPython(), command.ExecJavaScript()]
 agent = create_tool_calling_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
