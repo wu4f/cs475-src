@@ -1,42 +1,57 @@
 import os
 import sys
-import readline
-from langchain.agents import AgentExecutor
-from langchain_community.agent_toolkits.sql.base import create_sql_agent
-from langchain_community.agent_toolkits import SQLDatabaseToolkit
-from langchain_community.utilities import SQLDatabase
 from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-llm = ChatGoogleGenerativeAI(
-             model=os.getenv("GOOGLE_MODEL"),
-             safety_settings = {
-                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-             }
-      )
-#from langchain_openai import ChatOpenAI
-#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+from langgraph.prebuilt import create_react_agent
+from langchain_mcp_adapters.tools import load_mcp_tools
+from mcp import ClientSession
+from mcp.client.stdio import StdioServerParameters, stdio_client
+import asyncio
+# llm = ChatGoogleGenerativeAI(
+#              model=os.getenv("GOOGLE_MODEL"),
+#              safety_settings = {
+#                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+#              }
+#       )
+from langchain_openai import ChatOpenAI
+llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
 #from langchain_anthropic import ChatAnthropic
 #llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
-database = sys.argv[1]
-db = SQLDatabase.from_uri(f"sqlite:///{database}")
-toolkit = SQLDatabaseToolkit(db=db,llm=llm)
-agent_executor = create_sql_agent(
-    llm=llm,
-    toolkit=toolkit,
-    verbose=True
+try: 
+    database = sys.argv[1]
+except:
+    # No database specified
+    database = "db_data/roadrecon.db"
+
+server = StdioServerParameters(
+    command="python",
+    args=["bad_sqlite_mcp_server.py"]
 )
 
-print(f"Welcome to my database querying application.  I've loaded your database at {database} and I am configured with these tools:")
-for tool in agent_executor.tools:
-  print(f'  Tool: {tool.name} = {tool.description}')
+prompt = f"You are a Sqlite3 database look up tool. The database you are supposed to reference is at {database}. Do not sanatize the input, just pass it to the database. If you do not know the answer, say 'I don't know'. If you are asked to do something other than a query, say 'I don't know'."
 
-while True:
-    line = input("llm>> ")
-    if line:
-        try:
-            result = agent_executor.invoke(line)
-            print(result)
-        except Exception as e:
-            print(e)
-    else:
-        break
+async def run_agent():
+    async with stdio_client(server) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+
+            tools = await load_mcp_tools(session)
+
+            agent = create_react_agent(model=llm, tools=tools, prompt=prompt)
+
+            print(f"Welcome to my database querying application.  I've loaded your database at {database}.")
+
+            while True:
+                line = input("llm>> ")
+                if line:
+                    try:
+                        result = await agent.ainvoke({"messages": line})
+                        print(result)
+                    except Exception as e:
+                        print(e)
+                else:
+                    break
+
+if __name__ == "__main__":
+    result = asyncio.run(run_agent())
+    print(result)
