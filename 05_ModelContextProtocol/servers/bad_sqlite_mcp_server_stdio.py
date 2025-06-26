@@ -1,4 +1,4 @@
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 import sqlite3
 
 mcp = FastMCP("sqlite")

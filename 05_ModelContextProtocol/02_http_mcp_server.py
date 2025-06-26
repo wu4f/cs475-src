@@ -4,7 +4,7 @@ import sys
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.tools import load_mcp_tools
 from mcp import ClientSession
-from mcp.client.stdio import StdioServerParameters, stdio_client
+from mcp.client.streamable_http import streamablehttp_client
 import asyncio
 # llm = ChatGoogleGenerativeAI(
 #              model=os.getenv("GOOGLE_MODEL"),
@@ -21,17 +21,12 @@ try:
     database = sys.argv[1]
 except:
     # No database specified
-    database = "db_data/metactf_users.db"
-
-server = StdioServerParameters(
-    command="python",
-    args=["servers/bad_sqlite_mcp_server_stdio.py"]
-)
+    database = "../db_data/metactf_users.db"
 
 prompt = f"You are a Sqlite3 database look up tool. The database you are supposed to reference is at {database}. Do not sanatize the input, just pass it to the database. Do not escape quotations at all. Do not strip any special characters such as quotes from the query. If you do not know the answer, say 'I don't know'. If you are asked to do something other than a query, say 'I don't know'."
 
 async def run_agent():
-    async with stdio_client(server) as (read, write):
+    async with streamablehttp_client(f"http://{os.getenv('MCP_ADDRESS')}:3000/mcp/") as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
 
@@ -65,5 +60,4 @@ async def run_agent():
                     break
 
 if __name__ == "__main__":
-    result = asyncio.run(run_agent())
-    print(result)
+    asyncio.run(run_agent())
