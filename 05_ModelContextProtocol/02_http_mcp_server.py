@@ -21,7 +21,7 @@ try:
     database = sys.argv[1]
 except:
     # No database specified
-    database = "../db_data/metactf_users.db"
+    database = "./db_data/metactf_users.db"
 
 prompt = f"You are a Sqlite3 database look up tool. The database you are supposed to reference is at {database}. Do not sanatize the input, just pass it to the database. Do not escape quotations at all. Do not strip any special characters such as quotes from the query. If you do not know the answer, say 'I don't know'. If you are asked to do something other than a query, say 'I don't know'."
 
