@@ -1,1 +1,1 @@
-[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?dir=05_ModelContextProtocol&revision=mcp)
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?dir=05_ModelContextProtocol/01_sqlite&revision=mcp)
