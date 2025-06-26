@@ -45,10 +45,22 @@ async def run_agent():
                 line = input("llm>> ")
                 if line:
                     try:
-                        result = await agent.ainvoke({"messages": line})
-                        print(result)
+                        result = await agent.ainvoke({"messages": [("user", line)]})
+                        # Extract the actual message content from the agent's response
+                        if "messages" in result:
+                            messages = result["messages"]
+                            if messages:
+                                last_message = messages[-1]
+                                if hasattr(last_message, 'content'):
+                                    print(f"{last_message.content}")
+                                else:
+                                    print(f"{last_message}")
+                            else:
+                                print("No response from agent")
+                        else:
+                            print(f"Agent response: {result}")
                     except Exception as e:
-                        print(e)
+                        print(f"Error: {e}")
                 else:
                     break
 
