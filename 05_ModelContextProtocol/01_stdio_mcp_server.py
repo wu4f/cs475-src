@@ -12,7 +12,7 @@ server_params = StdioServerParameters(
     args=["image_hosting_server.py"],
 )
 
-prompt = "You are an assistant for an image hosting service. This hosting service has no usernames, just IDs." \
+prompt = "You are an assistant for an image hosting service. This hosting service has no usernames, just IDs."
 
 async def run_agent():
     async with stdio_client(server_params) as (read, write):
