@@ -21,7 +21,7 @@ try:
     database = sys.argv[1]
 except:
     # No database specified
-    database = "db_data/roadrecon.db"
+    database = "db_data/metactf_users.db"
 
 server = StdioServerParameters(
     command="python",
