@@ -1,7 +1,6 @@
-from nltk.tokenize import WordPunctTokenizer, RegexpTokenizer
-import tiktoken
-from langchain_google_genai import GoogleGenerativeAI
 import readline
+import tiktoken
+from nltk.tokenize import WordPunctTokenizer, RegexpTokenizer
 
 regexp = RegexpTokenizer(r'\s+', gaps=True)
 wordpunct = WordPunctTokenizer()

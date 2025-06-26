@@ -11,6 +11,7 @@ def get_article(page):
 loader = RecursiveUrlLoader(
              url = "https://pdx.edu/computer-science",
              max_depth = 2,
+             headers = {'User-Agent':'PDXAcademicClient/cs410g'},
              extractor=lambda x: get_article(x)
 )
 

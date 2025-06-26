@@ -1,24 +1,26 @@
+import os
+import readline
+import validators
+import dns.resolver, dns.reversename
+from pydantic import BaseModel, Field, model_validator
 from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import tool
-from pydantic import BaseModel, Field, model_validator
-from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-import dns.resolver, dns.reversename
-import validators
-import readline
-import os
-
 #from langsmith import Client
 #os.environ["LANGCHAIN_TRACING_V2"] = "true"
 #os.environ["LANGCHAIN_PROJECT"] = f"LangSmith Introduction"
 #os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 #client = Client()
-llm = GoogleGenerativeAI(
-           model="gemini-1.5-pro-latest",
-           temperature=0,
+from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+llm = ChatGoogleGenerativeAI(
+           model=os.getenv("GOOGLE_MODEL"),
            safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }
 )
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 class LookupNameInput(BaseModel):
     hostname: str = Field(description="Should be a hostname such as www.google.com")
@@ -51,7 +53,7 @@ def lookup_ip(address):
     res = [ r.to_text() for r in result ]
     return res[0]
     
-tools = load_tools(["serpapi", "terminal"], allow_dangerous_tools=True)
+tools = load_tools([])
 tools.extend([lookup_name, lookup_ip])
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
@@ -61,7 +63,7 @@ agent = create_react_agent(llm,tools,prompt)
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-print("Welcome to my application. I am configured with these tools:")
+print("Welcome to my DNS and IP address lookup application. I am configured with these tools:")
 for tool in agent_executor.tools:
   print(f'  Tool: {tool.name} = {tool.description}')
 

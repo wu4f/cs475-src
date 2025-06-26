@@ -1,11 +1,12 @@
 import os
 import readline
 from langchain import hub
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+import chainlit as cl
+
 llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 
 vectorstore = Chroma(
@@ -27,18 +28,23 @@ rag_chain = (
     | StrOutputParser()
 )
 
-print("Welcome to my RAG application.  Ask me a question and I will answer it from the documents in my database shown below")
-# Iterate over documents and dump metadata
-document_data_sources = set()
-for doc_metadata in retriever.vectorstore.get()['metadatas']:
-    document_data_sources.add(doc_metadata['source']) 
-for doc in document_data_sources:
-    print(f"  {doc}")
+@cl.on_chat_start
+async def on_chat_start():
+    logo = cl.Image(name="logo", display="inline", url="https://codelabs.cs.pdx.edu/images/pdx-cs-logo.png")
+    await cl.Message(content="", elements=[logo]).send()
 
-while True:
-    line = input("llm>> ")
-    if line:
-        result = rag_chain.invoke(line)
-        print(result)
-    else:
-        break
+    welcome_text = (
+        "**Welcome to the PSU Generative Security Chatbot!**\n\n"
+        "Ask me anything from my set of documents.\n\n"
+    )
+    await cl.Message(content=welcome_text).send()
+
+@cl.on_message
+async def on_message(message: cl.Message):
+    user_query = message.content
+    answer = rag_chain.invoke(user_query)
+    await cl.Message(content=answer).send()
+
+if __name__ == "__main__":
+    cl.run()
+

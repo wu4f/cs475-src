@@ -1,13 +1,25 @@
-from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-from langchain.agents import AgentExecutor, create_sql_agent
-from langchain.tools import tool
-from pydantic import BaseModel, Field, model_validator
-from langchain_community.agent_toolkits import SQLDatabaseToolkit
-from langchain.sql_database import SQLDatabase
+import os
+import sys
 import readline
 import ast
 import json
-import sys
+from pydantic import BaseModel, Field, model_validator
+from langchain.agents import AgentExecutor
+from langchain.tools import tool
+from langchain_community.agent_toolkits.sql.base import create_sql_agent
+from langchain_community.agent_toolkits import SQLDatabaseToolkit
+from langchain_community.utilities import SQLDatabase
+from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+llm = ChatGoogleGenerativeAI(
+             model=os.getenv("GOOGLE_MODEL"),
+             safety_settings = {
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+             }
+      )
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 class FetchUsersPassInput(BaseModel):
     username: str = Field(description="Should be an alphanumeric string")
@@ -32,13 +44,6 @@ def fetch_users(query):
    return json.dumps(result)
 
 database = sys.argv[1]
-llm = GoogleGenerativeAI(
-             model="gemini-1.5-pro-latest",
-             temperature=0,
-             safety_settings = {
-                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-             }
-      )
 db = SQLDatabase.from_uri(f"sqlite:///{database}")
 toolkit = SQLDatabaseToolkit(db=db,llm=llm)
 agent_executor = create_sql_agent(

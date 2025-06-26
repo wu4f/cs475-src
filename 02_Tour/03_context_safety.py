@@ -1,14 +1,15 @@
+import os
 import requests
 from bs4 import BeautifulSoup
-from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 
 def summarize_url(url):
-    llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",
-        safety_settings = {
-          HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        },
-        temperature=0
-    )
+    llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"),
+             safety_settings = {
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+             },
+             temperature=0
+          )
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")

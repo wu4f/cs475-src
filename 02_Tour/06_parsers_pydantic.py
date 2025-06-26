@@ -1,8 +1,14 @@
+import os
+import readline
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_google_genai import GoogleGenerativeAI
 from pydantic import BaseModel, Field
-import readline
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 # Define your desired data structure.
 class GenreMovies(BaseModel):
@@ -19,9 +25,7 @@ json_prompt = PromptTemplate(
     partial_variables={"format_instructions": json_parser.get_format_instructions()},
 )
 
-print(f"Format instructions given to the LLM from parser:\n {json_parser.get_format_instructions()}")
-
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+print(f"This program lists the top 5 movies of a particular genre in a JSON format.  The format instructions given to the LLM from the parser are:\n {json_parser.get_format_instructions()}")
 
 chain = json_prompt | llm | json_parser
 

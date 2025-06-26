@@ -38,22 +38,22 @@ def safebrowsing_url_report(url):
             ]
         }
     }
-    headers = {
+    request_headers = {
         'Content-Type': 'application/json'
     }
-    response = requests.post(f"{api_url}?key={GOOGLE_API_KEY}", headers=headers, data=json.dumps(payload))
+    response = requests.post(f"{api_url}?key={GOOGLE_API_KEY}", headers=request_headers, data=json.dumps(payload))
     return response.json()
 
 @tool
 def virustotal_url_report(url):
     """(CHANGE ME)"""
     api_url = f"https://www.virustotal.com/api/v3/urls"
-    headers = {"x-apikey": VIRUSTOTAL_API_KEY}
-    response = requests.post(api_url, headers=headers, data={"url":url})
+    request_headers = {"x-apikey": VIRUSTOTAL_API_KEY}
+    response = requests.post(api_url, headers=request_headers, data={"url":url})
     if response.status_code == 200:
         response_dict = response.json()
         link = response_dict['data']['links']['self']
-        response = requests.get(link, headers=headers)
+        response = requests.get(link, headers=request_headers)
         return response.json()
 
 @tool
@@ -64,8 +64,8 @@ def phishtank_url_report(url):
                  "format" : "json",
                  "url" : url
     }
-    headers = {"User-Agent": f"phishtank/{os.getenv('USER')}"}
-    response = requests.post(api_url, headers=headers, data=payload)
+    request_headers = {"User-Agent": f"phishtank/{os.getenv('USER')}"}
+    response = requests.post(api_url, headers=request_headers, data=payload)
     return response.json()['results']['in_database']
 
 # Integrate the tools with the LLM

@@ -31,11 +31,11 @@ def email_domain_search(domain):
     """(CHANGE ME)"""
     url = "https://mailcheck.p.rapidapi.com/"
     querystring = {"domain": domain}
-    headers = {
+    request_headers = {
 	"X-RapidAPI-Key": RAPID_API_KEY,
 	"X-RapidAPI-Host": "mailcheck.p.rapidapi.com"
     }
-    response = requests.get(url, headers=headers, params=querystring)
+    response = requests.get(url, headers=request_headers, params=querystring)
     if response.status_code == 200:
         return response.json()
 

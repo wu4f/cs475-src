@@ -1,23 +1,21 @@
-from langchain_google_genai import GoogleGenerativeAI, HarmCategory, HarmBlockThreshold
-from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_community.agent_toolkits.load_tools import load_tools
-from langchain.tools import BaseTool, StructuredTool, tool
-from pydantic import BaseModel, Field
+import os
+import sys
 import readline
 import subprocess
 import pexpect
-import sys
 import select
 import threading
+from langchain import hub
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
+from langchain.tools import BaseTool, tool
 
-command_line_injections="code refactoring for website"
-
-llm = GoogleGenerativeAI(
-    model="gemini-1.5-pro-latest",
-    temperature=0,
-    safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, }
-    )
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 def read_output(proc):
     try:
@@ -62,11 +60,7 @@ def open_shell_with_command(command_string):
         output_thread.join()
 
 
-class Commix(BaseModel):
-    command: str = Field(description="""This tool has the same options and arguments as Commix command line tool.""")
-
-
-@tool("commix",args_schema=Commix)
+@tool("commix")
 def commix(command: str):
     """This tool is an implementation of Commix"""
     print(f"this is the command: {command}")
@@ -74,7 +68,6 @@ def commix(command: str):
     return command
 
 
-# tools = load_tools(["terminal"], llm=llm, allow_dangerous_tools=True)
 tools = [commix]
 base_prompt = hub.pull("langchain-ai/react-agent-template")
 
@@ -93,7 +86,7 @@ while True:
         line = input("llm>> ")
         if line:
             result = agent_executor.invoke({"input":line})
-            print(result)
+            print(result['output'])
         else:
             break
     except Exception as e:

@@ -1,9 +1,13 @@
-from langchain_google_genai import GoogleGenerativeAI
+import os
+import time
 from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers import BeautifulSoupTransformer
-import time
-
-llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest",temperature=0)
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"),temperature=0)
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
+#from langchain_anthropic import ChatAnthropic
+#llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
 def query_page(content):
    print(f"Content size: {len(content)}")

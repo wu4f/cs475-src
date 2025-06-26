@@ -1,8 +1,9 @@
-bs4
 langchain
-langchain-community
+chainlit
 langchain-chroma
 langchain_google_genai
+bs4
+langchain-community
 langchain-experimental
 pypdf
 docx2txt

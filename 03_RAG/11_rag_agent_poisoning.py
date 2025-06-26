@@ -1,3 +1,5 @@
+import os
+import readline
 from langchain import hub
 from langchain_chroma import Chroma
 from langchain.agents import AgentExecutor, create_react_agent
@@ -5,12 +7,16 @@ from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import tool
 from pydantic import BaseModel, Field
 from langchain_google_genai import GoogleGenerativeAI,GoogleGenerativeAIEmbeddings, HarmCategory, HarmBlockThreshold
-import readline
-import os
 #import langchain
 #langchain.debug = True
 
-llm = GoogleGenerativeAI( model="gemini-pro", temperature=0, safety_settings = { HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, })
+llm = GoogleGenerativeAI( 
+               model="gemini-pro",
+               safety_settings = { 
+                   HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT:
+                   HarmBlockThreshold.BLOCK_NONE
+               }
+      )
 
 vectorstore = Chroma(
      persist_directory="./rag_data/.chromadb",
