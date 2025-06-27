@@ -94,7 +94,7 @@ def check_token_status():
         creds = Credentials.from_authorized_user_file(token_path, SCOPES)
         
         if creds.expiry:
-            now = datetime.datetime.utcnow()
+            now = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)  # Use naive UTC time for comparison
             time_until_expiry = creds.expiry - now
             
             print(f"Token expires at: {creds.expiry} UTC")
