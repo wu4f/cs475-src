@@ -22,7 +22,7 @@ server = StdioServerParameters(
     args=["-m", "mcp_server_git"]
 )
 
-prompt = f"You are a git assistant. The git repo is located in {os.getcwd()}../../"
+prompt = f"You are a git assistant. The git repo is located in {os.path.dirname(os.path.dirname(os.getcwd()))}"
 
 async def run_agent():
     async with stdio_client(server) as (read, write):
