@@ -18,3 +18,4 @@ langchain-anthropic
 httpx
 langchain-mcp-adapters
 fastmcp
+fast-agent-mcp
