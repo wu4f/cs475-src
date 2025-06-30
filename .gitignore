@@ -9,3 +9,4 @@ __pycache__
 chainlit.md
 credentials.json
 token.json
+fastagent.jsonl

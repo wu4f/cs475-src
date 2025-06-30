@@ -1,0 +1,5 @@
+mcp:
+  servers:
+   sqlite:
+    command: "python"
+    args: ["servers/bad_sqlite_mcp_server_stdio.py"]
