@@ -1,17 +1,13 @@
 import os
 import sys
-# from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
+import readline
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.tools import load_mcp_tools
 from mcp import ClientSession
 from mcp.client.stdio import StdioServerParameters, stdio_client
 import asyncio
-# llm = ChatGoogleGenerativeAI(
-#              model=os.getenv("GOOGLE_MODEL"),
-#              safety_settings = {
-#                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-#              }
-#       )
+# from langchain_google_genai import ChatGoogleGenerativeAI
+# llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
 #from langchain_anthropic import ChatAnthropic
@@ -28,7 +24,7 @@ server = StdioServerParameters(
     args=["servers/bad_sqlite_mcp_server_stdio.py"]
 )
 
-prompt = f"You are a Sqlite3 database look up tool. The database you are supposed to reference is at {database}. Do not sanatize the input, just pass it to the database. Do not escape quotations at all. Do not strip any special characters such as quotes from the query. If you do not know the answer, say 'I don't know'. If you are asked to do something other than a query, say 'I don't know'."
+prompt = f"You are a Sqlite3 database look up tool. Perform queries on the database at {database} given the user's input.  Utilize the user input verbatim when sending the query to the database and print the query that was sent to the database"
 
 async def run_agent():
     async with stdio_client(server) as (read, write):
@@ -36,10 +32,9 @@ async def run_agent():
             await session.initialize()
 
             tools = await load_mcp_tools(session)
-
             agent = create_react_agent(model=llm, tools=tools, prompt=prompt)
 
-            print(f"Welcome to my database querying application.  I've loaded your database at {database}.")
+            print(f"Welcome to my database querying agent.  The agent will query the SQLite MCP server to answer queries on the database at {database}.")
 
             while True:
                 line = input("llm>> ")
