@@ -2,4 +2,4 @@ mcp:
   servers:
    sqlite:
     command: "python"
-    args: ["servers/vulnerable_sqlite_mcp_server_stdio.py"]
+    args: ["vulnerable_sqlite_mcp_server.py","stdio"]
