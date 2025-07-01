@@ -21,7 +21,7 @@ except:
 
 server = StdioServerParameters(
     command="python",
-    args=["servers/bad_sqlite_mcp_server_stdio.py"]
+    args=["servers/vulnerable_sqlite_mcp_server_stdio.py"]
 )
 
 prompt = f"You are a Sqlite3 database look up tool. Perform queries on the database at {database} given the user's input.  Utilize the user input verbatim when sending the query to the database and print the query that was sent to the database"
