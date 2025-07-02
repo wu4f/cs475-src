@@ -26,7 +26,7 @@ except:
 prompt = f"You are a Sqlite3 database look up tool. Perform queries on the database at {database} given the user's input.  Utilize the user input verbatim when sending the query to the database and print the query that was sent to the database"
 
 async def run_agent():
-    async with streamablehttp_client(f"{os.getenv('MCP_ADDRESS')}/mcp/") as (read, write, _):
+    async with streamablehttp_client(f"{os.getenv('MCP_URL')}/mcp/") as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
 
