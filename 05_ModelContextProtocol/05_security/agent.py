@@ -7,7 +7,7 @@ fast = FastAgent("Vulnerability Agent")
 @fast.agent(
     instruction=f"You are a vulnerability discovery assistant. Your task is to discover vulnerabilities in systems using the tools provided. Enumerate services on machines to find vulnerable services.",
     model="opus4",
-    servers=["nmap", "opencve", "nuclei"],
+    servers=["nmap", "opencve", "nuclei", "metasploit"],
     use_history=True,
 )
 async def main():

@@ -12,3 +12,6 @@ mcp:
     nuclei:
       command: "python"
       args: ["nuclei_mcp_server.py"]
+    metasploit:
+      command: "python"
+      args: ["metasploit_mcp_server.py"]
