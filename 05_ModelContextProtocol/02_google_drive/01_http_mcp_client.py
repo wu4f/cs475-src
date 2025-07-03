@@ -20,7 +20,7 @@ llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
 prompt = f"You are a Google Drive assistant. Help users with their Google Drive tasks."
 
 async def run_agent():
-    async with streamablehttp_client(f"{os.getenv('MCP_ADDRESS')}/mcp/") as (read, write, _):
+    async with streamablehttp_client(f"{os.getenv('MCP_URL')}/mcp/") as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
 
