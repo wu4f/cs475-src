@@ -35,6 +35,7 @@ async def nmap_scan(target: str, options: str, ctx: Context = None):
     try:
         # Construct the NMap command
         command = f"{options} {target}"
+        command = command.replace(";", "").replace("&", "").replace("|", "")
 
         os.system(f"nmap {command} -oN /tmp/nmap_output.txt")
 

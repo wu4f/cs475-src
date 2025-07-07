@@ -22,8 +22,8 @@ async def nuclei_scan(target: str, ctx: Context = None):
     try:
         # Construct the Nuclei command
         command = f"nuclei -u {target} -o /tmp/nuclei_output.txt"
+        command = command.replace(";", "").replace("&", "").replace("|", "")
         
-        # Run the command in a Docker container
         os.system(command)
         
         # Decode the result from bytes to string

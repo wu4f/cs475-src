@@ -11,7 +11,9 @@ async def hashcat_dictionary(hash: str, wordlist: str, hash_type: int, ctx: Cont
     Avaliable wordlists are the default Kali Linux wordlists in /usr/share/wordlists.
     """
     try:
-        command = f"hashcat -m {hash_type} {hash} {wordlist} --show"
+        command = f"hashcat -m {hash_type} {hash} {wordlist} --show -o /tmp/hashcat_output.txt"
+        # Sanatize
+        command = command.replace(";", "").replace("&", "").replace("|", "")
         os.system(command)
         
         with open("/tmp/hashcat_output.txt", "r") as f:

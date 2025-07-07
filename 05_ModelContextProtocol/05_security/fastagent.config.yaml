@@ -18,3 +18,15 @@ mcp:
     hashcat:
       command: "python"
       args: ["hashcat_mcp_server.py"]
+    gobuster:
+      command: "python"
+      args: ["gobuster_mcp_server.py"]
+    curl:
+      command: "python"
+      args: ["curl_mcp_server.py"]
+    sqlmap:
+      command: "python"
+      args: ["sqlmap_mcp_server.py"]
+    filesystem:
+      command: "python"
+      args: ["filesystem_mcp_server.py"]
