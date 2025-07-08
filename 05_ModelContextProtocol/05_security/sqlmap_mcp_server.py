@@ -9,6 +9,9 @@ async def sqlmap_dump(request_file: str, ctx: Context = None):
     Perform an SQLMap dump on the specified request file.
     File should be passed as a path and contain the full HTTP request.
     Returns the dump results as a string.
+    Example usage:
+    sqlmap_dump_request_file("/path/to/request.txt")
+    Ensure the request file exists and contains a valid HTTP request format.
     """
     try:
         command = f"sqlmap -r {request_file} --dump -o /tmp/sqlmap_output.txt"
@@ -27,6 +30,8 @@ async def sqlmap_dump_target(target: str, ctx: Context = None):
     """
     Perform an SQLMap dump on the specified target URL.
     Returns the dump results as a string.
+    Example usage:
+    sqlmap_dump_target("http://example.com/vulnerable.php?id=1")
     """
     try:
         command = f"sqlmap -u {target} --dump -o /tmp/sqlmap_output.txt"

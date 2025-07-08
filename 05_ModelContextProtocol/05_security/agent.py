@@ -4,10 +4,12 @@ from mcp_agent.core.fastagent import FastAgent
 # Create the application
 fast = FastAgent("Vulnerability Agent")
 
+model = input("Enter the model to use (default: opus4): ") or "opus4"
+
 @fast.agent(
     instruction=f"You are a vulnerability discovery assistant. Your task is to discover vulnerabilities in systems using the tools provided. Enumerate services on machines to find vulnerable services.",
-    model="opus4",
-    servers=["nmap", "opencve", "nuclei", "metasploit", "gobuster", "sqlmap", "curl", "filesystem"],
+    model=model,
+    servers=["nmap", "opencve", "nuclei", "metasploit", "gobuster", "sqlmap", "curl", "filesystem", "hashcat"],
     use_history=True,
 )
 async def main():

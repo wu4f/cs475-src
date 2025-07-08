@@ -10,8 +10,6 @@ async def curl_request(options: str, ctx: Context = None):
     """
     Perform a CURL request with the specified command.
     Format `curl [command]`.
-    Also choose whether to write output to a file or not. 
-    If yes, output will be written to curl_output.txt in the current directory.
     Returns the result of the CURL command as a string.
     """
     try:        

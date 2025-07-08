@@ -10,6 +10,8 @@ async def gobuster_dir(url: str, wordlist: str, ctx: Context = None):
     Wordlists are the default Kali Linux wordlists in /usr/share/wordlists.
     You typically want to use /usr/share/wordlists/dirb/big.txt.
     Returns the scan results as a string.
+    Example usage:
+    gobuster_dir("http://example.com", "/usr/share/wordlists/dirb/big.txt")
     """
     try:
         command = f"gobuster dir -u {url} -w {wordlist}"
