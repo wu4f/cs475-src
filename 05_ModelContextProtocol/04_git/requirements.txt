@@ -5,3 +5,4 @@ langgraph
 langchain-mcp-adapters
 langchain-openai
 mcp-server-git
+fast-agent-mcp
