@@ -3,6 +3,7 @@ from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.tools import load_mcp_tools
 from mcp import ClientSession
 from mcp.client.stdio import StdioServerParameters, stdio_client
+import readline
 import asyncio
 # from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 # llm = ChatGoogleGenerativeAI(
@@ -21,7 +22,7 @@ server = StdioServerParameters(
     args=["-m", "mcp_server_fetch"]
 )
 
-prompt = f"You are an HTTP fetch assistant."
+prompt = f"You are a web assistant.  Attempt to answer the user's question via retrieving content from the web."
 
 async def run_agent():
     async with stdio_client(server) as (read, write):
@@ -32,7 +33,7 @@ async def run_agent():
 
             agent = create_react_agent(model=llm, tools=tools, prompt=prompt)
 
-            print(f"Welcome to my HTTP fetch application.")
+            print(f"Welcome to my HTTP fetch application.  I'll get whatever web content you'd like me to.")
 
             while True:
                 line = input("llm>> ")
