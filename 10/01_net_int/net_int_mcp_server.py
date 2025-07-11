@@ -3,6 +3,7 @@ import requests
 import os
 import sys
 
+VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 mcp = FastMCP("Network Intelligence")
 
 @mcp.tool("ip_loc")
@@ -16,7 +17,6 @@ async def ip_loc(address:str):
 @mcp.tool("ip_report")
 async def ip_report(address:str):
     """(CHANGE ME)"""
-    VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
     url = f"https://www.virustotal.com/api/v3/ip_addresses/{address}"
     request_headers = {"x-apikey": VIRUSTOTAL_API_KEY}
     response = requests.get(url, headers=request_headers)

@@ -4,9 +4,9 @@ from mcp_agent.core.fastagent import FastAgent
 fast = FastAgent("Network Inteligence Agent")
 
 @fast.agent(
-    instruction = f"You are an IP address assistant.  Attempt to answer the user's question about an IP address.",
+    instruction = f"You are a DNS address assistant.  Attempt to answer the user's question about a DNS address.",
     model = "gpt-4.1",
-    servers = ["net_int"],
+    servers = ["dns_int"],
     use_history = True,
 )
 
