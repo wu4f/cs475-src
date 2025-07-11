@@ -1,0 +1,7 @@
+mcp:
+  servers:
+   email_int:
+    command: "python"
+    args: ["email_int_mcp_server.py","stdio"]
+    env:
+      RAPID_API_KEY: "${RAPID_API_KEY}"
