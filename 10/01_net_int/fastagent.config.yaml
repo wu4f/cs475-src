@@ -1,0 +1,7 @@
+mcp:
+  servers:
+   net_int:
+    command: "python"
+    args: ["net_int_mcp_server.py","stdio"]
+    env:
+      VIRUSTOTAL_API_KEY: "${VIRUSTOTAL_API_KEY}"
