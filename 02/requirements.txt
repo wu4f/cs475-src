@@ -1,5 +1,6 @@
 langchain
 langchain_google_genai
 langchain_openai
+langchain_xai
 bs4
 requests
