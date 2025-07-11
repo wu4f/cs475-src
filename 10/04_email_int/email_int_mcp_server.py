@@ -1,6 +1,7 @@
 from fastmcp import FastMCP
 import requests
 import os
+import sys
 
 RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 mcp = FastMCP("Email Intelligence")
