@@ -11,25 +11,23 @@ mcp = FastMCP("URL Intelligence")
 @mcp.tool("safebrowsing_url_report")
 def safebrowsing_url_report(url):
     """(CHANGE ME)"""
-    api_url = "https://safebrowsing.googleapis.com/v4/threatMatches:find"
+    api_url = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={GOOGLE_API_KEY}"
     payload = {
         "client": {
-            "clientId": "PSU",
+            "clientId": "PSU",  # can be any string
             "clientVersion": "1.0"
         },
         "threatInfo": {
-            "threatTypes": ["THREAT_TYPE_UNSPECIFIED", "MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION"],
+            "threatTypes": [
+                "MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION"
+            ],
             "platformTypes": ["ANY_PLATFORM"],
-            "threatEntryTypes": ["URL", "THREAT_ENTRY_TYPE_UNSPECIFIED", "EXECUTABLE"],
-            "threatEntries": [
-                {"url": url}
-            ]
+            "threatEntryTypes": ["URL"],
+            "threatEntries": [{"url": url}]
         }
     }
-    request_headers = {
-        'Content-Type': 'application/json'
-    }
-    response = requests.post(f"{api_url}?key={GOOGLE_API_KEY}", headers=request_headers, data=json.dumps(payload))
+
+    response = requests.post(api_url, json=payload)
     return response.json()
 
 @mcp.tool("virustotal_url_report")
