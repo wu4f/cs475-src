@@ -14,7 +14,7 @@ def search_db(query):
     relevant_docs = vectorstore.similarity_search(query)
     print(f"Search returned {len(relevant_docs)} documents")
     for doc in relevant_docs:
-        docpath = re.sub("^.*cs410g-src","cs410g-src",doc.metadata['source'])
+        docpath = re.sub("^.*cs475-src","cs475-src",doc.metadata['source'])
         print(f"  {docpath}")
 
 print("Welcome to my Mitre ATT&CK document database.  Type a phrase and I'll return the most relevant documents. Example:\nWrite a short summary about APT 28")
