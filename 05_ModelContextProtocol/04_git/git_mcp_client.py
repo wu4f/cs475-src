@@ -2,9 +2,7 @@ import asyncio
 import os
 from mcp_agent.core.fastagent import FastAgent
 
-# Create the application
 fast = FastAgent("Git Agent")
-
 
 @fast.agent(
     instruction=f"You are a git assistant for the repository located here at {os.path.dirname(os.path.dirname(os.getcwd()))}",
