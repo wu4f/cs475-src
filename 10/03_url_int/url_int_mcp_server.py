@@ -2,7 +2,6 @@ from fastmcp import FastMCP
 import requests
 import os
 import sys
-import json
 
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')

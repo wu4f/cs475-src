@@ -30,3 +30,9 @@ def email_is_spammer(address):
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
+
+if __name__ == "__main__":
+    if sys.argv[1] == 'stdio':
+        mcp.run(transport="stdio")
+    else:
+        mcp.run(transport="http", host="0.0.0.0", port=8080)
