@@ -8,7 +8,7 @@ RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 mcp = FastMCP("DNS Intelligence")
 
 @mcp.tool("cert_domain_search")
-def cert_domain_search(domain):
+async def cert_domain_search(domain):
     """(CHANGE ME)"""
     url = f"""https://crt.sh/?Identity={domain}&output=json"""
     response = requests.get(url)
