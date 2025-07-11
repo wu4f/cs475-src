@@ -1,7 +1,9 @@
-import os
+from fastmcp import FastMCP
 import requests
+import os
 
 RAPID_API_KEY = os.getenv("RAPID_API_KEY")
+mcp = FastMCP("Email Intelligence")
 
 @mcp.tool("oop_spam_search")
 def oop_spam_search(content):
