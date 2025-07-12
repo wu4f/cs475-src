@@ -1,12 +1,12 @@
 import asyncio
 from mcp_agent.core.fastagent import FastAgent
 
-fast = FastAgent("Email Inteligence Agent")
+fast = FastAgent("App Inteligence Agent")
 
 @fast.agent(
-    instruction = f"You are an Email analyzer.  Attempt to answer the user's question about an e-mail address.",
+    instruction = f"You are an assistant providing information on CVEs and CWEs. Attempt to answer the user's question about particular ones.",
     model = "gpt-4.1",
-    servers = ["email_int"],
+    servers = ["app_int"],
     use_history = True,
 )
 
