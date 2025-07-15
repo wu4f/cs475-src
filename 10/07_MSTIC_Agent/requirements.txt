@@ -1,7 +1,3 @@
 msticpy[vt3]
-langchain
-langchainhub
-langchain-google-genai
-nest-asyncio
-grpcio
-langchain-openai
+fastmcp
+fast-agent-mcp
