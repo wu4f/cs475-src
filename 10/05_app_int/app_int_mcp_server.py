@@ -1,6 +1,7 @@
 from fastmcp import FastMCP
 import requests
 import os
+import sys
 
 OPENCVE_USERNAME = os.getenv('OPENCVE_USERNAME')
 OPENCVE_PASSWORD = os.getenv('OPENCVE_PASSWORD')
