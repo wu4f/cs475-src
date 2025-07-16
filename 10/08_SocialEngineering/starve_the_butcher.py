@@ -11,7 +11,7 @@ from langchain_core.runnables import RunnablePassthrough
 
 # Create the LLM
 chat_llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-pro-latest",
+    model=os.getenv("GOOGLE_MODEL"),
     temperature=0,
     safety_settings={
         HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
