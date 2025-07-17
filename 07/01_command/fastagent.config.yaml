@@ -1,0 +1,5 @@
+mcp:
+  servers:
+   command:
+    command: "python"
+    args: ["command_mcp_server.py","stdio"]
