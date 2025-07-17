@@ -47,13 +47,13 @@ def summarize_file(file_path):
     return(summary.content)
 
 print("Welcome to my GitHub file tool.  Enter a GitHub repository.")
-line = input("Gihub repository (wu4f/cs410g-src): ")
+line = input("Gihub repository (wu4f/cs475-src): ")
 try:
     repo = g.get_repo(line)
     print(f"Using {repo}")
 except:
-    repo = g.get_repo("wu4f/cs410g-src")
-    print("Using wu4f/cs410g-src")
+    repo = g.get_repo("wu4f/cs475-src")
+    print("Using wu4f/cs475-src")
 
 print("Give me a path to a file in the repository and I will summarize its code and last commit.  A blank line exits.")
 while True:

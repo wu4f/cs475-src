@@ -41,14 +41,14 @@ def process_commit(commit_sha):
     return(summary.content)
 
 print("Welcome to my GitHub commit tool.  Enter a GitHub repository.")
-line = input("Gihub repository (wu4f/cs410g-src): ")
+line = input("Gihub repository (wu4f/cs475-src): ")
 
 try:
     repo = g.get_repo(line)
     print(f"Using {repo}")
 except:
-    repo = g.get_repo("wu4f/cs410g-src")
-    print("Using wu4f/cs410g-src")
+    repo = g.get_repo("wu4f/cs475-src")
+    print("Using wu4f/cs475-src")
 
 print("Give me git commit hash (e.g. b9d9171679f13b588e2fd0a0200c1961fb74d438)  and I will analyze what's in it and whether it has malicious intent.  A blank line exits.")
 while True:

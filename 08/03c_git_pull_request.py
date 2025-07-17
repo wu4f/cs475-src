@@ -43,14 +43,14 @@ def process_pull_request(pr_number):
 #print(process_pull_request(22))
 
 print("Welcome to my GitHub pull request tool.  Enter a GitHub repository.")
-line = input("Gihub repository (wu4f/cs410g-src): ")
+line = input("Gihub repository (wu4f/cs475-src): ")
 
 try:
     repo = g.get_repo(line)
     print(f"Using {repo}")
 except:
-    repo = g.get_repo("wu4f/cs410g-src")
-    print("Using wu4f/cs410g-src")
+    repo = g.get_repo("wu4f/cs475-src")
+    print("Using wu4f/cs475-src")
 
 print("Give me a git pull request number and I will analyze what's in it and whether it has malicious intent.  A blank line exits.")
 while True:
