@@ -1,6 +1,6 @@
 import asyncio
 import sys
-from mcp_agent.core.fastagent import FastAgent
+from fast_agent import FastAgent
 
 # Create the application
 fast = FastAgent("SQLite Agent")
