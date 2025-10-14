@@ -1,14 +1,15 @@
 from fastmcp import FastMCP
 import subprocess
 import sys
+import shlex
 
 mcp = FastMCP("Command")
 
 @mcp.tool("command")
-async def command(command):
+async def command(command: str, progress_callback: bool):
     """Runs an arbitrary Linux command"""
-    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    return(result.stdout)
+    result = subprocess.run(shlex.split(command), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return(result.stdout.decode('utf-8'))
 
 if __name__ == "__main__":
     if sys.argv[1] == 'stdio':
