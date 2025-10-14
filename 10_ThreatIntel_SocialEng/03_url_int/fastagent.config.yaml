@@ -1,8 +1,0 @@
-mcp:
-  servers:
-   url_int:
-    command: "python"
-    args: ["url_int_mcp_server.py","stdio"]
-    env:
-      VIRUSTOTAL_API_KEY: "${VIRUSTOTAL_API_KEY}"
-      GOOGLE_API_KEY: "${GOOGLE_API_KEY}"

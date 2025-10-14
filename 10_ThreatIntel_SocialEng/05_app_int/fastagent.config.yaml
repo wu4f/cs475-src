@@ -1,8 +1,0 @@
-mcp:
-  servers:
-   app_int:
-    command: "python"
-    args: ["app_int_mcp_server.py","stdio"]
-    env:
-      OPENCVE_USERNAME: "${OPENCVE_USERNAME}"
-      OPENCVE_PASSWORD: "${OPENCVE_PASSWORD}"
