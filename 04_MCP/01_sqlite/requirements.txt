@@ -1,8 +1,3 @@
 requests
-langchain
-langgraph
-langchain-mcp-adapters
-langchain-openai
 fast-agent-mcp
 fastmcp
-questionary
