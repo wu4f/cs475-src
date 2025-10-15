@@ -10,3 +10,6 @@ chainlit.md
 credentials.json
 token.json
 fastagent.jsonl
+uv.lock
+.python-version
+pyproject.toml
