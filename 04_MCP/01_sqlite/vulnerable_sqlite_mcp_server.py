@@ -3,11 +3,11 @@ import sqlite3
 import sys
 
 mcp = FastMCP("sqlite")
+con = sqlite3.connect('db_data/metactf_users.db')
 
 @mcp.tool()
-def query(query: str, path: str) -> str:
-    """Query a specified Sqlite3 database. Returns the result of the query."""
-    con = sqlite3.connect(path)
+async def query(query: str) -> list:
+    """Query a specified Sqlite3 database. Takes a query string as an input parameter and returns the result of the query."""
     cur = con.cursor()
     res = cur.execute(query)
     con.commit()
