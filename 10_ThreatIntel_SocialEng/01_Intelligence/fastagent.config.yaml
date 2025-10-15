@@ -5,3 +5,25 @@ mcp:
     args: ["net_int_mcp_server.py","stdio"]
     env:
       VIRUSTOTAL_API_KEY: "${VIRUSTOTAL_API_KEY}"
+   dns_int:
+    command: "python"
+    args: ["dns_int_mcp_server.py","stdio"]
+    env:
+      RAPID_API_KEY: "${RAPID_API_KEY}"
+   url_int:
+    command: "python"
+    args: ["url_int_mcp_server.py","stdio"]
+    env:
+      VIRUSTOTAL_API_KEY: "${VIRUSTOTAL_API_KEY}"
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY}"
+   email_int:
+    command: "python"
+    args: ["email_int_mcp_server.py","stdio"]
+    env:
+      RAPID_API_KEY: "${RAPID_API_KEY}"
+   app_int:
+    command: "python"
+    args: ["app_int_mcp_server.py","stdio"]
+    env:
+      OPENCVE_USERNAME: "${OPENCVE_USERNAME}"
+      OPENCVE_PASSWORD: "${OPENCVE_PASSWORD}"

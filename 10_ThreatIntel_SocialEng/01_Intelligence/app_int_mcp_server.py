@@ -9,7 +9,7 @@ mcp = FastMCP("App Intelligence")
 
 @mcp.tool("cve_by_id")
 def cve_by_id(cve_id: str):
-    """Lookup CVE given its ID such as CVE-2025-25257"""
+    """(CHANGE ME)"""
     url = f'https://app.opencve.io/api/cve/{cve_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:
@@ -17,7 +17,7 @@ def cve_by_id(cve_id: str):
     
 @mcp.tool("cwe_by_id")
 def cwe_by_id(cwe_id):
-    """Lookup weaknesses and CWE given its ID such as CWE-787"""
+    """(CHANGE ME)"""
     url = f'https://app.opencve.io/api/weaknesses/{cwe_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))
     if response.status_code == 200:
