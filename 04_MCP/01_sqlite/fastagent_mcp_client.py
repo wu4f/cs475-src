@@ -1,9 +1,5 @@
 import asyncio
-import sys
 from fast_agent.core.fastagent import FastAgent
-from fast_agent.llm.model_factory import ModelFactory
-from fast_agent.llm.provider_types import Provider
-import questionary
 
 # Create the application
 fast = FastAgent("SQLite Agent")
