@@ -6,7 +6,7 @@ fast = FastAgent("SQLite Agent")
 
 @fast.agent(
     instruction=f"You are a Sqlite3 database look up tool. Perform queries on the database given the user's input.  Utilize the user input verbatim when sending the query to the database and print the query that was sent to the database",
-    model="gpt-4.1",
+    model="gemini25", # Alternates at https://fast-agent.ai/models/llm_providers
     servers=["vulnerable_sqlite_stdio"],
     use_history=True,
 )
