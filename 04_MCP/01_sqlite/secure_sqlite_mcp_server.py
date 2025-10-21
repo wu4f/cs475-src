@@ -16,7 +16,7 @@ async def fetch_users() -> list:
 async def fetch_users_pass(username: str) -> str:
    """Useful when you want to fetch a password hash for a particular user.  Takes a username as a string argument.  Returns a JSON string"""
    cur = con.cursor()
-   res = cur.execute(f"SELECT passhash FROM users WHERE username = '{username}';")
+   res = cur.execute(f"SELECT passhash FROM users WHERE username = ?;",(username,))
    return res.fetchone()[0]
 
 if __name__ == "__main__":
