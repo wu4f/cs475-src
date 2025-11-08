@@ -1,5 +1,5 @@
 import os
-from langchain.model_laboratory import ModelLaboratory
+from langchain_classic.model_laboratory import ModelLaboratory
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain_community.llms import HuggingFaceHub
 from langchain_google_genai import ChatGoogleGenerativeAI
