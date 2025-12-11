@@ -1,6 +1,6 @@
 import os
 import readline
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #from langchain_openai import ChatOpenAI
