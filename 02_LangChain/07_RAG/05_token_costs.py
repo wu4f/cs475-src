@@ -5,8 +5,8 @@ llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 
 def calculate_completion_cost(query):
     # Cost per million tokens
-    INPUT_TOKEN_COST_PER_MILLION = 0.075
-    OUTPUT_TOKEN_COST_PER_MILLION = 0.3
+    INPUT_TOKEN_COST_PER_MILLION = 0.30
+    OUTPUT_TOKEN_COST_PER_MILLION = 1.0
 
     # Cost per token
     per_token_input_cost = INPUT_TOKEN_COST_PER_MILLION / 1000000
