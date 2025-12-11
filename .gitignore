@@ -13,3 +13,4 @@ fastagent.jsonl
 uv.lock
 .python-version
 pyproject.toml
+main.py

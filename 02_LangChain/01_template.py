@@ -7,6 +7,8 @@ llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
 #from langchain_anthropic import ChatAnthropic
 #llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
+#from langchain_xai import ChatXAI
+#llm = ChatXAI(model=os.getenv("XAI_MODEL"))
 
 prompt_template = """Classify the following e-mail snippet as either Malicious or Benign.
 Some examples include:
