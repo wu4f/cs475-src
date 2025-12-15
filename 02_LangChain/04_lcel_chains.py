@@ -1,4 +1,5 @@
 import os
+import readline
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
@@ -29,8 +30,8 @@ gender_prompt = ChatPromptTemplate.from_messages(
 occupation_chain = (
       story_prompt
       | llm
-      | (lambda output: print(output.content) or {'story': output.content})
-      #| (lambda output: {'story': output.content})
+      #| (lambda output: print(output.content) or {'story': output.content})
+      | (lambda output: {'story': output.content})
       | gender_prompt
       | llm
   )
