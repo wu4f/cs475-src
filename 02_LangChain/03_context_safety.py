@@ -1,5 +1,6 @@
 import os
 import requests
+import readline
 from bs4 import BeautifulSoup
 from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 
@@ -27,6 +28,6 @@ while True:
     content = input(">> ")
     if content:
         result = summarize_url(content)
-        print(result)
+        print(result.content)
     else:
         break
