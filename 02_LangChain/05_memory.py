@@ -1,4 +1,5 @@
 import os
+import readline
 from langchain_core.prompts import (
     ChatPromptTemplate,
     SystemMessagePromptTemplate,
