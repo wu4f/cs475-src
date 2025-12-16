@@ -2,6 +2,7 @@ google-search-results
 wikipedia
 xmltodict
 langchain
+langchain-core
 langchain-community
 langchain_google_genai
 grpcio
