@@ -24,10 +24,16 @@ if __name__ == "__main__":
     print("========")
     print("Raw HTML")
     print("========")
-    query_page(docs[0].page_content)
+    try:
+        query_page(docs[0].page_content)
+    except Exception as e:
+        print(f"Error in query: {e}")
     print("===========")
     print("Parsed HTML")
     print("===========")
     bs_tr = BeautifulSoupTransformer()
     docs_tr = bs_tr.transform_documents(docs, tags_to_extract=["article"])
-    query_page(docs_tr[0].page_content)
+    try:
+        query_page(docs_tr[0].page_content)
+    except Exception as e:
+        print(f"Error in query: {e}")
