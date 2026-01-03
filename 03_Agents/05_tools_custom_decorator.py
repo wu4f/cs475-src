@@ -3,7 +3,6 @@ import sys
 import readline
 import ast
 import json
-from langchain.agents import AgentExecutor
 from langchain.tools import tool
 from langchain_community.agent_toolkits.sql.base import create_sql_agent
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
