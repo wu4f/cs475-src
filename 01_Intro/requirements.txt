@@ -5,4 +5,3 @@ langchain_google_genai
 langchain_openai
 langchain-anthropic
 langchain-xai
-huggingface_hub
