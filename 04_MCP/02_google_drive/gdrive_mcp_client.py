@@ -1,5 +1,6 @@
 import os
-from langgraph.prebuilt import create_react_agent
+#from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_mcp_adapters.tools import load_mcp_tools
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
@@ -16,8 +17,6 @@ llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
 #from langchain_anthropic import ChatAnthropic
 #llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
 
-prompt = f"You are a Google Drive assistant. Help users with their Google Drive tasks."
-
 async def run_agent():
     async with streamablehttp_client(f"{os.getenv('MCP_URL')}/mcp/") as (read, write, _):
         async with ClientSession(read, write) as session:
@@ -25,7 +24,7 @@ async def run_agent():
 
             tools = await load_mcp_tools(session)
 
-            agent = create_react_agent(model=llm, tools=tools, prompt=prompt)
+            agent = create_agent(model=llm, tools=tools)
 
             print(f"Welcome to the Google Drive assistant. How can I help today?")
 
