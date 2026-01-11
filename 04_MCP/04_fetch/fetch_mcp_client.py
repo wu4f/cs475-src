@@ -1,6 +1,6 @@
 import asyncio
 import os
-from mcp_agent.core.fastagent import FastAgent
+from fast_agent.core.fastagent import FastAgent
 
 fast = FastAgent("Fetch Agent")
 
