@@ -1,6 +1,6 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import AsyncHtmlLoader, DirectoryLoader, TextLoader, PyPDFDirectoryLoader, Docx2txtLoader, UnstructuredMarkdownLoader, WikipediaLoader, ArxivLoader, CSVLoader, GithubFileLoader
-from langchain.schema import Document
+from langchain_core.documents import Document
 from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -29,7 +29,7 @@ def load_arxiv(query):
 
 def load_github(file):
     loader = GithubFileLoader(
-    repo="wu4f/cs410g-src",  # the repo name
+    repo="wu4f/cs475-src",  # the repo name
     branch="main",  # the branch name
     github_api_url="https://api.github.com",
     file_filter=lambda file_path: file_path.endswith(
@@ -40,8 +40,8 @@ def load_github(file):
     load_docs(documents)
 
 def load_youtube(video_id):
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
-    text = ' '.join([entry['text'] for entry in transcript])
+    transcript = YouTubeTranscriptApi().fetch(video_id)
+    text = ' '.join([entry.text for entry in transcript])
     docs = [Document(page_content=text, metadata={'source': f'youtube:{video_id}'})]
     load_docs(docs)
 
