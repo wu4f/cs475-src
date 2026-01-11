@@ -1,7 +1,7 @@
 import os
 import readline
-from langchain import hub
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_classic import hub
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
