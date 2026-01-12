@@ -2,7 +2,7 @@ from fastmcp import FastMCP
 import sqlite3
 import sys
 
-mcp = FastMCP("sqlite")
+mcp = FastMCP("secure_sqlite")
 con = sqlite3.connect('db_data/metactf_users.db')
 
 @mcp.tool()
