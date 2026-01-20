@@ -41,9 +41,9 @@ async def fetch(url: str) -> str:
         r = await client.get(url)
         return r.text
 
-async def extract_and_summarize(html: str, sport: str) -> str:
+async def extract_and_summarize(html: str) -> str:
     prompt = f"""
-You are given raw HTML from {sport}.com.
+You are given raw HTML from a sports headline feed.
 
 1. Identify the main news article headlines on the page.
 2. Ignore navigation, ads, and footers.
@@ -62,12 +62,12 @@ HTML:
 
 async def nba_agent(state: State):
     html = await fetch("https://www.espn.com/espn/rss/nba/news")
-    summary = await extract_and_summarize(html, "nba")
+    summary = await extract_and_summarize(html)
     return {"nba": summary}
 
 async def nfl_agent(state: State):
     html = await fetch("https://www.espn.com/espn/rss/nfl/news")
-    summary = await extract_and_summarize(html, "nfl")
+    summary = await extract_and_summarize(html)
     return {"nfl": summary}
 
 async def coordinator(state: State):
