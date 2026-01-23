@@ -101,7 +101,13 @@ g.add_node("nba", nba_agent)
 g.add_node("nfl", nfl_agent)
 
 g.set_entry_point("coord")
-g.add_conditional_edges("coord", route)
+g.add_conditional_edges(
+           "coord", 
+           route, {
+               "nba": "nba",
+               "nfl": "nfl",
+           }
+)
 
 g.add_edge("nba", END)
 g.add_edge("nfl", END)
