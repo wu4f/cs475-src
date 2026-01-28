@@ -14,7 +14,7 @@ llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 
 server = StdioServerParameters(
     command="python",
-    args=["secure_sqlite_mcp_server.py","stdio"]
+    args=["vulnerable_sqlite_mcp_server.py","stdio"]
 )
 
 prompt = f"You are a Sqlite3 database look up tool. Perform queries on a database hosted by the specified MCP server given the user's input.  Utilize the user input verbatim when sending the query to the database and print the query that was sent to the database"
