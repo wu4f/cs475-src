@@ -1,10 +1,13 @@
 import asyncio
-from mcp_agent.core.fastagent import FastAgent
+from fast_agent.core.fastagent import FastAgent
+import sys
+
+user_instructions = sys.argv[1]
 
 fast = FastAgent("Command Agent")
 
 @fast.agent(
-    instruction = f"You are a Linux command agent.  Generate a command based on the user's request and return the results of execution directly back.",
+    instruction = user_instructions,
     model = "gpt-4.1",
     servers = ["command"],
     use_history = True
