@@ -4,7 +4,7 @@ import readline
 
 fast = FastAgent("Curl Agent")
 
-model = input("Enter the model to use (default: opus4): ") or "opus4"
+model = input("Enter the model to use (default: gemini25): ") or "gemini25"
 
 @fast.agent(
     instruction=f"You are a web access assistant. Your task is to access web sites using the curl command to answer a user's questions",

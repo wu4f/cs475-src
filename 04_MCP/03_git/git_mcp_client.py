@@ -6,7 +6,7 @@ fast = FastAgent("Git Agent")
 
 @fast.agent(
     instruction=f"You are a git assistant for the repository located here at {os.path.dirname(os.path.dirname(os.getcwd()))}",
-    model="gpt-4.1",
+    model="gemini25",
     servers=["git"],
     use_history=True,
 )

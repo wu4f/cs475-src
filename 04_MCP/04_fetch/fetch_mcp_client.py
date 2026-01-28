@@ -6,7 +6,7 @@ fast = FastAgent("Fetch Agent")
 
 @fast.agent(
     instruction = f"You are a web assistant.  Attempt to answer the user's question via retrieving content from the web.",
-    model = "gpt-4.1",
+    model = "gemini25",
     servers = ["fetch"],
     use_history = True,
 )
