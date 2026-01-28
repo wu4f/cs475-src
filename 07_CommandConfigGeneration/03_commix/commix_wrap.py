@@ -5,10 +5,10 @@ import subprocess
 import pexpect
 import select
 import threading
-from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent
+from langchain.agents import create_agent
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import BaseTool, tool
+from langchain_core.prompts import ChatPromptTemplate
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
@@ -69,13 +69,10 @@ def commix(command: str):
 
 
 tools = [commix]
-base_prompt = hub.pull("langchain-ai/react-agent-template")
 
 instructions = sys.argv[1]
 
-prompt = base_prompt.partial(instructions=instructions)
-agent = create_react_agent(llm,tools,prompt)
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+agent = create_agent(llm,tools=tools,system_prompt=instructions)
 
 print(f"Welcome to my application.  I am configured with these tools")
 for tool in tools:
@@ -85,7 +82,7 @@ while True:
     try:
         line = input("llm>> ")
         if line:
-            result = agent_executor.invoke({"input":line})
+            result = agent.invoke({"input":line})
             print(result['output'])
         else:
             break
