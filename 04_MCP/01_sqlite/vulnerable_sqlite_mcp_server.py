@@ -7,7 +7,7 @@ con = sqlite3.connect('db_data/metactf_users.db')
 
 @mcp.tool()
 async def query(query: str) -> list:
-    """Query a specified Sqlite3 database. Takes a query string as an input parameter and returns the result of the query as a list of lists."""
+    """Query a specified Sqlite3 database. Takes a SQL query string as an input parameter and returns the result of the query as a list of lists."""
     cur = con.cursor()
     res = cur.execute(query)
     con.commit()
