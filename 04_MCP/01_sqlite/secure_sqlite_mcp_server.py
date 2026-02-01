@@ -14,10 +14,13 @@ async def fetch_users() -> list:
 
 @mcp.tool()
 async def fetch_users_pass(username: str) -> str:
-   """Useful when you want to fetch a password hash for a particular user.  Takes a username as a string argument.  Returns a JSON string"""
+   """Useful when you want to fetch a password hash for a particular user.  Takes a username as a string argument.  Returns a string"""
    cur = con.cursor()
-   res = cur.execute(f"SELECT passhash FROM users WHERE username = ?;",(username,))
-   return res.fetchone()[0]
+   cur.execute(f"SELECT passhash FROM users WHERE username = ?;",(username,))
+   row = cur.fetchone()
+   if row is None or not isinstance(row, (tuple, list)) or len(row) == 0:
+       return ""
+   return row[0]
 
 if __name__ == "__main__":
     if sys.argv[1] == 'stdio':
