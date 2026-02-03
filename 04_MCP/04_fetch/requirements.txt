@@ -1,8 +1,4 @@
 fastmcp
 requests
-langchain
-langgraph
-langchain-mcp-adapters
-langchain-openai
 mcp-server-fetch
 fast-agent-mcp
