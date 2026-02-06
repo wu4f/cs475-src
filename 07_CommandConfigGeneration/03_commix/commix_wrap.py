@@ -8,7 +8,7 @@ import threading
 from langchain.agents import create_agent
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.tools import BaseTool, tool
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage, SystemMessage
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
@@ -72,7 +72,7 @@ tools = [commix]
 
 instructions = sys.argv[1]
 
-agent = create_agent(llm,tools=tools,system_prompt=instructions)
+agent = create_agent(llm,tools=tools)
 
 print(f"Welcome to my application.  I am configured with these tools")
 for tool in tools:
@@ -82,8 +82,13 @@ while True:
     try:
         line = input("llm>> ")
         if line:
-            result = agent.invoke({"input":line})
-            print(result['output'])
+            result = agent.invoke({
+                "messages": [
+                    SystemMessage(content=instructions),
+                    HumanMessage(content=line),
+                   ]
+                })
+            print(result['messages'][-1].content)
         else:
             break
     except Exception as e:
