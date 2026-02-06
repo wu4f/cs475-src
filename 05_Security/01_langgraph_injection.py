@@ -82,7 +82,7 @@ def route_after_filter(state: SpamState) -> Literal["reject", "classify"]:
 # ---------- Node 2: Spam Classifier ----------
 def classify_spam(state: SpamState) -> SpamState:
     response = llm.invoke(
-        spam_prompt.format(message=state["message"])
+        classify_prompt_template.format(message=state["message"])
     )
     state["verdict"] = response.content
     return state
