@@ -4,7 +4,7 @@ import math
 import numpy
 from sklearn.metrics.pairwise import cosine_similarity
 
-embeddings=GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+embeddings=GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 base_string = "The quick brown fox"
 base_vector = embeddings.embed_query(base_string)
 
