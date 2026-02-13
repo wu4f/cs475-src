@@ -1,5 +1,5 @@
 import os
-import github
+from github import Github, Auth
 import requests
 import readline
 from langchain_core.prompts import PromptTemplate
@@ -12,7 +12,7 @@ llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 
 # Retrieve the GitHub token from the environment variable
 github_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
-g = github.Github(github_token)
+g = Github(auth=Auth.Token(github_token))
 
 def process_pull_request(pr_number):
     """Given a pull request by its integer identifier, returns a summary of what it does and whether it is malicious"""

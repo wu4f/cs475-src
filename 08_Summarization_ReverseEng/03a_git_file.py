@@ -1,5 +1,5 @@
 import os
-import github
+from github import Github, Auth
 import readline
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -11,7 +11,7 @@ llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 
 # Retrieve the GitHub token from the environment variable
 github_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
-g = github.Github(github_token)
+g = Github(auth=Auth.Token(github_token))
 
 def summarize_file(file_path):
     """Given a file path in the repository, returns a summary of what the file does and a description of the last commit."""
