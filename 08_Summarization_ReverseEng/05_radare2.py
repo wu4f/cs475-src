@@ -3,14 +3,14 @@ import r2pipe
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-#from langchain_google_genai import ChatGoogleGenerativeAI
-#llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 #from langchain_openai import ChatOpenAI
 #llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL"))
 #from langchain_anthropic import ChatAnthropic
 #llm = ChatAnthropic(model=os.getenv("ANTHROPIC_MODEL"))
-from langchain_openai import ChatOpenAI
-llm = ChatOpenAI(model="o3-mini", reasoning_effort="high")
+#from langchain_openai import ChatOpenAI
+#llm = ChatOpenAI(model="o3-mini", reasoning_effort="high")
 
 # This funtction utilizes r2pipe to decompile the binary using the r2dec.
 def analyze_code(program):

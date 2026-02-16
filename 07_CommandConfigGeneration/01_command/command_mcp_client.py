@@ -8,7 +8,7 @@ fast = FastAgent("Command Agent")
 
 @fast.agent(
     instruction = user_instructions,
-    model = "gpt-4.1",
+    model = "gemini25",
     servers = ["command"],
     use_history = True
 )
