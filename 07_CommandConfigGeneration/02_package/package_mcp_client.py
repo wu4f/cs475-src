@@ -5,7 +5,7 @@ fast = FastAgent("Package Agent")
 
 @fast.agent(
     instruction = f"You are a package analysis agent.  Use the tools to answer the user's request",
-    model = "gemini25",
+    model = "gemini3flash",
     servers = ["package"],
     use_history = True,
 )
