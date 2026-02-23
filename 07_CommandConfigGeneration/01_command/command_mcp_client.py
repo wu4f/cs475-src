@@ -8,7 +8,7 @@ fast = FastAgent("Command Agent")
 
 @fast.agent(
     instruction = user_instructions,
-    model = "google.gemini3flash",
+    model = "gemini3flash",
     servers = ["command"],
     use_history = True
 )
