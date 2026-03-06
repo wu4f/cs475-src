@@ -8,8 +8,8 @@ import questionary
 fast = FastAgent("Inteligence Agent")
 
 choices = []
-for model in ModelFactory.DEFAULT_PROVIDERS:
-    if ModelFactory.DEFAULT_PROVIDERS[model] == Provider.FAST_AGENT:
+for model in ModelFactory.MODEL_ALIASES:
+    if ModelFactory.MODEL_ALIASES[model] == Provider.FAST_AGENT:
         continue
     choices.append(model)
 
