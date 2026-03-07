@@ -27,7 +27,7 @@ print(f'[+] Number of .md documents processed: {len(md_docs)}')
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import Chroma
 # Define the embedding function
-embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
+embedding_function = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001", task_type="retrieval_query")
 
 # Load documents into Chroma and save it to disk
 vectorstore = Chroma.from_documents(md_docs, embedding_function, collection_name="groups_collection", persist_directory=f"{current_directory}/.chromadb")

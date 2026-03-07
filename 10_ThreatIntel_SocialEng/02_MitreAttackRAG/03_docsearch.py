@@ -4,7 +4,7 @@ import readline
 import re
 
 vectorstore = Chroma(
-    embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query"),
+    embedding_function=GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001", task_type="retrieval_query"),
     collection_name="groups_collection",
     persist_directory="./mitre_rag_data/.chromadb"
 )

@@ -20,31 +20,34 @@ techniques_used_by_groups[0]
 
 # Create Group docs
 all_groups = dict()
+
 for technique in techniques_used_by_groups:
     if technique['id'] not in all_groups:
         group = dict()
-        group['group_name'] = technique['name']
-        group['group_id'] = technique['external_references'][0]['external_id']
-        group['created'] = technique['created']
-        group['modified'] = technique['modified']
-        group['description'] = technique['description']
-        group['aliases'] = technique['aliases']
-        if 'x_mitre_contributors' in technique:
-            group['contributors'] = technique['x_mitre_contributors']
+
+        technique.get('name') and group.update({'group_name': technique['name']})
+        technique.get('external_references') and group.update({'group_id': technique['external_references'][0]['external_id']})
+        technique.get('created') and group.update({'created': technique['created']})
+        technique.get('modified') and group.update({'modified': technique['modified']})
+        technique.get('description') and group.update({'description': technique['description']})
+        technique.get('aliases') and group.update({'aliases': technique['aliases']})
+        technique.get('x_mitre_contributors') and group.update({'contributors': technique['x_mitre_contributors']})
+
         group['techniques'] = []
         all_groups[technique['id']] = group
-    technique_used = dict()
-    technique_used['matrix'] = technique['technique_matrix']
-    technique_used['domain'] = technique['x_mitre_domains']
-    technique_used['platform'] = technique['platform']
-    technique_used['tactics'] = technique['tactic']
-    technique_used['technique_id'] = technique['technique_id']
-    technique_used['technique_name'] = technique['technique']
-    technique_used['use'] = technique['relationship_description']
-    if 'data_sources' in technique:
-        technique_used['data_sources'] = technique['data_sources']
-    all_groups[technique['id']]['techniques'].append(technique_used)
 
+    technique_used = dict()
+
+    technique.get('technique_matrix') and technique_used.update({'matrix': technique['technique_matrix']})
+    technique.get('x_mitre_domains') and technique_used.update({'domain': technique['x_mitre_domains']})
+    technique.get('platform') and technique_used.update({'platform': technique['platform']})
+    technique.get('tactic') and technique_used.update({'tactics': technique['tactic']})
+    technique.get('technique_id') and technique_used.update({'technique_id': technique['technique_id']})
+    technique.get('technique') and technique_used.update({'technique_name': technique['technique']})
+    technique.get('relationship_description') and technique_used.update({'use': technique['relationship_description']})
+    technique.get('data_sources') and technique_used.update({'data_sources': technique['data_sources']})
+
+    all_groups[technique['id']]['techniques'].append(technique_used)
 print("[+] Creating markdown files for each group..")
 group_template = os.path.join(current_directory, "group_template.md")
 markdown_template = Template(open(group_template).read())

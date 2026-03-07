@@ -5,7 +5,7 @@ import os
 import readline
 
 # Define embedding function
-embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_query")
+embedding_function = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001", task_type="retrieval_query")
 
 # Open vector database
 current_directory = f"{os.path.dirname(__file__)}/mitre_rag_data"
@@ -22,7 +22,7 @@ retriever = db.as_retriever(search_kwargs={"k":10})
 
 # Instantiate LLM and QA chain
 from langchain.chains.question_answering import load_qa_chain
-llm = GoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL")
+llm = GoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"))
 chain = load_qa_chain(llm, chain_type="stuff")
 
 def perform_query(retriever, chain, query):
