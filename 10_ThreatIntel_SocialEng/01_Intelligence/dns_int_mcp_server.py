@@ -8,7 +8,7 @@ RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 mcp = FastMCP("DNS Intelligence")
 
 @mcp.tool("cert_domain_search")
-async def cert_domain_search(domain):
+async def cert_domain_search(domain: str):
     """(CHANGE ME)"""
     url = f"""https://crt.sh/?Identity={domain}&output=json"""
     response = requests.get(url)
@@ -16,7 +16,7 @@ async def cert_domain_search(domain):
         return response.json()
 
 @mcp.tool("email_domain_search")
-async def email_domain_search(domain):
+async def email_domain_search(domain: str):
     """(CHANGE ME)"""
     url = "https://mailcheck.p.rapidapi.com/"
     querystring = {"domain": domain}

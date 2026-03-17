@@ -8,7 +8,7 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 mcp = FastMCP("URL Intelligence")
 
 @mcp.tool("safebrowsing_url_report")
-def safebrowsing_url_report(url):
+def safebrowsing_url_report(url: str):
     """(CHANGE ME)"""
     api_url = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={GOOGLE_API_KEY}"
     payload = {
@@ -30,7 +30,7 @@ def safebrowsing_url_report(url):
     return response.json()
 
 @mcp.tool("virustotal_url_report")
-def virustotal_url_report(url):
+def virustotal_url_report(url: str):
     """(CHANGE ME)"""
     api_url = f"https://www.virustotal.com/api/v3/urls"
     request_headers = {"x-apikey": VIRUSTOTAL_API_KEY}
@@ -42,7 +42,7 @@ def virustotal_url_report(url):
         return response.json()
 
 @mcp.tool("phishtank_url_report")
-def phishtank_url_report(url):
+def phishtank_url_report(url: str):
     """(CHANGE ME)"""
     api_url = f"https://checkurl.phishtank.com/checkurl/"
     payload = { 

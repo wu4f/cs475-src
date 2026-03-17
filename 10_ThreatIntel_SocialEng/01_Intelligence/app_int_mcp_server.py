@@ -16,7 +16,7 @@ def cve_by_id(cve_id: str):
         return response.json()
     
 @mcp.tool("cwe_by_id")
-def cwe_by_id(cwe_id):
+def cwe_by_id(cwe_id: str):
     """(CHANGE ME)"""
     url = f'https://app.opencve.io/api/weaknesses/{cwe_id}'
     response = requests.get(url, auth=(OPENCVE_USERNAME, OPENCVE_PASSWORD))

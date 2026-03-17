@@ -7,7 +7,7 @@ RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 mcp = FastMCP("Email Intelligence")
 
 @mcp.tool("oop_spam_search")
-def oop_spam_search(content):
+def oop_spam_search(content: str):
     """(CHANGE ME)"""
     url = "https://oopspam.p.rapidapi.com/v1/spamdetection"
 
@@ -25,7 +25,7 @@ def oop_spam_search(content):
         return response.json()
 
 @mcp.tool("email_is_spammer")
-def email_is_spammer(address):
+def email_is_spammer(address: str):
     """(CHANGE ME)"""
     url = f"https://disify.com/api/email/{address}"
     response = requests.get(url)
