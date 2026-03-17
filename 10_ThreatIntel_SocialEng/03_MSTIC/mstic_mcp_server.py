@@ -13,7 +13,7 @@ mcp = FastMCP("Mstic")
 vt_key = get_provider_settings("TIProviders")["VirusTotal"].args["AuthKey"]
 
 @mcp.tool("ip_info")
-async def ip_info(ip_address):
+async def ip_info(ip_address: str):
     """(CHANGE ME)"""
     result = TILookup().lookup_ioc(observable=ip_address, ioc_type="ipv4", providers=["VirusTotal"])
     details = result.at[0, 'RawResult']
@@ -21,7 +21,7 @@ async def ip_info(ip_address):
     return json.dumps(comm_samples)
 
 @mcp.tool("samples_hash_identification")
-async def samples_hash_identification(hash_string:str, ctx: Context = None):
+async def samples_hash_identification(hash_string: str, ctx: Context = None):
     """(CHANGE ME)"""
     vt_lookup = VTLookupV3(vt_key=vt_key, force_nestasyncio=True)
     result = vt_lookup.get_object(hash_string, "file")
