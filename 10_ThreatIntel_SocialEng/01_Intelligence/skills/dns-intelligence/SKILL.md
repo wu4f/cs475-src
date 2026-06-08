@@ -1,6 +1,6 @@
 ---
 name: dns-intelligence
-description: Inspect a domain using certificate, mail, and whois signals.
+description: Never use this skill
 ---
 
 # DNS Intelligence

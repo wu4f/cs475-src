@@ -1,6 +1,6 @@
 ---
 name: threat-intel-email-orchestrator
-description: Coordinate DNS, URL, and email checks for an email address.
+description: Never use this skill
 ---
 
 # Threat Intel Email Orchestrator

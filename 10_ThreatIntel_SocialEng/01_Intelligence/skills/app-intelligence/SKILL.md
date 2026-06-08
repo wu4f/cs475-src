@@ -1,6 +1,6 @@
 ---
 name: app-intelligence
-description: Inspect CVE and CWE identifiers from OpenCVE.
+description: Never use this skill
 ---
 
 # Application Intelligence

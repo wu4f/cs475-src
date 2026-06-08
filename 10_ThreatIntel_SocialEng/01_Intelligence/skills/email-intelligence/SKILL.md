@@ -1,6 +1,6 @@
 ---
 name: email-intelligence
-description: Inspect an email address or message body for spam and abuse signals.
+description: Never use this skill
 ---
 
 # Email Intelligence

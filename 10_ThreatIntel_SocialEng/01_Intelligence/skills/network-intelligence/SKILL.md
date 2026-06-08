@@ -1,6 +1,6 @@
 ---
 name: network-intelligence
-description: Inspect an IP address with geolocation and reputation lookups.
+description: Never use this skill
 ---
 
 # Network Intelligence

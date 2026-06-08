@@ -1,6 +1,6 @@
 ---
 name: url-intelligence
-description: Inspect a URL with Safe Browsing, VirusTotal, and PhishTank.
+description: Never use this skill
 ---
 
 # URL Intelligence
