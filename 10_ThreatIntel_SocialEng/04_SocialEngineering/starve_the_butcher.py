@@ -1,5 +1,6 @@
 import os
 import requests
+import readline
 
 from langchain_google_genai import ChatGoogleGenerativeAI, HarmCategory, HarmBlockThreshold
 from langchain_community.chat_message_histories import ChatMessageHistory
