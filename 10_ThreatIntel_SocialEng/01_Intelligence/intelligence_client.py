@@ -5,11 +5,11 @@ from fast_agent.llm.provider_types import Provider
 import questionary
 
 # Create the application
-fast = FastAgent("Inteligence Agent")
+fast = FastAgent("Intelligence Agent", skills_directory="skills")
 
 choices = []
-for model in ModelFactory.MODEL_ALIASES:
-    if ModelFactory.MODEL_ALIASES[model] == Provider.FAST_AGENT:
+for model in ModelFactory.MODEL_PRESETS:
+    if ModelFactory.MODEL_PRESETS[model] == Provider.FAST_AGENT:
         continue
     choices.append(model)
 
@@ -25,19 +25,17 @@ if model == "custom":
         "Enter the model name (e.g., 'openai.gpt-4o', 'openai.gpt-4.1', etc.):"
     ).ask()
 
-tools = []
-for tool in fast.config["mcp"]["servers"]:
-    tools.append(tool)
-
-tools = questionary.checkbox(
-    "Select the tools to use for the agent:",
-    choices=tools,
-).ask()
-
 @fast.agent(
-    instruction = f"You are an intelligence agent.  Attempt to answer the user's questions using the tools you have access to.",
+    instruction="""You are a threat intelligence agent. Use the most relevant local skills to answer the user's question.
+
+When an email address is provided, follow the email orchestrator skill first, then use the leaf skills it points to.
+
+{{agentSkills}}
+
+{{env}}
+
+The current date is {{currentDate}}.""",
     model=model,
-    servers=tools,
     use_history=True,
 )
 

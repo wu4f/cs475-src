@@ -1,4 +1,0 @@
-requests
-fastmcp
-fast-agent-mcp
-questionary
