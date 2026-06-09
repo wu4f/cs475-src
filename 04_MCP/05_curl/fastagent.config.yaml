@@ -1,5 +1,0 @@
-mcp:
-  servers:
-    curl:
-      command: "python"
-      args: ["curl_mcp_server.py"]
