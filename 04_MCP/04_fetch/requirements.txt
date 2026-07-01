@@ -1,4 +1,0 @@
-fastmcp
-requests
-mcp-server-fetch
-fast-agent-mcp

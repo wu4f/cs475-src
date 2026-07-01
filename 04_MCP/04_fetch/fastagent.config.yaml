@@ -1,5 +1,0 @@
-mcp:
-  servers:
-   fetch:
-    command: "python"
-    args: ["-m", "mcp_server_fetch"]
