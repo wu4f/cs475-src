@@ -4,12 +4,11 @@ import sys
 
 user_instructions = sys.argv[1]
 
-fast = FastAgent("Command Agent")
+fast = FastAgent("Command Agent", skills_directory="skills")
 
 @fast.agent(
-    instruction = user_instructions,
+    instruction = user_instructions + "\n\n{{agentSkills}}",
     model = "gemini3flash",
-    servers = ["command"],
     use_history = True
 )
 
